@@ -9,3 +9,7 @@ ROS101 class - from basic to advanced
 ## Pre-requirement
 - Ubuntu 16.04
 - ROS kinetic
+
+## hello_world_ros_pkg
+- hello world 를 terminal 또는 ros log file 에서 확인하도록 하는 pkg
+- ros pkg 의 기본구조 학습

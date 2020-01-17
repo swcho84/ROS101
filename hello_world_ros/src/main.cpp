@@ -12,7 +12,7 @@ int main(int argc, char** argv)
 {
   // Set up ROS.
   init(argc, argv, "hello_world_ros_node");
-  NodeHandle nh("~");
+  NodeHandle nh("");
 
   HelloWorldRos helloWorldRos;
 
