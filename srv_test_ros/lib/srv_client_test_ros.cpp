@@ -10,10 +10,10 @@ SrvClientTestNode::SrvClientTestNode()
   , nMissionNum_(0)
   , bMissionPerfStat_(false)
   , bMissionSetStat_(false)
-  , dXref_(0.0f)
-  , dYref_(0.0f)
-  , dZref_(0.0f)
-  , dYawRef_(0.0f)
+  , dXref_(0.0)
+  , dYref_(0.0)
+  , dZref_(0.0)
+  , dYawRef_(0.0)
   , strYawRef_("absolute")
 {
   // saving parameters
@@ -51,16 +51,17 @@ void SrvClientTestNode::MissionLoop()
   }
   else
   {
-    // setting mission number
-    nh_.getParam("mission_num", nMissionNum_);
-
-    // setting request info
-    srv_test_ros::SetMissionInfo srvSetMissionInfo;
-    srvSetMissionInfo.request.mission_num = nMissionNum_;
-
+    
     // setting mission info just once
     if (bMissionSetStat_)
     {
+      // setting mission number
+      nh_.getParam("mission_num", nMissionNum_);
+
+      // setting request info
+      srv_test_ros::SetMissionInfo srvSetMissionInfo;
+      srvSetMissionInfo.request.mission_num = nMissionNum_;      
+
       // calling set_mission_info_srv
       srvClientSetMissionInfo_.call(srvSetMissionInfo);
 
