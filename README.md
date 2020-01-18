@@ -17,3 +17,7 @@ ROS101 class - from basic to advanced
 ## pub_test
 - ros 의 publisher 예제
 - string data 와 float32 multi-array data 를 publish 하는 pkg
+
+## sub_test
+- ros 의 subscriber 예제
+- string data 와 float32 multi-array data 를 subscribe 하는 pkg

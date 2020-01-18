@@ -21,8 +21,8 @@ void PubTestNode::MainLoop()
   int nSize = 6;
   string strHello;
   strHello = "Hello, ROS world!";
-  
-  PubTestFunc(strHello, nSize);  
+
+  PubTestFunc(strHello, nSize);
 }
 
 void PubTestNode::PubTestFunc(string strIn, int nSize)
@@ -33,7 +33,7 @@ void PubTestNode::PubTestFunc(string strIn, int nSize)
 
   // publishing float32 multi-array data
   msgFloat32MultiArray_.data.resize(nSize);
-  for(int i = 0; i < nSize; i++)
+  for (int i = 0; i < nSize; i++)
   {
     msgFloat32MultiArray_.data[i] = i;
   }

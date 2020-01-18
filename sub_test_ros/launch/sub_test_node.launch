@@ -1,0 +1,4 @@
+<launch>
+  <env name="ROSCONSOLE_CONFIG_FILE" value="$(find sub_test_ros)/config/rosconsole.config"/>
+  <node name="subscriber_test_node" pkg="sub_test_ros" type="sub_test_ros_node" output="screen" />
+</launch>
