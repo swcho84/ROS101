@@ -126,9 +126,13 @@ include_directories(
 #   src/${PROJECT_NAME}/sub_test_ros.cpp
 # )
 
-add_executable(sub_test_ros_node lib/sub_test_ros.cpp src/main.cpp)
-target_link_libraries(sub_test_ros_node ${catkin_LIBRARIES})
-add_dependencies(sub_test_ros_node ${catkin_EXPORTED_TARGETS})
+add_executable(sub_basic_test_ros_node lib/sub_basic_test_ros.cpp src/main_basic.cpp)
+target_link_libraries(sub_basic_test_ros_node ${catkin_LIBRARIES})
+add_dependencies(sub_basic_test_ros_node ${catkin_EXPORTED_TARGETS})
+
+add_executable(sub_advanced_test_ros_node lib/sub_advanced_test_ros.cpp src/main_advanced.cpp)
+target_link_libraries(sub_advanced_test_ros_node ${catkin_LIBRARIES})
+add_dependencies(sub_advanced_test_ros_node ${catkin_EXPORTED_TARGETS})
 
 ## Add cmake target dependencies of the library
 ## as an example, code may need to be generated before libraries

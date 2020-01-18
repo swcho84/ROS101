@@ -1,4 +1,4 @@
-#include "sub_test_ros.h"
+#include "sub_advanced_test_ros.h"
 
 using namespace std;
 using namespace ros;
@@ -11,10 +11,10 @@ using namespace ros;
 int main(int argc, char** argv)
 {
   // Set up ROS.
-  init(argc, argv, "subscriber_test_node");
+  init(argc, argv, "advanced_subscriber_test_node");
   NodeHandle nh("");
 
-  SubTestNode subTestNode;
+  SubAdvancedTestNode subAdvancedTestNode;
 
   // Tell ROS how fast to run this node.
   Rate loopRate(30);
@@ -22,13 +22,13 @@ int main(int argc, char** argv)
   // Main loop.
   while (ok())
   {
-    subTestNode.MainLoop();
+    subAdvancedTestNode.MainLoop();
 
     spinOnce();
     loopRate.sleep();
   }
 
-  subTestNode.~SubTestNode();
+  subAdvancedTestNode.~SubAdvancedTestNode();
 
   return 0;
 }  // end main()

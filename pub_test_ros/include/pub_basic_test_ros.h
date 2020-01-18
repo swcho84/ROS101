@@ -15,16 +15,16 @@
 using namespace std;
 using namespace ros;
 
-class PubTestNode
+class PubBasicTestNode
 {
 public:
-  PubTestNode();
-  ~PubTestNode();
+  PubBasicTestNode();
+  ~PubBasicTestNode();
 
   void MainLoop();
 
 private:
-  void PubTestFunc(string strIn, int nSize);
+  void PubBasicTestFunc(string strIn, int nSize);
   
   // node handler in class
   NodeHandle nh_;

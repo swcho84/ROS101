@@ -15,16 +15,16 @@
 using namespace std;
 using namespace ros;
 
-class SubTestNode
+class SubBasicTestNode
 {
 public:
-  SubTestNode();
-  ~SubTestNode();
+  SubBasicTestNode();
+  ~SubBasicTestNode();
 
   void MainLoop();
 
 private:
-  void SubTestFunc();
+  void SubBasicTestFunc();
   
   // node handler in class
   NodeHandle nh_;
@@ -36,7 +36,7 @@ private:
   bool bStrCbLoop;
 
   // subscriber, float32 multi-array
-  void currF32ArrayCbLoop(const std_msgs::Float32MultiArray::ConstPtr& msgRaw);
+  void currFloat32MtArrayCbLoop(const std_msgs::Float32MultiArray::ConstPtr& msgRaw);
   Subscriber subFloat32MultiArray_;
   std_msgs::Float32MultiArray msgFloat32MultiArray_;
   bool bF32ArrayCbLoop;
