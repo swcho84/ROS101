@@ -24,7 +24,7 @@ with alias
 cb
 ```
 
-## hello_world_ros_pkg
+## hello_world_ros
 - hello world 를 terminal 또는 ros log file 에서 확인하도록 하는 pkg
 - ros pkg 의 기본구조 학습
 
