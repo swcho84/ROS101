@@ -33,7 +33,6 @@ void PubTestNode::PubTestFunc(string strIn, int nSize)
 
   // publishing float32 multi-array data
   msgFloat32MultiArray_.data.resize(nSize);
-  //msgFloat32MultiArray_.layout.dim[0].size = nSize;
   for(int i = 0; i < nSize; i++)
   {
     msgFloat32MultiArray_.data[i] = i;
