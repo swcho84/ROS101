@@ -40,3 +40,5 @@ cb
 - ros 의 service server/client 예제
 - calc_add_srv server: 2개의 int number 를 받아서 더하는 연산
 - calc_add_srv client: 2개의 int number 를 param 으로 읽어서 server 호출
+- calc_add_srv server: 2개의 int number 를 받아서 더하는 연산
+- calc_add_srv client: 2개의 int number 를 param 으로 읽어서 server 호출

@@ -4,5 +4,6 @@
   <param name="num2" type="int" value="4" />
   <param name="mission_num" type="int" value="2" />
   <param name="mission_perf_status" type="bool" value="false" />
+  <param name="case_selection" type="int" value="2" />  <!-- 1: basic, 2: advanced -->
   <node name="service_client_test_node" pkg="srv_test_ros" type="srv_client_ros_node" output="screen" />
 </launch>

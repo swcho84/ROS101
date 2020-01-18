@@ -21,6 +21,8 @@ public:
   SrvClientTestNode();
   ~SrvClientTestNode();
 
+  int GetCaseNum();
+
   bool CallAddSrvLoop();
   void MissionLoop();
 
@@ -34,6 +36,8 @@ private:
   int nNum2_;
   int nSumRes_;
   int nMissionNum_;
+  int nCaseNum_;
+
   bool bMissionPerfStat_;
   bool bMissionSetStat_;
 

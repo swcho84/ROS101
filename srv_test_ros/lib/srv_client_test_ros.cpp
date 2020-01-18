@@ -8,6 +8,7 @@ SrvClientTestNode::SrvClientTestNode()
   , nNum2_(0)
   , nSumRes_(0)
   , nMissionNum_(0)
+  , nCaseNum_(1)
   , bMissionPerfStat_(false)
   , bMissionSetStat_(false)
   , dXref_(0.0)
@@ -36,6 +37,7 @@ void SrvClientTestNode::ReadParam()
 {
   nh_.getParam("num1", nNum1_);
   nh_.getParam("num2", nNum2_);
+  nh_.getParam("case_selection", nCaseNum_);
 }
 
 void SrvClientTestNode::MissionLoop()
@@ -103,4 +105,9 @@ bool SrvClientTestNode::CallAddSrvLoop()
     ROS_ERROR("Failed to call service calc_add_srv");
     return false;
   }
+}
+
+int SrvClientTestNode::GetCaseNum()
+{
+  return nCaseNum_;
 }

@@ -20,17 +20,34 @@ int main(int argc, char** argv)
   Rate loopRate(30);
 
   // Main loop.
+  bool loopBrake = false;
   while (ok())
   {
     // testing calc_add_srv service
-    // if (srvClientTestNode.CallAddSrvLoop())
-    //   break;
-
-    // testing set_mission_info service
-    srvClientTestNode.MissionLoop();
+    switch(srvClientTestNode.GetCaseNum())
+    {
+      case 1:
+      {
+        if (srvClientTestNode.CallAddSrvLoop())
+        {
+          loopBrake = true;
+        }
+        break;
+      }
+      case 2:
+      {
+        // testing set_mission_info service
+        srvClientTestNode.MissionLoop();
+        loopBrake = false;
+        break;
+      }
+    }
 
     spinOnce();
     loopRate.sleep();
+
+    if (loopBrake)
+      break;
   }
 
   srvClientTestNode.~SrvClientTestNode();
