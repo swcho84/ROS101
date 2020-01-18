@@ -13,3 +13,7 @@ ROS101 class - from basic to advanced
 ## hello_world_ros_pkg
 - hello world 를 terminal 또는 ros log file 에서 확인하도록 하는 pkg
 - ros pkg 의 기본구조 학습
+
+## pub_test
+- ros 의 publisher 예제
+- string data 와 float32 multi-array data 를 publish 하는 pkg
