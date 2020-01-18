@@ -21,9 +21,11 @@ public:
   SubTestNode();
   ~SubTestNode();
 
-  void SubTestFunc();
   void MainLoop();
 
+private:
+  void SubTestFunc();
+  
   // node handler in class
   NodeHandle nh_;
 

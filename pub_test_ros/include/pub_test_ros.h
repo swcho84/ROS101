@@ -21,9 +21,11 @@ public:
   PubTestNode();
   ~PubTestNode();
 
-  void PubTestFunc(string strIn, int nSize);
   void MainLoop();
 
+private:
+  void PubTestFunc(string strIn, int nSize);
+  
   // node handler in class
   NodeHandle nh_;
 

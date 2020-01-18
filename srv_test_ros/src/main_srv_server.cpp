@@ -1,4 +1,4 @@
-#include "pub_test_ros.h"
+#include "srv_server_test_ros.h"
 
 using namespace std;
 using namespace ros;
@@ -11,10 +11,10 @@ using namespace ros;
 int main(int argc, char** argv)
 {
   // Set up ROS.
-  init(argc, argv, "publisher_test_node");
+  init(argc, argv, "service_server_test_node");
   NodeHandle nh("");
 
-  PubTestNode pubTestNode;
+  SrvServerTestNode srvServerTestNode;
 
   // Tell ROS how fast to run this node.
   Rate loopRate(30);
@@ -22,13 +22,13 @@ int main(int argc, char** argv)
   // Main loop.
   while (ok())
   {
-    pubTestNode.MainLoop();
+    srvServerTestNode.MainLoop();
 
     spinOnce();
     loopRate.sleep();
   }
 
-  pubTestNode.~PubTestNode();
+  srvServerTestNode.~SrvServerTestNode();
 
   return 0;
 }  // end main()

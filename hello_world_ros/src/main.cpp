@@ -28,5 +28,7 @@ int main(int argc, char** argv)
     loopRate.sleep();
   }
 
+  helloWorldRos.~HelloWorldRos();
+
   return 0;
 }  // end main()

@@ -1,4 +1,4 @@
-#include "pub_test_ros.h"
+#include "srv_client_test_ros.h"
 
 using namespace std;
 using namespace ros;
@@ -11,10 +11,10 @@ using namespace ros;
 int main(int argc, char** argv)
 {
   // Set up ROS.
-  init(argc, argv, "publisher_test_node");
+  init(argc, argv, "service_client_test_node");
   NodeHandle nh("");
 
-  PubTestNode pubTestNode;
+  SrvClientTestNode srvClientTestNode;
 
   // Tell ROS how fast to run this node.
   Rate loopRate(30);
@@ -22,13 +22,18 @@ int main(int argc, char** argv)
   // Main loop.
   while (ok())
   {
-    pubTestNode.MainLoop();
+    // testing calc_add_srv service
+    // if (srvClientTestNode.CallAddSrvLoop())
+    //   break;
+
+    // testing set_mission_info service
+    srvClientTestNode.MissionLoop();
 
     spinOnce();
     loopRate.sleep();
   }
 
-  pubTestNode.~PubTestNode();
+  srvClientTestNode.~SrvClientTestNode();
 
   return 0;
 }  // end main()

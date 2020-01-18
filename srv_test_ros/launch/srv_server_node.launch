@@ -1,0 +1,4 @@
+<launch>
+  <env name="ROSCONSOLE_CONFIG_FILE" value="$(find srv_test_ros)/config/rosconsole.config"/>
+  <node name="service_server_test_node" pkg="srv_test_ros" type="srv_server_ros_node" output="screen" />
+</launch>

@@ -35,3 +35,8 @@ cb
 ## sub_test
 - ros 의 subscriber 예제
 - string data 와 float32 multi-array data 를 subscribe 하는 pkg
+
+## srv_test
+- ros 의 service server/client 예제
+- calc_add_srv server: 2개의 int number 를 받아서 더하는 연산
+- calc_add_srv client: 2개의 int number 를 param 으로 읽어서 server 호출
