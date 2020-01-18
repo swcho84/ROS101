@@ -10,6 +10,20 @@ ROS101 class - from basic to advanced
 - Ubuntu 16.04
 - ROS kinetic
 
+### Install Clang
+``` Bash
+sudo apt-get install clang, clang-format
+```
+
+### Build
+``` Bash
+catkin build
+```
+with alias
+``` Bash
+cb
+```
+
 ## hello_world_ros_pkg
 - hello world 를 terminal 또는 ros log file 에서 확인하도록 하는 pkg
 - ros pkg 의 기본구조 학습
