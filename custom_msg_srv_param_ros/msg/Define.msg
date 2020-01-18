@@ -1,0 +1,4 @@
+uint8 STATUS_A = 0
+uint8 STATUS_B = 1
+uint8 STATUS_C = 2
+uint8 STATUS_DEFAULT = 99

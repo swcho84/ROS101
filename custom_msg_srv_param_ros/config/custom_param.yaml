@@ -1,0 +1,14 @@
+selectionA:
+  a: 1.0
+  b: 2.0
+  c: 3.0
+
+selectionB:
+  a: -1.0
+  b: -2.0
+  c: -3.0
+  
+selectionC:
+  a: 1
+  b: "first"
+  c: false

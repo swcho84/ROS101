@@ -9,8 +9,8 @@
 #include <ros/ros.h>
 
 // for using service messages
-#include "srv_test_ros/AddTwoInts.h"
-#include "srv_test_ros/SetMissionInfo.h"
+#include "custom_msg_srv_param_ros/AddTwoInts.h"
+#include "custom_msg_srv_param_ros/SetMissionInfo.h"
 
 using namespace std;
 using namespace ros;

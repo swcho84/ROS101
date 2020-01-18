@@ -2,6 +2,7 @@
 
 using namespace std;
 using namespace ros;
+using namespace custom_msg_srv_param_ros;
 
 SrvClientTestNode::SrvClientTestNode()
   : nNum1_(0)
@@ -21,8 +22,8 @@ SrvClientTestNode::SrvClientTestNode()
   ReadParam();
 
   // setting service client
-  srvClientAdd_ = nh_.serviceClient<srv_test_ros::AddTwoInts>("calc_add_srv");
-  srvClientSetMissionInfo_ = nh_.serviceClient<srv_test_ros::SetMissionInfo>("set_mission_info_srv");
+  srvClientAdd_ = nh_.serviceClient<AddTwoInts>("calc_add_srv");
+  srvClientSetMissionInfo_ = nh_.serviceClient<SetMissionInfo>("set_mission_info_srv");
 
   // for debugging
   ROS_INFO("num(1,2):(%d,%d)", nNum1_, nNum2_);
@@ -61,7 +62,7 @@ void SrvClientTestNode::MissionLoop()
       nh_.getParam("mission_num", nMissionNum_);
 
       // setting request info
-      srv_test_ros::SetMissionInfo srvSetMissionInfo;
+      SetMissionInfo srvSetMissionInfo;
       srvSetMissionInfo.request.mission_num = nMissionNum_;      
 
       // calling set_mission_info_srv
@@ -91,7 +92,7 @@ void SrvClientTestNode::MissionLoop()
 
 bool SrvClientTestNode::CallAddSrvLoop()
 {
-  srv_test_ros::AddTwoInts srvAddTwoInts;
+  AddTwoInts srvAddTwoInts;
   srvAddTwoInts.request.a = nNum1_;
   srvAddTwoInts.request.b = nNum2_;
 

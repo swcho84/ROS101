@@ -30,15 +30,21 @@ cb
 
 ## pub_test
 - ros 의 publisher 예제
-- string data 와 float32 multi-array data 를 publish 하는 pkg
+- basic: string data 와 float32 multi-array data 를 publish 하는 pkg
+- advanced: custom msg 를 publish 하는 pkg
 
 ## sub_test
 - ros 의 subscriber 예제
-- string data 와 float32 multi-array data 를 subscribe 하는 pkg
+- basic: string data 와 float32 multi-array data 를 subscribe 하는 pkg
+- advanced: custom msg 를 subscribe 하는 pkg
 
 ## srv_test
 - ros 의 service server/client 예제
-- calc_add_srv server: 2개의 int number 를 받아서 더하는 연산
-- calc_add_srv client: 2개의 int number 를 param 으로 읽어서 server 호출
-- set_mission_info_srv server: 1개의 int number 를 받아서 임무를 선택하는 연산 (switch-case)
-- set_mission_info_srv client: 1개의 int number 를 param 으로 읽어서 server 호출하여 임무를 받아 실행하는 연산
+- (basic)calc_add_srv server: 2개의 int number 를 받아서 더하는 연산
+- (basic)calc_add_srv client: 2개의 int number 를 param 으로 읽어서 server 호출
+- (advanced)set_mission_info_srv server: 1개의 int number 를 받아서 임무를 선택하는 연산 (switch-case)
+- (advanced)set_mission_info_srv client: 1개의 int number 를 param 으로 읽어서 server 호출하여 임무를 받아 실행하는 연산
+
+## custom_msg_srv_param_ros
+- custom message file 과 custom service file 을 생성하는 pkg (이들 모두를 단일 pkg 하면 관리하기 용이함)
+- yaml file 에서 parameter 를 읽어오는 예제 node

@@ -2,6 +2,7 @@
 
 using namespace std;
 using namespace ros;
+using namespace custom_msg_srv_param_ros;
 
 SrvServerTestNode::SrvServerTestNode()
 {
@@ -16,7 +17,7 @@ SrvServerTestNode::~SrvServerTestNode()
 {
 }
 
-bool SrvServerTestNode::CalcAddSrv(srv_test_ros::AddTwoInts::Request& req, srv_test_ros::AddTwoInts::Response& res)
+bool SrvServerTestNode::CalcAddSrv(AddTwoInts::Request& req, AddTwoInts::Response& res)
 {
   res.sum = req.a + req.b;
   ROS_INFO("request: x=%ld, y=%ld", (long int)req.a, (long int)req.b);
@@ -24,8 +25,8 @@ bool SrvServerTestNode::CalcAddSrv(srv_test_ros::AddTwoInts::Request& req, srv_t
   return true;
 }
 
-bool SrvServerTestNode::SetMissionInfoSrv(srv_test_ros::SetMissionInfo::Request& req,
-                                          srv_test_ros::SetMissionInfo::Response& res)
+bool SrvServerTestNode::SetMissionInfoSrv(SetMissionInfo::Request& req,
+                                          SetMissionInfo::Response& res)
 {
   ROS_INFO("request mission number:(%d)", (int)(req.mission_num));
   switch ((int)(req.mission_num))
