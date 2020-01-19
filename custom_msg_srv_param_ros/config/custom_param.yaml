@@ -12,3 +12,7 @@ selectionC:
   a: 1
   b: "first"
   c: false
+
+rect:
+  size: 5
+  type: 0
