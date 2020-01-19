@@ -49,3 +49,8 @@ cb
 ## custom_msg_srv_param_ros
 - custom message file 과 custom service file 을 생성하는 pkg (이들 모두를 단일 pkg 하면 관리하기 용이함)
 - yaml file 에서 parameter 를 읽어오는 예제 node
+
+## autostart_service
+- roscore 와 roslaunch 를 컴퓨터 시작 프로그램에 등록하기 위함
+- 각종 시연/대회/상용화/실운용 또는 반복된 실험수행 때 더 이상 디버깅이 필요하지 않은 node 를 실행할 때 용이함
+- 해당 폴더의 readme 참고

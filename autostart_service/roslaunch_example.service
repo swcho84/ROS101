@@ -1,0 +1,11 @@
+[Unit]
+Description=roslaunch_example
+After=(다른 service file 이름).service
+
+[Service]
+ExecStartPre=/bin/sleep 10 
+ExecStart=/opt/ros/kinetic/bin/roslaunch (pkg 이름) (launch file 이름).launch --wait
+EnvironmentFile=/etc/(env file 이름)
+
+[Install]
+WantedBy=default.target
