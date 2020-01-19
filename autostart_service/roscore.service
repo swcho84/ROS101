@@ -1,0 +1,11 @@
+[Unit]
+Description=roscore
+
+[Service]
+ExecStart=/usr/bin/python /opt/ros/kinetic/bin/roscore
+EnvironmentFile=/etc/(env file 이름)
+Restart=on-abort
+RestartSec=5
+
+[Install]
+WantedBy=default.target

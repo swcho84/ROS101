@@ -17,8 +17,10 @@ public:
   HelloWorldRos();
   ~HelloWorldRos();
 
-  void HelloFunction(string strIn);
-  void MainLoop();
+  void MainLoop();  
 
-  string strHello;
+private:
+  void HelloFunction(string strIn);
+
+  string strHello_;
 };

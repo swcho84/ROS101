@@ -1,0 +1,8 @@
+<launch>
+  <env name="ROSCONSOLE_CONFIG_FILE" value="$(find custom_msg_srv_param_ros)/config/rosconsole.config"/>
+
+	<rosparam command="load" file="$(find custom_msg_srv_param_ros)/config/topic.yaml"/>
+  <rosparam command="load" file="$(find custom_msg_srv_param_ros)/config/custom_param.yaml"/>
+
+  <node name="read_param_test" pkg="custom_msg_srv_param_ros" type="read_param_test_ros_node" output="screen" />
+</launch>

@@ -1,0 +1,11 @@
+message:
+
+  # counter, rectangular bounding box 
+  rect_counter:
+    name: '/rect_bbox/counter'
+    type: 'std_msgs.msg.UInt8'
+
+  # info, rectangular bounding box
+  rect_info:
+    name: '/rect_bbox/info'
+    type: 'custom_msg_srv_param_ros.msg.RectArray'

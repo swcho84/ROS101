@@ -1,4 +1,4 @@
-#include "hello_world_ros.h"
+#include "read_param.h"
 
 using namespace std;
 using namespace ros;
@@ -11,10 +11,10 @@ using namespace ros;
 int main(int argc, char** argv)
 {
   // Set up ROS.
-  init(argc, argv, "hello_world_ros_node");
+  init(argc, argv, "read_parameter_example_node");
   NodeHandle nh("");
 
-  HelloWorldRos helloWorldRos;
+  ReadParamTestNode readParamTestNode;
 
   // Tell ROS how fast to run this node.
   Rate loopRate(30);
@@ -22,13 +22,13 @@ int main(int argc, char** argv)
   // Main loop.
   while (ok())
   {
-    helloWorldRos.MainLoop();
+    readParamTestNode.MainLoop();
 
     spinOnce();
     loopRate.sleep();
   }
 
-  helloWorldRos.~HelloWorldRos();
+  readParamTestNode.~ReadParamTestNode();
 
   return 0;
 }  // end main()

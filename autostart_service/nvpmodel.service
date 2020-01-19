@@ -1,0 +1,16 @@
+#
+# Copyright (c) 2016-2017, NVIDIA CORPORATION.  All rights reserved.
+#
+
+[Unit]
+Description=nvpmodel service
+; Everything depends on the NVIDIA per-boot script
+After=nv.service
+
+[Service]
+Type=simple
+ExecStart=/usr/sbin/nvpmodel -m 0
+ExecStartPost=/home/nvidia/jetson_clocks.sh
+
+[Install]
+WantedBy=multi-user.target

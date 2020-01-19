@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 2.8.3)
-project(hello_world_ros)
+project(srv_test_ros)
 
 ## Compile as C++11, supported in ROS Kinetic and newer
 add_compile_options(-std=c++11)
@@ -11,6 +11,7 @@ find_package(catkin REQUIRED COMPONENTS
 roscpp
 rospy
 std_msgs
+custom_msg_srv_param_ros
 )
 
 ## System dependencies are found with CMake's conventions
@@ -55,9 +56,8 @@ std_msgs
 
 ## Generate services in the 'srv' folder
 # add_service_files(
-#   FILES
-#   Service1.srv
-#   Service2.srv
+#   DIRECTORY
+#   srv
 # )
 
 ## Generate actions in the 'action' folder
@@ -70,7 +70,7 @@ std_msgs
 ## Generate added messages and services with any dependencies listed here
 # generate_messages(
 #   DEPENDENCIES
-#   std_msgs  # Or other packages containing msgs
+#   std_msgs 
 # )
 
 ################################################
@@ -122,12 +122,16 @@ include_directories(
 
 ## Declare a C++ library
 # add_library(${PROJECT_NAME}
-#   src/${PROJECT_NAME}/hello_world_ros.cpp
+#   src/${PROJECT_NAME}/srv_server_ros.cpp
 # )
 
-add_executable(hello_world_ros_node lib/hello_world_ros.cpp src/main.cpp)
-target_link_libraries(hello_world_ros_node ${catkin_LIBRARIES})
-add_dependencies(hello_world_ros_node ${catkin_EXPORTED_TARGETS})
+add_executable(srv_server_ros_node lib/srv_server_test_ros.cpp src/main_srv_server.cpp)
+target_link_libraries(srv_server_ros_node ${catkin_LIBRARIES})
+add_dependencies(srv_server_ros_node ${catkin_EXPORTED_TARGETS})
+
+add_executable(srv_client_ros_node lib/srv_client_test_ros.cpp src/main_srv_client.cpp)
+target_link_libraries(srv_client_ros_node ${catkin_LIBRARIES})
+add_dependencies(srv_client_ros_node ${catkin_EXPORTED_TARGETS})
 
 ## Add cmake target dependencies of the library
 ## as an example, code may need to be generated before libraries
@@ -137,7 +141,7 @@ add_dependencies(hello_world_ros_node ${catkin_EXPORTED_TARGETS})
 ## Declare a C++ executable
 ## With catkin_make all packages are built within a single CMake context
 ## The recommended prefix ensures that target names across packages don't collide
-# add_executable(${PROJECT_NAME}_node src/hello_world_ros_node.cpp)
+# add_executable(${PROJECT_NAME}_node src/srv_server_ros_node.cpp)
 
 ## Rename C++ executable without prefix
 ## The above recommended prefix causes long target names, the following renames the
@@ -201,7 +205,7 @@ add_dependencies(hello_world_ros_node ${catkin_EXPORTED_TARGETS})
 #############
 
 ## Add gtest based cpp test target and link libraries
-# catkin_add_gtest(${PROJECT_NAME}-test test/test_hello_world_ros.cpp)
+# catkin_add_gtest(${PROJECT_NAME}-test test/test_srv_server_ros.cpp)
 # if(TARGET ${PROJECT_NAME}-test)
 #   target_link_libraries(${PROJECT_NAME}-test ${PROJECT_NAME})
 # endif()

@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 2.8.3)
-project(hello_world_ros)
+project(pub_test_ros)
 
 ## Compile as C++11, supported in ROS Kinetic and newer
 add_compile_options(-std=c++11)
@@ -11,6 +11,7 @@ find_package(catkin REQUIRED COMPONENTS
 roscpp
 rospy
 std_msgs
+custom_msg_srv_param_ros
 )
 
 ## System dependencies are found with CMake's conventions
@@ -122,12 +123,16 @@ include_directories(
 
 ## Declare a C++ library
 # add_library(${PROJECT_NAME}
-#   src/${PROJECT_NAME}/hello_world_ros.cpp
+#   src/${PROJECT_NAME}/pub_test.cpp
 # )
 
-add_executable(hello_world_ros_node lib/hello_world_ros.cpp src/main.cpp)
-target_link_libraries(hello_world_ros_node ${catkin_LIBRARIES})
-add_dependencies(hello_world_ros_node ${catkin_EXPORTED_TARGETS})
+add_executable(pub_basic_test_ros_node lib/pub_basic_test_ros.cpp src/main_basic.cpp)
+target_link_libraries(pub_basic_test_ros_node ${catkin_LIBRARIES})
+add_dependencies(pub_basic_test_ros_node ${catkin_EXPORTED_TARGETS})
+
+add_executable(pub_advanced_test_ros_node lib/pub_advanced_test_ros.cpp src/main_advanced.cpp)
+target_link_libraries(pub_advanced_test_ros_node ${catkin_LIBRARIES})
+add_dependencies(pub_advanced_test_ros_node ${catkin_EXPORTED_TARGETS})
 
 ## Add cmake target dependencies of the library
 ## as an example, code may need to be generated before libraries
@@ -137,7 +142,7 @@ add_dependencies(hello_world_ros_node ${catkin_EXPORTED_TARGETS})
 ## Declare a C++ executable
 ## With catkin_make all packages are built within a single CMake context
 ## The recommended prefix ensures that target names across packages don't collide
-# add_executable(${PROJECT_NAME}_node src/hello_world_ros_node.cpp)
+# add_executable(${PROJECT_NAME}_node src/pub_test_node.cpp)
 
 ## Rename C++ executable without prefix
 ## The above recommended prefix causes long target names, the following renames the
@@ -201,7 +206,7 @@ add_dependencies(hello_world_ros_node ${catkin_EXPORTED_TARGETS})
 #############
 
 ## Add gtest based cpp test target and link libraries
-# catkin_add_gtest(${PROJECT_NAME}-test test/test_hello_world_ros.cpp)
+# catkin_add_gtest(${PROJECT_NAME}-test test/test_pub_test.cpp)
 # if(TARGET ${PROJECT_NAME}-test)
 #   target_link_libraries(${PROJECT_NAME}-test ${PROJECT_NAME})
 # endif()
