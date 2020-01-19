@@ -9,6 +9,7 @@
 ## Pre-requirement
 - Ubuntu 16.04
 - ROS kinetic
+- Git pkg: "-" 사용, ROS pkg: "_" 사용
 
 ### Install Clang
 ``` Bash
