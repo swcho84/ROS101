@@ -5,7 +5,7 @@ using namespace ros;
 
 HelloWorldRos::HelloWorldRos()
 {
-  strHello_ = "Hello, ROS world!";  
+  strHello_ = "Hello, ROS world!";
 }
 
 HelloWorldRos::~HelloWorldRos()
@@ -13,7 +13,7 @@ HelloWorldRos::~HelloWorldRos()
 }
 
 void HelloWorldRos::MainLoop()
-{  
+{
   HelloFunction(strHello_);
 }
 

@@ -25,8 +25,7 @@ bool SrvServerTestNode::CalcAddSrv(AddTwoInts::Request& req, AddTwoInts::Respons
   return true;
 }
 
-bool SrvServerTestNode::SetMissionInfoSrv(SetMissionInfo::Request& req,
-                                          SetMissionInfo::Response& res)
+bool SrvServerTestNode::SetMissionInfoSrv(SetMissionInfo::Request& req, SetMissionInfo::Response& res)
 {
   ROS_INFO("request mission number:(%d)", (int)(req.mission_num));
   switch ((int)(req.mission_num))

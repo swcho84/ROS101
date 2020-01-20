@@ -22,7 +22,7 @@ SubAdvancedTestNode::~SubAdvancedTestNode()
 void SubAdvancedTestNode::currRectArrayCbLoop(const RectArray::ConstPtr& msgRaw)
 {
   msgRectArray_ = *msgRaw;
-  
+
   vecRectArray_.clear();
   RectArray rectArrayTemp;
   rectArrayTemp.bDetect = msgRectArray_.bDetect;
@@ -52,12 +52,12 @@ void SubAdvancedTestNode::SubAdvancedTestFunc()
 
     for (auto i = 0u; i < vecRectArray_[0].vecRectArray.size(); i++)
     {
-      ROS_INFO("vecRectArray:vectRectInfo[%d].nNum:(%d)", i,  vecRectArray_[0].vecRectArray[i].nNum);
-      ROS_INFO("vecRectArray:vectRectInfo[%d].fXlt:(%.4f)", i,  vecRectArray_[0].vecRectArray[i].fXlt); 
-      ROS_INFO("vecRectArray:vectRectInfo[%d].fYlt:(%.4f)", i,  vecRectArray_[0].vecRectArray[i].fYlt); 
-      ROS_INFO("vecRectArray:vectRectInfo[%d].fWidth:(%.4f)", i,  vecRectArray_[0].vecRectArray[i].fWidth); 
-      ROS_INFO("vecRectArray:vectRectInfo[%d].fHeight:(%.4f)", i,  vecRectArray_[0].vecRectArray[i].fHeight); 
-      ROS_INFO("vecRectArray:vectRectInfo[%d].fScore:(%.4f)", i,  vecRectArray_[0].vecRectArray[i].fScore); 
+      ROS_INFO("vecRectArray:vectRectInfo[%d].nNum:(%d)", i, vecRectArray_[0].vecRectArray[i].nNum);
+      ROS_INFO("vecRectArray:vectRectInfo[%d].fXlt:(%.4f)", i, vecRectArray_[0].vecRectArray[i].fXlt);
+      ROS_INFO("vecRectArray:vectRectInfo[%d].fYlt:(%.4f)", i, vecRectArray_[0].vecRectArray[i].fYlt);
+      ROS_INFO("vecRectArray:vectRectInfo[%d].fWidth:(%.4f)", i, vecRectArray_[0].vecRectArray[i].fWidth);
+      ROS_INFO("vecRectArray:vectRectInfo[%d].fHeight:(%.4f)", i, vecRectArray_[0].vecRectArray[i].fHeight);
+      ROS_INFO("vecRectArray:vectRectInfo[%d].fScore:(%.4f)", i, vecRectArray_[0].vecRectArray[i].fScore);
     }
   }
 }

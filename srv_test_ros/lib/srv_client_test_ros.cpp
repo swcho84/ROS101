@@ -54,7 +54,6 @@ void SrvClientTestNode::MissionLoop()
   }
   else
   {
-    
     // setting mission info just once
     if (bMissionSetStat_)
     {
@@ -63,7 +62,7 @@ void SrvClientTestNode::MissionLoop()
 
       // setting request info
       SetMissionInfo srvSetMissionInfo;
-      srvSetMissionInfo.request.mission_num = nMissionNum_;      
+      srvSetMissionInfo.request.mission_num = nMissionNum_;
 
       // calling set_mission_info_srv
       srvClientSetMissionInfo_.call(srvSetMissionInfo);

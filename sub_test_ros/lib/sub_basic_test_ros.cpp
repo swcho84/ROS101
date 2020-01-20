@@ -10,7 +10,8 @@ SubBasicTestNode::SubBasicTestNode()
   bStrCbLoop = false;
 
   // publisher, float32 multi-array
-  subFloat32MultiArray_ = nh_.subscribe("/pub_basic_test_ros/arrayf32_test", 1, &SubBasicTestNode::currFloat32MtArrayCbLoop, this);
+  subFloat32MultiArray_ =
+      nh_.subscribe("/pub_basic_test_ros/arrayf32_test", 1, &SubBasicTestNode::currFloat32MtArrayCbLoop, this);
   bF32ArrayCbLoop = false;
 }
 

@@ -4,8 +4,7 @@ using namespace std;
 using namespace ros;
 using namespace custom_msg_srv_param_ros;
 
-PubAdvancedTestNode::PubAdvancedTestNode()
-: nRectSize_(0)
+PubAdvancedTestNode::PubAdvancedTestNode() : nRectSize_(0)
 {
   if (!ReadRosParams())
   {
@@ -43,7 +42,7 @@ void PubAdvancedTestNode::PubAdvancedTestFunc()
   }
   msgRectArray_.bDetect = true;
 
-  switch(nRectType_)
+  switch (nRectType_)
   {
     case Define::STATUS_A:
     {
@@ -64,8 +63,8 @@ void PubAdvancedTestNode::PubAdvancedTestFunc()
     {
       msgRectArray_.nStatus = Define::STATUS_DEFAULT;
       break;
-    }        
-  }  
+    }
+  }
 
   pubRectArray_.publish(msgRectArray_);
 }
