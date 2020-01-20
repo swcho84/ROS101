@@ -24,7 +24,7 @@ int main(int argc, char** argv)
   while (ok())
   {
     // testing calc_add_srv service
-    switch(srvClientTestNode.GetCaseNum())
+    switch (srvClientTestNode.GetCaseNum())
     {
       case 1:
       {
