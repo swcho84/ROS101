@@ -16,3 +16,9 @@ selectionC:
 rect:
   size: 5
   type: 0
+
+signal:
+  size: 3
+  a: 2.0
+  b: 4.0
+  c: 6.0

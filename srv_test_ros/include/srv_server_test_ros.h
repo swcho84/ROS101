@@ -16,9 +16,8 @@
 #include "custom_msg_srv_param_ros/AddTwoInts.h"
 #include "custom_msg_srv_param_ros/SetMissionInfo.h"
 
-#define PI    3.14159265359
-#define D2R   PI/180.0
-#define R2D   180.0/PI  
+// for using custom define enum variable
+#include <custom_msg_srv_param_ros/Define.h>
 
 using namespace std;
 using namespace ros;
