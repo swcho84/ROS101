@@ -134,6 +134,10 @@ add_executable(pub_advanced_test_ros_node lib/pub_advanced_test_ros.cpp src/main
 target_link_libraries(pub_advanced_test_ros_node ${catkin_LIBRARIES})
 add_dependencies(pub_advanced_test_ros_node ${catkin_EXPORTED_TARGETS})
 
+add_executable(pub_sinusoidal_signal_ros_node lib/pub_sinusoidal_signal_ros.cpp src/main_sinusoidal.cpp)
+target_link_libraries(pub_sinusoidal_signal_ros_node ${catkin_LIBRARIES})
+add_dependencies(pub_sinusoidal_signal_ros_node ${catkin_EXPORTED_TARGETS})
+
 ## Add cmake target dependencies of the library
 ## as an example, code may need to be generated before libraries
 ## either from message generation or dynamic reconfigure

@@ -9,3 +9,8 @@ message:
   rect_info:
     name: '/rect_bbox/info'
     type: 'custom_msg_srv_param_ros.msg.RectArray'
+
+  # virtual signal, sinusoidal
+  sinusoidal_signal:
+    name: '/sinusoidal_signal/sin_cos_mix'
+    type: 'std_msgs.msg.Float32MultiArray'

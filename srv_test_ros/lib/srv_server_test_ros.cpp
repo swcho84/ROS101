@@ -30,42 +30,43 @@ bool SrvServerTestNode::SetMissionInfoSrv(SetMissionInfo::Request& req, SetMissi
   ROS_INFO("request mission number:(%d)", (int)(req.mission_num));
   switch ((int)(req.mission_num))
   {
-    case 1:
+    case Define::STATUS_B:
     {
       res.x_ref = 10.0;
       res.y_ref = 20.0;
       res.z_ref = 30.0;
-      res.yaw_ref = (10.0) * (D2R);
+      res.yaw_ref = (10.0) * (Define::D2R);
       res.yaw_ref_type = "absolute";
       ROS_INFO("mission_1");
       break;
     }
-    case 2:
+    case Define::STATUS_C:
     {
       res.x_ref = 30.0;
       res.y_ref = 20.0;
       res.z_ref = 10.0;
-      res.yaw_ref = (40.0) * (D2R);
+      res.yaw_ref = (40.0) * (Define::D2R);
       res.yaw_ref_type = "relative";
       ROS_INFO("mission_2");
       break;
     }
-    case 3:
+    case Define::STATUS_D:
     {
       res.x_ref = -10.0;
       res.y_ref = -20.0;
       res.z_ref = -30.0;
-      res.yaw_ref = (-30.0) * (D2R);
+      res.yaw_ref = (-30.0) * (Define::D2R);
       res.yaw_ref_type = "absolute";
       ROS_INFO("mission_3");
       break;
     }
+    case Define::STATUS_A:
     default:
     {
       res.x_ref = 0.0;
       res.y_ref = 0.0;
       res.z_ref = 0.0;
-      res.yaw_ref = (0.0) * (D2R);
+      res.yaw_ref = (0.0) * (Define::D2R);
       res.yaw_ref_type = "absolute";
       ROS_INFO("mission_default");
       break;
