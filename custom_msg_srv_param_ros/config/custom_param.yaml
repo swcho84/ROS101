@@ -22,3 +22,8 @@ signal:
   a: 2.0
   b: 4.0
   c: 6.0
+
+imgproc101:
+  imgFolder: "/img/"
+  LaneImg: "LaneImage.jpg"
+  VehicleImg: "VehicleImage.jpg"
