@@ -1,4 +1,4 @@
-#include "hello_serial_ros.h"
+#include "hello_serial_pub_ros.h"
 
 using namespace std;
 using namespace ros;
@@ -11,10 +11,10 @@ using namespace ros;
 int main(int argc, char** argv)
 {
   // Set up ROS.
-  init(argc, argv, "hello_world_serial_node");
+  init(argc, argv, "hello_world_serial_publish_node");
   NodeHandle nh("");
 
-  HelloSerialRos helloSerialRos;
+  HelloSerialPubRos helloSerialPubRos;
 
   // Tell ROS how fast to run this node.
   Rate loopRate(30);
@@ -22,13 +22,13 @@ int main(int argc, char** argv)
   // Main loop.
   while (ok())
   {
-    helloSerialRos.MainLoop();
+    helloSerialPubRos.MainLoop();
 
     spinOnce();
     loopRate.sleep();
   }
 
-  helloSerialRos.~HelloSerialRos();
+  helloSerialPubRos.~HelloSerialPubRos();
 
   return 0;
 }  // end main()

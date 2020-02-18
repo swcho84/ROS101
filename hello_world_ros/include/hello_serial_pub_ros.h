@@ -14,11 +14,11 @@
 using namespace std;
 using namespace ros;
 
-class HelloSerialRos
+class HelloSerialPubRos
 {
 public:
-  HelloSerialRos();
-  ~HelloSerialRos();
+  HelloSerialPubRos();
+  ~HelloSerialPubRos();
 
   void MainLoop();  
 
