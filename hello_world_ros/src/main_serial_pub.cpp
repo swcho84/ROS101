@@ -16,6 +16,8 @@ int main(int argc, char** argv)
 
   HelloSerialPubRos helloSerialPubRos;
 
+  helloSerialPubRos.ConnectSerialPort();
+
   // Tell ROS how fast to run this node.
   Rate loopRate(30);
 

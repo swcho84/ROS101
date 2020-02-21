@@ -11,6 +11,9 @@
 // using serial library
 #include <serial/serial.h>
 
+// for using standard messages
+#include <std_msgs/String.h>
+
 using namespace std;
 using namespace ros;
 
@@ -20,9 +23,12 @@ public:
   HelloSerialPubRos();
   ~HelloSerialPubRos();
 
+  bool ConnectSerialPort();
+
   void MainLoop();  
 
 private:
   void HelloFunction();
 
+  serial::Serial serialPort;
 };

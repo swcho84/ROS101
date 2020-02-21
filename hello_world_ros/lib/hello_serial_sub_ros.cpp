@@ -5,7 +5,6 @@ using namespace ros;
 
 HelloSerialSubRos::HelloSerialSubRos()
 {
-
 }
 
 HelloSerialSubRos::~HelloSerialSubRos()
@@ -19,5 +18,4 @@ void HelloSerialSubRos::MainLoop()
 
 void HelloSerialSubRos::HelloFunction()
 {
-  
 }
