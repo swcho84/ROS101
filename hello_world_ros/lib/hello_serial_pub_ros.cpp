@@ -10,7 +10,7 @@ HelloSerialPubRos::HelloSerialPubRos()
   pubWriteSerialAtt_ = nh_.advertise<std_msgs::Float32MultiArray>("/serial_write/attitude", 1);
 
   subWriteSerialTime_ = nh_.subscribe("/serial_write/time", 1, &HelloSerialPubRos::CbWriteToSerialTime, this);
-  pubWriteSerialTime_ = nh_.advertise<std_msgs::Float64MultiArray>("/serial_write/time", 1);  
+  pubWriteSerialTime_ = nh_.advertise<std_msgs::Float64MultiArray>("/serial_write/time", 1);
 }
 
 HelloSerialPubRos::~HelloSerialPubRos()
@@ -50,7 +50,7 @@ void HelloSerialPubRos::CbWriteToSerialTime(const std_msgs::Float64MultiArray::C
   // using mavlink
   mavlink_message_t mav;
   mavlink_tm_debug_time_t msgTmDebugTime = {};
-  msgTmDebugTime.time = msg->data[0];  
+  msgTmDebugTime.time = msg->data[0];
   mavlink_msg_tm_debug_time_encode(MAV_SYS_ID, COMP_ID, &mav, &msgTmDebugTime);
   WriteToSerial(&mav);
 }

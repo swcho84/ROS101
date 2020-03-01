@@ -68,7 +68,7 @@ void HelloSerialSubRos::Parse(const vector<uint8_t>& recv, TMTC_CHANNEL ch)
           break;
         case MAVLINK_MSG_ID_TM_DEBUG_ATT:
           HandleTmDebugAtt(ch, rx);
-          break;          
+          break;
         default:
           ROS_ERROR("Unsupported TC %d", rx.msgid);
           break;
