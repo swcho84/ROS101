@@ -28,6 +28,7 @@ cb
 ## hello_world_ros
 - hello world 를 terminal 또는 ros log file 에서 확인하도록 하는 pkg
 - ros pkg 의 기본구조 학습
+- custom mavlink msg. 를 이용한 serial modem communication 실습 (msg. generation by using pymavlink)
 
 ## pub_test
 - ros 의 publisher 예제

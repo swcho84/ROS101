@@ -12,6 +12,7 @@ roscpp
 rospy
 std_msgs
 serial
+custom_msg_srv_param_ros
 )
 
 ## System dependencies are found with CMake's conventions
@@ -118,6 +119,7 @@ include_directories(
   include
   src
   lib
+  include/tmtc/C
   ${catkin_INCLUDE_DIRS}
 )
 
