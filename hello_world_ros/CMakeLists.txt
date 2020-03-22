@@ -11,6 +11,7 @@ find_package(catkin REQUIRED COMPONENTS
 roscpp
 rospy
 std_msgs
+custom_msg_srv_param_ros
 )
 
 ## System dependencies are found with CMake's conventions
@@ -104,7 +105,7 @@ std_msgs
 ## DEPENDS: system dependencies of this project that dependent projects also need
 catkin_package(
   INCLUDE_DIRS lib src
-  CATKIN_DEPENDS roscpp rospy std_msgs
+  CATKIN_DEPENDS roscpp rospy std_msgs serial
 )
 
 ###########
@@ -117,6 +118,7 @@ include_directories(
   include
   src
   lib
+  include/tmtc/C
   ${catkin_INCLUDE_DIRS}
 )
 
@@ -128,6 +130,14 @@ include_directories(
 add_executable(hello_world_ros_node lib/hello_world_ros.cpp src/main.cpp)
 target_link_libraries(hello_world_ros_node ${catkin_LIBRARIES})
 add_dependencies(hello_world_ros_node ${catkin_EXPORTED_TARGETS})
+
+add_executable(hello_serial_pub_ros_node lib/hello_serial_pub_ros.cpp src/main_serial_pub.cpp)
+target_link_libraries(hello_serial_pub_ros_node ${catkin_LIBRARIES} serial)
+add_dependencies(hello_serial_pub_ros_node ${catkin_EXPORTED_TARGETS})
+
+add_executable(hello_serial_sub_ros_node lib/hello_serial_sub_ros.cpp src/main_serial_sub.cpp)
+target_link_libraries(hello_serial_sub_ros_node ${catkin_LIBRARIES} serial)
+add_dependencies(hello_serial_sub_ros_node ${catkin_EXPORTED_TARGETS})
 
 ## Add cmake target dependencies of the library
 ## as an example, code may need to be generated before libraries

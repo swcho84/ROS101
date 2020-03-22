@@ -1,0 +1,20 @@
+language: python
+python:
+  - "2.7"
+install: pip install future
+script: python generate.py
+before_deploy: python generate.py
+deploy:
+  provider: releases
+  api_key:
+    secure: "d1fb501a5d30c8566e708e2b58309bafdf168ac0"
+  file:
+    - "C/*"
+    - "JS/*"
+  skip_cleanup: true
+  overwrite: true
+  on:
+    tags: true
+notifications:
+    slack: nearthlab:nKmkjcKh4yT1OFewNtMMD2QF
+    
