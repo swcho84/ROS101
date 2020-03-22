@@ -11,7 +11,6 @@ find_package(catkin REQUIRED COMPONENTS
 roscpp
 rospy
 std_msgs
-serial
 custom_msg_srv_param_ros
 )
 
@@ -133,11 +132,11 @@ target_link_libraries(hello_world_ros_node ${catkin_LIBRARIES})
 add_dependencies(hello_world_ros_node ${catkin_EXPORTED_TARGETS})
 
 add_executable(hello_serial_pub_ros_node lib/hello_serial_pub_ros.cpp src/main_serial_pub.cpp)
-target_link_libraries(hello_serial_pub_ros_node ${catkin_LIBRARIES})
+target_link_libraries(hello_serial_pub_ros_node ${catkin_LIBRARIES} serial)
 add_dependencies(hello_serial_pub_ros_node ${catkin_EXPORTED_TARGETS})
 
 add_executable(hello_serial_sub_ros_node lib/hello_serial_sub_ros.cpp src/main_serial_sub.cpp)
-target_link_libraries(hello_serial_sub_ros_node ${catkin_LIBRARIES})
+target_link_libraries(hello_serial_sub_ros_node ${catkin_LIBRARIES} serial)
 add_dependencies(hello_serial_sub_ros_node ${catkin_EXPORTED_TARGETS})
 
 ## Add cmake target dependencies of the library
