@@ -62,3 +62,13 @@ cb
 - ROS 환경으로 통합하면서 parameter 로 사진파일 관리 가능하도록 하였음
 - 핵심 함수는 그대로 사용하였음
 - OpenCV 1.x 스타일로 코딩한 결과물이므로 최신 스타일로 변경해둘 필요 있음
+
+## qtros_test
+- QtCreator를 이용한 GUI환경개발 기초 코드
+- ROS의 catkin_create_qt_pkg로 Qt4 기반 GUI 생성할 수 있지만 현재 sudo apt-get 으로 설치되는 Qt5, QtCreator 최신버전하고는 호환이 잘 되지 않음
+- CMakeList를 수정해서 호환되도록 만들었음
+- QtCreator에서 ROS의 catkin_ws로 QtCreator 빌드되도록 하려면 아래 세 단계를 거쳐야함
+  - Open Project할 때 해당 PKG의 CMakeList선택
+  - build folder 경로를 위해 ~/catkin_ws/build/(pkg이름) 으로 설정, pkg이름으로 미리 폴더 만들어두기
+  - cmake 실행 전에 다음과 같이 입력(-DCMAKE_INSTALL_PREFIX=../install -DCATKIN_DEVEL_PREFIX=../devel)
+  - 설정을 새로 잡아줘야 할 필요 있을 때는 pkg폴더 내에 *.user로 생성된 CMakeList파일 지우기
