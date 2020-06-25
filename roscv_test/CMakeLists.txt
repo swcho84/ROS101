@@ -1,5 +1,5 @@
-cmake_minimum_required(VERSION 2.8.3)
-project(pub_test_ros)
+cmake_minimum_required(VERSION 3.0.2)
+project(roscv_test)
 
 ## Compile as C++11, supported in ROS Kinetic and newer
 add_compile_options(-std=c++11)
@@ -8,14 +8,39 @@ add_compile_options(-std=c++11)
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
 ## is used, also find other catkin packages
 find_package(catkin REQUIRED COMPONENTS
-roscpp
-rospy
-std_msgs
-custom_msg_srv_param_ros
+  roscpp
+  rospy
+  rosconsole
+  std_msgs
+  sensor_msgs
+  cv_bridge
+  image_transport
+  message_generation
+  message_runtime
+  message_filters
+)
+
+find_package(dlib REQUIRED)
+find_package(Boost REQUIRED COMPONENTS system)
+find_package(OpenCV 3.4 REQUIRED
+  COMPONENTS
+    opencv_core
+    opencv_imgproc
+    opencv_imgcodecs
+    opencv_highgui
+    opencv_videoio
+    opencv_flann
+    opencv_tracking
+    opencv_video
+    opencv_xphoto
+    opencv_calib3d
+    opencv_features2d
+  CONFIG
 )
 
 ## System dependencies are found with CMake's conventions
 # find_package(Boost REQUIRED COMPONENTS system)
+
 
 ## Uncomment this if the package has a setup.py. This macro ensures
 ## modules and global scripts declared therein get installed
@@ -104,7 +129,17 @@ custom_msg_srv_param_ros
 ## DEPENDS: system dependencies of this project that dependent projects also need
 catkin_package(
   INCLUDE_DIRS lib src
-  CATKIN_DEPENDS roscpp rospy std_msgs
+  CATKIN_DEPENDS
+  roscpp
+  rospy
+  rosconsole
+  std_msgs
+  sensor_msgs
+  cv_bridge
+  image_transport
+  message_generation
+  message_runtime
+  message_filters
 )
 
 ###########
@@ -118,24 +153,19 @@ include_directories(
   src
   lib
   ${catkin_INCLUDE_DIRS}
+  ${OpenCV_INCLUDE_DIRS}
+  ${DLIB_INCLUDE_DIR}
+  /usr/include
 )
 
+link_directories(${BOOST_LIBRARY_DIRS} /usr/local/lib /usr/lib)
+add_definitions(${BOOST_DEFINITIONS})
+link_directories(${OpenCV_LIBRARY_DIRS})
+
 ## Declare a C++ library
-# add_library(${PROJECT_NAME}
-#   src/${PROJECT_NAME}/pub_test.cpp
-# )
-
-add_executable(pub_basic_test_ros_node lib/pub_basic_test_ros.cpp src/main_basic.cpp)
-target_link_libraries(pub_basic_test_ros_node ${catkin_LIBRARIES})
-add_dependencies(pub_basic_test_ros_node ${catkin_EXPORTED_TARGETS})
-
-add_executable(pub_advanced_test_ros_node lib/pub_advanced_test_ros.cpp src/main_advanced.cpp)
-target_link_libraries(pub_advanced_test_ros_node ${catkin_LIBRARIES})
-add_dependencies(pub_advanced_test_ros_node ${catkin_EXPORTED_TARGETS})
-
-add_executable(pub_sinusoidal_signal_ros_node lib/pub_sinusoidal_signal_ros.cpp src/main_sinusoidal.cpp)
-target_link_libraries(pub_sinusoidal_signal_ros_node ${catkin_LIBRARIES})
-add_dependencies(pub_sinusoidal_signal_ros_node ${catkin_EXPORTED_TARGETS})
+add_executable(cvt_seg2bbox src/main_CvtSeg2Bbox.cpp lib/CvtSeg2Bbox.cpp include/CvtSeg2Bbox.h )
+target_link_libraries(cvt_seg2bbox ${catkin_LIBRARIES} ${OpenCV_LIBRARIES} ${OpenCV_LIBS} ${DLIB_LIBRARIES} dlib )
+add_dependencies(cvt_seg2bbox ${catkin_EXPORTED_TARGETS})
 
 ## Add cmake target dependencies of the library
 ## as an example, code may need to be generated before libraries
@@ -145,7 +175,7 @@ add_dependencies(pub_sinusoidal_signal_ros_node ${catkin_EXPORTED_TARGETS})
 ## Declare a C++ executable
 ## With catkin_make all packages are built within a single CMake context
 ## The recommended prefix ensures that target names across packages don't collide
-# add_executable(${PROJECT_NAME}_node src/pub_test_node.cpp)
+# add_executable(${PROJECT_NAME}_node src/roscv_test_node.cpp)
 
 ## Rename C++ executable without prefix
 ## The above recommended prefix causes long target names, the following renames the
@@ -171,7 +201,7 @@ add_dependencies(pub_sinusoidal_signal_ros_node ${catkin_EXPORTED_TARGETS})
 
 ## Mark executable scripts (Python etc.) for installation
 ## in contrast to setup.py, you can choose the destination
-# install(PROGRAMS
+# catkin_install_python(PROGRAMS
 #   scripts/my_python_script
 #   DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
 # )
@@ -209,7 +239,7 @@ add_dependencies(pub_sinusoidal_signal_ros_node ${catkin_EXPORTED_TARGETS})
 #############
 
 ## Add gtest based cpp test target and link libraries
-# catkin_add_gtest(${PROJECT_NAME}-test test/test_pub_test.cpp)
+# catkin_add_gtest(${PROJECT_NAME}-test test/test_roscv_test.cpp)
 # if(TARGET ${PROJECT_NAME}-test)
 #   target_link_libraries(${PROJECT_NAME}-test ${PROJECT_NAME})
 # endif()

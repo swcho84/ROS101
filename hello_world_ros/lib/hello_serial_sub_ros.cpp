@@ -81,7 +81,7 @@ bool HelloSerialSubRos::ConnectSerialPort()
 {
   try
   {
-    serialPort_.setPort("/dev/ttyUSB1");
+    serialPort_.setPort("/dev/xtend900_gcs");
     serialPort_.setBaudrate(115200);
     serial::Timeout to = serial::Timeout::simpleTimeout(1000);
     serialPort_.setTimeout(to);
@@ -89,18 +89,18 @@ bool HelloSerialSubRos::ConnectSerialPort()
   }
   catch (serial::IOException& e)
   {
-    ROS_ERROR("Fail to open port../dev/ttyUSB1");
+    ROS_ERROR("Fail to open port../dev/xtend900_gcs");
     return false;
   }
 
   if (serialPort_.isOpen())
   {
-    ROS_INFO("Serial Port initialized../dev/ttyUSB1");
+    ROS_INFO("Serial Port initialized../dev/xtend900_gcs");
     return true;
   }
   else
   {
-    ROS_ERROR("Unable to open port../dev/ttyUSB1");
+    ROS_ERROR("Unable to open port../dev/xtend900_gcs");
     return false;
   }
 }
