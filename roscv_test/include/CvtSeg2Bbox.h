@@ -1,14 +1,8 @@
-// using vector type data
-#include <iostream>
-#include <string>
-#include <stdio.h>
-#include <ctime>
-#include <vector>
-#include <dirent.h> 
+#ifndef ROSCV_TEST_CVTSEG2BBOX_H
+#define ROSCV_TEST_CVTSEG2BBOX_H
 
-// essential header for ROS-OpenCV operation
-#include <ros/ros.h>
-#include <opencv2/opencv.hpp>
+#include "global_header.h"
+#include "config_param.h"
 
 using namespace std;
 using namespace ros;
@@ -16,11 +10,18 @@ using namespace ros;
 class CvtSeg2Bbox
 {
 public:
-  CvtSeg2Bbox();
+  CvtSeg2Bbox(const ConfigParam& cfg);
   ~CvtSeg2Bbox();
 
   void MainLoop();  
 
 private:
+  ConfigParam cfgParam_;
+
+  Mat GenFilteredImg(Mat imgIn, int nHeight, int nWidth, int nAnno, int nTrial);
+  Mat CannyEdge(Mat imgIn, int nThresh);
+  vector<Rect> GenBboxData(Mat imgIn, Scalar color, int nThresh);
 
 };
+
+#endif
