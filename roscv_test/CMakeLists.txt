@@ -20,6 +20,7 @@ find_package(catkin REQUIRED COMPONENTS
   message_filters
 )
 
+find_package(nlohmann_json 3.2.0 REQUIRED)
 find_package(dlib REQUIRED)
 find_package(Boost REQUIRED COMPONENTS system)
 find_package(OpenCV 3.4 REQUIRED
@@ -37,6 +38,7 @@ find_package(OpenCV 3.4 REQUIRED
     opencv_features2d
   CONFIG
 )
+
 
 ## System dependencies are found with CMake's conventions
 # find_package(Boost REQUIRED COMPONENTS system)
@@ -155,6 +157,7 @@ include_directories(
   ${catkin_INCLUDE_DIRS}
   ${OpenCV_INCLUDE_DIRS}
   ${DLIB_INCLUDE_DIR}
+  ${JSON_INCLUDE_DIRS}
   /usr/include
 )
 
@@ -164,7 +167,7 @@ link_directories(${OpenCV_LIBRARY_DIRS})
 
 ## Declare a C++ library
 add_executable(cvt_seg2bbox_node src/main_CvtSeg2Bbox.cpp lib/CvtSeg2Bbox.cpp include/CvtSeg2Bbox.h include/global_header.h lib/config_param.cpp include/config_param.h)
-target_link_libraries(cvt_seg2bbox_node ${catkin_LIBRARIES} ${OpenCV_LIBRARIES} ${OpenCV_LIBS} ${DLIB_LIBRARIES} dlib )
+target_link_libraries(cvt_seg2bbox_node ${catkin_LIBRARIES} ${OpenCV_LIBRARIES} ${OpenCV_LIBS} ${DLIB_LIBRARIES} ${JSON_LIBS} dlib nlohmann_json::nlohmann_json)
 add_dependencies(cvt_seg2bbox_node ${catkin_EXPORTED_TARGETS})
 
 ## Add cmake target dependencies of the library

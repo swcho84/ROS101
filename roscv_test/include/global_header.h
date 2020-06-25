@@ -14,9 +14,15 @@
 #include <ros/ros.h>
 #include <opencv2/opencv.hpp>
 
+// for using json file parser
+#include <nlohmann/json.hpp>
+
 using namespace std;
 using namespace ros;
 using namespace cv;
+
+// for convenience
+using json = nlohmann::json;
 
 typedef struct 
 {
