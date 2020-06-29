@@ -52,6 +52,8 @@ public:
   vector<string> vecLabels;
   vector<AnnoDB> vecAnnoDB;
   vector<BboxDB> vecBboxDB;
+  vector<vector<BboxDB>> vecImgBboxDB;
+
   AnnoDB vegetation;
   AnnoDB person;
   AnnoDB rider;

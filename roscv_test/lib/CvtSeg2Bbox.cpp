@@ -14,75 +14,147 @@ CvtSeg2Bbox::~CvtSeg2Bbox()
 
 void CvtSeg2Bbox::MainLoop()
 {
-  // assigning variables for browsing annotated images recursively
-  vector<String> vecFileNm;
-  vector<Mat> vecData;
-  glob(cfgParam_.strAnnoFolderPath, vecFileNm, true);
+  // assigning variables for browsing polygon data w.r.t json file recursively
+  vector<String> vecPolygonFileNm;
+  glob(cfgParam_.strPolygonFolderPath, vecPolygonFileNm, true);
 
-  // browsing annotated images recursively
-  for (size_t k = 0; k < vecFileNm.size(); ++k)
+  // image width and height info. (h1024, w2048)
+  int nHeight = 1024;
+  int nWidth = 2048;
+
+  for (size_t k = 0; k < vecPolygonFileNm.size(); ++k)
   {
-    // assigning the raw image
-    Mat imgRaw = imread(vecFileNm[k]);
+    // assigning the polygon file
+    ifstream polyJson(vecPolygonFileNm[k]);
+    json js;
+    polyJson >> js;
 
     // for debugging
-    imshow("annotated", imgRaw);
+    ROS_INFO("File#[%d]:name:%s", (int)(k), vecPolygonFileNm[k].c_str());
 
-    // image width and height info.
-    int nHeight = imgRaw.rows;
-    int nWidth = imgRaw.cols;
-
-    // generating bbox data w.r.t the labelDB
-    cfgParam_.vecBboxDB.clear();
-    for (auto i = 0; i < cfgParam_.vecAnnoDB.size(); i++)
+    // generating polygon data with label
+    for (auto kk = 0; kk < js["objects"].size(); kk++)
     {
-      // generating the filtered image using the label data
-      Mat imgFiltered;
-      imgFiltered = GenFilteredImg(imgRaw, nHeight, nWidth, i, cfgParam_.nMorphThresh);
+      Mat imgTest = Mat::zeros(Size(nWidth, nHeight), CV_8UC3);
 
-      // detecting canny edge data
-      Mat imgCanny;
-      imgCanny = CannyEdge(imgFiltered, cfgParam_.nCannyThresh);
-
-      // generating bounding box data
-      vector<Rect> vecBbox;
-      vecBbox = GenBboxData(imgCanny, Scalar(cfgParam_.vecAnnoDB[i].nRGB[2], cfgParam_.vecAnnoDB[i].nRGB[1],
-                                             cfgParam_.vecAnnoDB[i].nRGB[0]),
-                            cfgParam_.nPolyDPThesh);
-
-      // saving bbox data
-      if (vecBbox.size() > 0)
+      if ((js["objects"][kk]["label"] == "person"))
       {
-        BboxDB tempBbox;
-        tempBbox.vecBbox.clear();
-        tempBbox.strLabel = cfgParam_.vecAnnoDB[i].strLabel;
-        for (auto ii = 0; ii < vecBbox.size(); ii++)
-          tempBbox.vecBbox.push_back(vecBbox[ii]);
+        vector<Point> vecContour;
+        for (auto kkk = 0; kkk < js["objects"][kk]["polygon"].size(); kkk++)
+        {
+          std::cout << kk << ":" << kkk << ":"
+                    << "x:" << js["objects"][kk]["polygon"][kkk][0] << ",y:" << js["objects"][kk]["polygon"][kkk][1]
+                    << "\n";
+          Point tempPt;
+          tempPt.x = js["objects"][kk]["polygon"][kkk][0];
+          tempPt.y = js["objects"][kk]["polygon"][kkk][1];
+          vecContour.push_back(tempPt);
+        }
 
-        cfgParam_.vecBboxDB.push_back(tempBbox);
-      }
+        // 3.4.0 only
+        polylines(imgTest, vecContour, true, Scalar(255, 255, 255), 2, 150, 0);
 
-      // temporary pause
-      // waitKey(0);
-    }
-
-    // for debugging
-    for (auto i = 0; i < cfgParam_.vecBboxDB.size(); i++)
-    {
-      ROS_INFO("[%s][%d]bbox:", cfgParam_.vecBboxDB[i].strLabel.c_str(), (int)(i));
-      for (auto j = 0; j < cfgParam_.vecBboxDB[i].vecBbox.size(); j++)
-      {
-        ROS_INFO("[%d]:tl(%d,%d),br(%d,%d)", (int)(j), cfgParam_.vecBboxDB[i].vecBbox[j].tl().x,
-                 cfgParam_.vecBboxDB[i].vecBbox[j].tl().y, cfgParam_.vecBboxDB[i].vecBbox[j].br().x,
-                 cfgParam_.vecBboxDB[i].vecBbox[j].br().y);
+        imshow("imgTest", imgTest);
+        waitKey(0);
       }
     }
 
-    // pausing and destroying all imshow result
+    // temporary pause
     waitKey(0);
-    ROS_INFO(" ");
-    destroyAllWindows();
   }
+
+  // assigning variables for browsing annotated images recursively
+  // vector<String> vecAnnoFileNm;
+  // glob(cfgParam_.strAnnoFolderPath, vecAnnoFileNm, true);
+
+  // // browsing annotated images recursively
+  // cfgParam_.vecImgBboxDB.clear();
+  // for (size_t k = 0; k < vecAnnoFileNm.size(); ++k)
+  // {
+  //   // assigning the raw image
+  //   Mat imgRaw = imread(vecAnnoFileNm[k]);
+
+  //   // for debugging
+  //   // imshow("annotated", imgRaw);
+
+  //   // image width and height info. (h1024, w2048)
+  //   int nHeight = imgRaw.rows;
+  //   int nWidth = imgRaw.cols;
+
+  //   // generating bbox data w.r.t the labelDB
+  //   cfgParam_.vecBboxDB.clear();
+  //   for (auto i = 0; i < cfgParam_.vecAnnoDB.size(); i++)
+  //   {
+  //     // generating the filtered image using the label data
+  //     Mat imgFiltered;
+  //     imgFiltered = GenFilteredImg(imgRaw, nHeight, nWidth, i, cfgParam_.nMorphThresh);
+
+  //     // detecting canny edge data
+  //     Mat imgCanny;
+  //     imgCanny = CannyEdge(imgFiltered, cfgParam_.nCannyThresh);
+
+  //     // generating bounding box data
+  //     vector<Rect> vecBbox;
+  //     vecBbox = GenBboxData(imgCanny, Scalar(cfgParam_.vecAnnoDB[i].nRGB[2], cfgParam_.vecAnnoDB[i].nRGB[1],
+  //                                            cfgParam_.vecAnnoDB[i].nRGB[0]),
+  //                           cfgParam_.nPolyDPThesh);
+
+  //     // saving bbox data
+  //     if (vecBbox.size() > 0)
+  //     {
+  //       BboxDB tempBbox;
+  //       tempBbox.vecBbox.clear();
+  //       tempBbox.strLabel = cfgParam_.vecAnnoDB[i].strLabel;
+  //       for (auto ii = 0; ii < vecBbox.size(); ii++)
+  //         tempBbox.vecBbox.push_back(vecBbox[ii]);
+
+  //       cfgParam_.vecBboxDB.push_back(tempBbox);
+  //     }
+
+  //     // temporary pause
+  //     waitKey(0);
+  //   }
+
+  //   // saving results using vector
+  //   cfgParam_.vecImgBboxDB.push_back(cfgParam_.vecBboxDB);
+
+  //   // for debugging
+  //   // ROS_INFO("vecImgBboxDB.size:%d", (int)(cfgParam_.vecImgBboxDB.size()));
+  //   // for (auto i = 0; i < cfgParam_.vecBboxDB.size(); i++)
+  //   // {
+  //   //   ROS_INFO("[%s][%d]bbox:", cfgParam_.vecBboxDB[i].strLabel.c_str(), (int)(i));
+  //   //   for (auto j = 0; j < cfgParam_.vecBboxDB[i].vecBbox.size(); j++)
+  //   //   {
+  //   //     ROS_INFO("[%d]:tl(%d,%d),br(%d,%d)", (int)(j), cfgParam_.vecBboxDB[i].vecBbox[j].tl().x,
+  //   //              cfgParam_.vecBboxDB[i].vecBbox[j].tl().y, cfgParam_.vecBboxDB[i].vecBbox[j].br().x,
+  //   //              cfgParam_.vecBboxDB[i].vecBbox[j].br().y);
+  //   //   }
+  //   // }
+  //   // ROS_INFO(" ");
+
+  //   // pausing and destroying all imshow result
+  //   // waitKey(0);
+  //   destroyAllWindows();
+  // }
+
+  // for debugging
+  // ROS_INFO("vecImgBboxDB.size:%d", (int)(cfgParam_.vecImgBboxDB.size()));
+
+  // // assigning variables for browsing raw images with bbox result and saving bbox position data recursively
+  // vector<String> vecRawFileNm;
+  // glob(cfgParam_.strRawFolderPath, vecRawFileNm, true);
+
+  // for (size_t k = 0; k < vecRawFileNm.size(); ++k)
+  // {
+  //   // assigning the raw image
+  //   Mat imgRaw = imread(vecRawFileNm[k]);
+
+  //   // for debugging
+  //   imshow("raw", imgRaw);
+
+  //   // pausing and destroying all imshow result
+  //   waitKey(0);
+  // }
 
   return;
 }
