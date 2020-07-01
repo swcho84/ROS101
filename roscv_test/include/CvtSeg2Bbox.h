@@ -21,6 +21,9 @@ private:
   Mat GenFilteredImg(Mat imgIn, int nHeight, int nWidth, int nAnno, int nTrial);
   Mat CannyEdge(Mat imgIn, int nThresh);
   vector<Rect> GenBboxData(Mat imgIn, Scalar color, int nThresh);
+
+  int nHeight;
+  int nWidth;
   
 };
 
