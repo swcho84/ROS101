@@ -18,8 +18,10 @@ find_package(catkin REQUIRED COMPONENTS
   message_generation
   message_runtime
   message_filters
+  cmake_modules
 )
 
+find_package(TinyXML REQUIRED)
 find_package(nlohmann_json 3.2.0 REQUIRED)
 find_package(dlib REQUIRED)
 find_package(Boost REQUIRED COMPONENTS system)
@@ -142,6 +144,8 @@ catkin_package(
   message_generation
   message_runtime
   message_filters
+  DEPENDS
+  TinyXML
 )
 
 ###########
@@ -158,6 +162,7 @@ include_directories(
   ${OpenCV_INCLUDE_DIRS}
   ${DLIB_INCLUDE_DIR}
   ${JSON_INCLUDE_DIRS}
+  ${TinyXML_INCLUDE_DIRS}
   /usr/include
 )
 
@@ -167,7 +172,7 @@ link_directories(${OpenCV_LIBRARY_DIRS})
 
 ## Declare a C++ library
 add_executable(cvt_seg2bbox_node src/main_CvtSeg2Bbox.cpp lib/CvtSeg2Bbox.cpp include/CvtSeg2Bbox.h include/global_header.h lib/config_param.cpp include/config_param.h)
-target_link_libraries(cvt_seg2bbox_node ${catkin_LIBRARIES} ${OpenCV_LIBRARIES} ${OpenCV_LIBS} ${DLIB_LIBRARIES} ${JSON_LIBS} dlib nlohmann_json::nlohmann_json)
+target_link_libraries(cvt_seg2bbox_node ${catkin_LIBRARIES} ${OpenCV_LIBRARIES} ${OpenCV_LIBS} ${DLIB_LIBRARIES} ${JSON_LIBS} ${TinyXML_LIBRARIES} dlib nlohmann_json::nlohmann_json)
 add_dependencies(cvt_seg2bbox_node ${catkin_EXPORTED_TARGETS})
 
 ## Add cmake target dependencies of the library

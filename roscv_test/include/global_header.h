@@ -17,6 +17,9 @@
 // for using json file parser
 #include <nlohmann/json.hpp>
 
+// for using xml file writer
+#include <tinyxml.h>
+
 using namespace std;
 using namespace ros;
 using namespace cv;
