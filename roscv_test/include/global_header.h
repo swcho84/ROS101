@@ -8,7 +8,8 @@
 #include <signal.h>
 #include <ctime>
 #include <vector>
-#include <dirent.h> 
+#include <dirent.h>
+#include <fstream>
 
 // essential header for ROS-OpenCV operation
 #include <ros/ros.h>
@@ -19,6 +20,9 @@
 
 // for using xml file writer
 #include <tinyxml.h>
+
+// for using color matrix
+#include "colormat.h"
 
 using namespace std;
 using namespace ros;

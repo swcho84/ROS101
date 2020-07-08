@@ -17,6 +17,7 @@ public:
 
 private:
   ConfigParam cfgParam_;
+  ColorStatus colorStat_;
 
   Mat GenFilteredImg(Mat imgIn, int nHeight, int nWidth, int nAnno, int nTrial);
   Mat CannyEdge(Mat imgIn, int nThresh);
