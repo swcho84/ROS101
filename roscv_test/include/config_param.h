@@ -38,13 +38,16 @@ public:
   string strHomeName;
   string strPicType;
   string strPolygonType;
+  string strXmlType;
   string strRawFolderNm;
   string strRawFolderPath;
   string strAnnoFolderNm;
   string strAnnoFolderPath;
   string strPolygonFolderNm;
   string strPolygonFolderPath;
-  
+  string strXmlFolderNm;
+  string strXmlFolderPath;
+
   int nCannyThresh;
   int nMorphThresh;
   int nPolyDPThesh;

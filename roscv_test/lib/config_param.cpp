@@ -31,13 +31,16 @@ bool ConfigParam::ReadRosParams()
     ReadRosParam(nh, "/CityScapesDBfolder/raw", strRawFolderNm);
     ReadRosParam(nh, "/CityScapesDBfolder/color_label", strAnnoFolderNm);
     ReadRosParam(nh, "/CityScapesDBfolder/polygon_data", strPolygonFolderNm);
+    ReadRosParam(nh, "/CityScapesDBfolder/xml_label", strXmlFolderNm);
     ReadRosParam(nh, "/CityScapesDBfolder/imgfile_type", strPicType);
     ReadRosParam(nh, "/CityScapesDBfolder/polygonfile_type", strPolygonType);
+    ReadRosParam(nh, "/CityScapesDBfolder/xmlfile_type", strXmlType);
 
     // folder path, raw and annotated images
     strRawFolderPath = strHomeName + strRawFolderNm + strPicType;
     strAnnoFolderPath = strHomeName + strAnnoFolderNm + strPicType;
     strPolygonFolderPath = strHomeName + strPolygonFolderNm + strPolygonType;
+    strXmlFolderPath = strHomeName + strXmlFolderNm;
 
     // for filtering imgs
     ReadRosParam(nh, "/LabelsCityScapesDB/cannyThresh", nCannyThresh);
