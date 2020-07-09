@@ -35,6 +35,8 @@ bool ConfigParam::ReadRosParams()
     ReadRosParam(nh, "/CityScapesDBfolder/imgfile_type", strPicType);
     ReadRosParam(nh, "/CityScapesDBfolder/polygonfile_type", strPolygonType);
     ReadRosParam(nh, "/CityScapesDBfolder/xmlfile_type", strXmlType);
+    ReadRosParam(nh, "/CityScapesDBfolder/file_name_fwd", strXmlFileNmFwd);
+    ReadRosParam(nh, "/CityScapesDBfolder/file_name_num_digit", nXmlFileNmDigit);
 
     // folder path, raw and annotated images
     strRawFolderPath = strHomeName + strRawFolderNm + strPicType;

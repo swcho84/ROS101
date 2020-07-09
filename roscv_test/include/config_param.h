@@ -47,7 +47,9 @@ public:
   string strPolygonFolderPath;
   string strXmlFolderNm;
   string strXmlFolderPath;
-
+  string strXmlFileNmFwd;
+  
+  int nXmlFileNmDigit;
   int nCannyThresh;
   int nMorphThresh;
   int nPolyDPThesh;
