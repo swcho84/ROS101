@@ -63,13 +63,16 @@ LabelsKittyDB:
 
 KittyDBfolder:
   image: "/kittyDBsmall/image/"
-  label: "/kittyDBsmall/label"
+  label: "/kittyDBsmall/label/"
   cvtimg: "/kittyDBsmall/cvtimage/"
   xml_label: "/kittyDBsmall/xml_label/"
   imgfile_type: "*.png"
   txtfile_type: "*.txt"
-  xmlfile_type: "*.xml"  
+  xmlfile_type: "*.xml"
+  imgfile_extension: "png"
   xmlfile_extension: "xml"  
+  file_name_fwd: "etridb_ca_"
+  file_name_num_digit: 6
 
 # 1: xml file generator
 # 2: xml file checker

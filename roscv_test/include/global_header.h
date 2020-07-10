@@ -24,6 +24,9 @@
 // for using color matrix
 #include "colormat.h"
 
+// for using boost tokenizer
+#include <boost/tokenizer.hpp>
+
 using namespace std;
 using namespace ros;
 using namespace cv;
@@ -42,5 +45,17 @@ typedef struct
   string strLabel;
   vector<Rect> vecBbox;
 } BboxDB;
+
+typedef struct
+{
+  string strLabel;
+  int nTruncated;
+  int nOcculded;
+  float fAlphaAngRad;
+  float fBbox[4];
+  float fObjDimM[3];
+  float fObjLocM[3];
+  float fRotAngRad;
+} KittyDB;
 
 #endif

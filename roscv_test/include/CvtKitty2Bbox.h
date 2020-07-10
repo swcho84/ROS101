@@ -14,10 +14,23 @@ public:
   ~CvtKtt2Bbox();
 
   void MainLoopBboxGenerator();
+  bool GetSizeCalcFlag();
+
+  bool bSizeCalcFlag;  
 
 private:
   ConfigParam cfgParam_;
   ColorStatus colorStat_;
+
+  bool GenSizeCalcFlag(int nSize, int nTotal);  
+
+  vector<vector<KittyDB>> vecKittyDB;
+
+  int nHeight;
+  int nWidth;
+
+  int nHeightCityScapeDB;
+  int nWidthCityScapeDB;  
   
 };
 

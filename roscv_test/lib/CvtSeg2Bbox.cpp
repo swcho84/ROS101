@@ -6,7 +6,7 @@ using namespace cv;
 
 CvtSeg2Bbox::CvtSeg2Bbox(const ConfigParam& cfg) : cfgParam_(cfg)
 {
-  // VGA size
+  // default: VGA size
   nHeight = 480;
   nWidth = 640;
 
@@ -20,7 +20,6 @@ CvtSeg2Bbox::~CvtSeg2Bbox()
 // main loop: xml file checker
 void CvtSeg2Bbox::MainLoopBboxChecker()
 {
-  // 1st, making polygonDB-based bbox
   // assigning variables for browsing annotated images recursively
   vector<String> vecRawDbFileNm;
   vector<String> vecXmlLabelFileNm;

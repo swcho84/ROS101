@@ -55,6 +55,7 @@ public:
   string strKttPicType;
   string strKttTxtType;
   string strKttXmlType;
+  string strKttImgExt;
   string strKttXmlExt;
   string strKttImgFolderNm;
   string strKttImgFolderPath;
@@ -64,6 +65,11 @@ public:
   string strKttCvtImgFolderPath;
   string strKttXmlFolderNm;
   string strKttXmlFolderPath;
+  string strKttImgFileNmFwd;
+  string strKttXmlFileNmFwd;  
+
+  int nKttImgFileNmDigit;  
+  int nKttXmlFileNmDigit;  
 
   int nFeatureCase;
   int nXmlFileNmDigit;

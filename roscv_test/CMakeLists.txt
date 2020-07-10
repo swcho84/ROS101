@@ -159,6 +159,7 @@ include_directories(
   src
   lib
   ${catkin_INCLUDE_DIRS}
+  ${BOOST_INCLUDE_DIRS}
   ${OpenCV_INCLUDE_DIRS}
   ${DLIB_INCLUDE_DIR}
   ${JSON_INCLUDE_DIRS}
@@ -176,7 +177,7 @@ target_link_libraries(cvt_seg2bbox_node ${catkin_LIBRARIES} ${OpenCV_LIBRARIES} 
 add_dependencies(cvt_seg2bbox_node ${catkin_EXPORTED_TARGETS})
 
 add_executable(cvt_kitty2bbox_node src/main_CvtKitty2Bbox.cpp lib/CvtKitty2Bbox.cpp include/CvtKitty2Bbox.h include/global_header.h lib/config_param.cpp include/config_param.h include/colormat.h)
-target_link_libraries(cvt_kitty2bbox_node ${catkin_LIBRARIES} ${OpenCV_LIBRARIES} ${OpenCV_LIBS} ${DLIB_LIBRARIES} ${JSON_LIBS} ${TinyXML_LIBRARIES} dlib nlohmann_json::nlohmann_json)
+target_link_libraries(cvt_kitty2bbox_node ${catkin_LIBRARIES} ${OpenCV_LIBRARIES} ${OpenCV_LIBS} ${DLIB_LIBRARIES} ${JSON_LIBS} ${TinyXML_LIBRARIES} ${BOOST_LIBRARY_DIRS} dlib nlohmann_json::nlohmann_json)
 add_dependencies(cvt_kitty2bbox_node ${catkin_EXPORTED_TARGETS})
 
 ## Add cmake target dependencies of the library

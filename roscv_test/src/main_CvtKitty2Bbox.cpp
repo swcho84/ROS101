@@ -41,6 +41,10 @@ int main(int argc, char** argv)
   {
     ktt2Bbox.MainLoopBboxGenerator();
 
+    // breaking loop
+    if (ktt2Bbox.GetSizeCalcFlag())
+      break;
+
     spinOnce();
     loopRate.sleep();
   }

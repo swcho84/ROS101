@@ -61,13 +61,19 @@ bool ConfigParam::ReadRosParams()
     ReadRosParam(nh, "/KittyDBfolder/imgfile_type", strKttPicType);
     ReadRosParam(nh, "/KittyDBfolder/txtfile_type", strKttTxtType);
     ReadRosParam(nh, "/KittyDBfolder/xmlfile_type", strKttXmlType);
+    ReadRosParam(nh, "/KittyDBfolder/imgfile_extension", strKttImgExt);
     ReadRosParam(nh, "/KittyDBfolder/xmlfile_extension", strKttXmlExt);
+    ReadRosParam(nh, "/KittyDBfolder/file_name_fwd", strKttXmlFileNmFwd);
+    ReadRosParam(nh, "/KittyDBfolder/file_name_num_digit", nKttXmlFileNmDigit);
 
     // folder path, for kitty data
     strKttImgFolderPath = strHomeName + strKttImgFolderNm + strKttPicType;
     strKttLabelFolderPath = strHomeName + strKttLabelFolderNm + strKttTxtType;
     strKttCvtImgFolderPath = strHomeName + strKttCvtImgFolderNm;
     strKttXmlFolderPath = strHomeName + strKttXmlFolderNm;
+
+    strKttImgFileNmFwd = strKttXmlFileNmFwd;
+    nKttImgFileNmDigit = nKttXmlFileNmDigit;
 
     // label DB, for kitty
     vecKttLabels.clear();
