@@ -1,4 +1,4 @@
-#include "CvtSeg2Bbox.h"
+#include "CvtKitty2Bbox.h"
 
 using namespace std;
 using namespace ros;
@@ -18,7 +18,7 @@ void SigIntHandler(int param)
 int main(int argc, char** argv)
 {
   // Set up ROS.
-  init(argc, argv, "convert_cityscapes_segDB_to_bboxDB");
+  init(argc, argv, "convert_kittyDB_to_bboxDB");
   NodeHandle nh("");
 
   // reading ros params
@@ -30,7 +30,7 @@ int main(int argc, char** argv)
   }
 
   // converting annotated segmentation DB to bboxs with SIGINT handler
-  CvtSeg2Bbox seg2Bbox(cfg);
+  CvtKtt2Bbox ktt2Bbox(cfg);
   signal(SIGINT, SigIntHandler);
 
   // Tell ROS how fast to run this node.
@@ -39,38 +39,14 @@ int main(int argc, char** argv)
   // Main loop.
   while (ok())
   {
-    switch (cfg.nFeatureCase)
-    {
-      case 1:  // xml file generator
-      {
-        ROS_INFO("Feature: xml file generator");
-        seg2Bbox.MainLoopBboxGenerator();
-        break;
-      }
-      case 2:  // xml file checker
-      {
-        ROS_INFO("Feature: xml file checker");
-        seg2Bbox.MainLoopBboxChecker();
-        break;
-      }
-      default:  // xml file generator
-      {
-        ROS_INFO("Feature: xml file generator");
-        seg2Bbox.MainLoopBboxGenerator();
-        break;
-      }
-    }
-
-    // breaking loop
-    if (seg2Bbox.GetSizeCalcFlag())
-      break;
+    ktt2Bbox.MainLoopBboxGenerator();
 
     spinOnce();
     loopRate.sleep();
   }
 
-  seg2Bbox.~CvtSeg2Bbox();
-  ROS_INFO("Work Done: convert_cityscapes_segDB_to_bboxDB");
+  ktt2Bbox.~CvtKtt2Bbox();
+  ROS_INFO("Work Done: convert_kittyDB_to_bboxDB");
 
   return 0;
 }  // end main()

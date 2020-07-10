@@ -171,9 +171,13 @@ add_definitions(${BOOST_DEFINITIONS})
 link_directories(${OpenCV_LIBRARY_DIRS})
 
 ## Declare a C++ library
-add_executable(cvt_seg2bbox_node src/main_CvtSeg2Bbox.cpp lib/CvtSeg2Bbox.cpp include/CvtSeg2Bbox.h include/global_header.h lib/config_param.cpp include/config_param.h)
+add_executable(cvt_seg2bbox_node src/main_CvtSeg2Bbox.cpp lib/CvtSeg2Bbox.cpp include/CvtSeg2Bbox.h include/global_header.h lib/config_param.cpp include/config_param.h include/colormat.h)
 target_link_libraries(cvt_seg2bbox_node ${catkin_LIBRARIES} ${OpenCV_LIBRARIES} ${OpenCV_LIBS} ${DLIB_LIBRARIES} ${JSON_LIBS} ${TinyXML_LIBRARIES} dlib nlohmann_json::nlohmann_json)
 add_dependencies(cvt_seg2bbox_node ${catkin_EXPORTED_TARGETS})
+
+add_executable(cvt_kitty2bbox_node src/main_CvtKitty2Bbox.cpp lib/CvtKitty2Bbox.cpp include/CvtKitty2Bbox.h include/global_header.h lib/config_param.cpp include/config_param.h include/colormat.h)
+target_link_libraries(cvt_kitty2bbox_node ${catkin_LIBRARIES} ${OpenCV_LIBRARIES} ${OpenCV_LIBS} ${DLIB_LIBRARIES} ${JSON_LIBS} ${TinyXML_LIBRARIES} dlib nlohmann_json::nlohmann_json)
+add_dependencies(cvt_kitty2bbox_node ${catkin_EXPORTED_TARGETS})
 
 ## Add cmake target dependencies of the library
 ## as an example, code may need to be generated before libraries

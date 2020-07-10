@@ -51,7 +51,20 @@ public:
   string strXmlFolderNm;
   string strXmlFolderPath;
   string strXmlFileNmFwd;
-  
+
+  string strKttPicType;
+  string strKttTxtType;
+  string strKttXmlType;
+  string strKttXmlExt;
+  string strKttImgFolderNm;
+  string strKttImgFolderPath;
+  string strKttLabelFolderNm;
+  string strKttLabelFolderPath;
+  string strKttCvtImgFolderNm;
+  string strKttCvtImgFolderPath;
+  string strKttXmlFolderNm;
+  string strKttXmlFolderPath;
+
   int nFeatureCase;
   int nXmlFileNmDigit;
   int nCannyThresh;
@@ -60,6 +73,9 @@ public:
 
   vector<string> vecLabels;
   vector<AnnoDB> vecAnnoDB;
+
+  vector<string> vecKttLabels;  
+  vector<AnnoDB> vecAnnoKttDB;  
   
   vector<vector<BboxDB>> vecImgBboxDB;
   vector<vector<BboxDB>> vecPolygonBboxDB;  
@@ -75,6 +91,12 @@ public:
   AnnoDB motorcycle;
   AnnoDB bicycle;
 
+  AnnoDB kttCar;
+  AnnoDB kttVan;
+  AnnoDB kttTruck;
+  AnnoDB kttPedestrian;
+  AnnoDB kttPersonSit;
+  AnnoDB kttCyclist;
 
 private:
   bool ReadRosParams();

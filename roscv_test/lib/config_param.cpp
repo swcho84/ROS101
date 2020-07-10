@@ -31,7 +31,7 @@ bool ConfigParam::ReadRosParams()
     strHomeName = getenv("HOME");
 
     // folder name and picture file type
-    ReadRosParam(nh, "/Converter/feature", nFeatureCase);
+    ReadRosParam(nh, "/CityScapesDBConverter/feature", nFeatureCase);
 
     // folder name and picture file type
     ReadRosParam(nh, "/CityScapesDBfolder/raw", strRawFolderNm);
@@ -52,6 +52,49 @@ bool ConfigParam::ReadRosParams()
     strAnnoFolderPath = strHomeName + strAnnoFolderNm + strPicType;
     strPolygonFolderPath = strHomeName + strPolygonFolderNm + strPolygonType;
     strXmlFolderPath = strHomeName + strXmlFolderNm;
+
+    // folder name and picture file type
+    ReadRosParam(nh, "/KittyDBfolder/image", strKttImgFolderNm);
+    ReadRosParam(nh, "/KittyDBfolder/label", strKttLabelFolderNm);
+    ReadRosParam(nh, "/KittyDBfolder/cvtimg", strKttCvtImgFolderNm);
+    ReadRosParam(nh, "/KittyDBfolder/xml_label", strKttXmlFolderNm);
+    ReadRosParam(nh, "/KittyDBfolder/imgfile_type", strKttPicType);
+    ReadRosParam(nh, "/KittyDBfolder/txtfile_type", strKttTxtType);
+    ReadRosParam(nh, "/KittyDBfolder/xmlfile_type", strKttXmlType);
+    ReadRosParam(nh, "/KittyDBfolder/xmlfile_extension", strKttXmlExt);
+
+    // folder path, for kitty data
+    strKttImgFolderPath = strHomeName + strKttImgFolderNm + strKttPicType;
+    strKttLabelFolderPath = strHomeName + strKttLabelFolderNm + strKttTxtType;
+    strKttCvtImgFolderPath = strHomeName + strKttCvtImgFolderNm;
+    strKttXmlFolderPath = strHomeName + strKttXmlFolderNm;
+
+    // label DB, for kitty
+    vecKttLabels.clear();
+    vecAnnoKttDB.clear();
+    ReadRosParam(nh, "/LabelsKittyDB/car", kttCar.strLabel);
+    vecKttLabels.push_back(kttCar.strLabel);
+    vecAnnoKttDB.push_back(kttCar);
+
+    ReadRosParam(nh, "/LabelsKittyDB/van", kttVan.strLabel);
+    vecKttLabels.push_back(kttVan.strLabel);
+    vecAnnoKttDB.push_back(kttVan);
+
+    ReadRosParam(nh, "/LabelsKittyDB/truck", kttTruck.strLabel);
+    vecKttLabels.push_back(kttTruck.strLabel);
+    vecAnnoKttDB.push_back(kttTruck);
+
+    ReadRosParam(nh, "/LabelsKittyDB/pedestrian", kttCar.strLabel);
+    vecKttLabels.push_back(kttCar.strLabel);
+    vecAnnoKttDB.push_back(kttCar);
+
+    ReadRosParam(nh, "/LabelsKittyDB/person_sit", kttCar.strLabel);
+    vecKttLabels.push_back(kttCar.strLabel);
+    vecAnnoKttDB.push_back(kttCar);
+
+    ReadRosParam(nh, "/LabelsKittyDB/cyclist", kttCar.strLabel);
+    vecKttLabels.push_back(kttCar.strLabel);
+    vecAnnoKttDB.push_back(kttCar);
 
     // for filtering imgs
     ReadRosParam(nh, "/LabelsCityScapesDB/cannyThresh", nCannyThresh);

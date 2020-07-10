@@ -53,9 +53,27 @@ LabelsCityScapesDB:
     G: 11
     B: 32
 
+LabelsKittyDB:
+  car: "Car"
+  van: "Van"
+  truck: "Truck"
+  pedestrian: "Pedestrian"
+  person_sit: "Person_sitting"
+  cyclist: "Cyclist"
+
+KittyDBfolder:
+  image: "/kittyDBsmall/image/"
+  label: "/kittyDBsmall/label"
+  cvtimg: "/kittyDBsmall/cvtimage/"
+  xml_label: "/kittyDBsmall/xml_label/"
+  imgfile_type: "*.png"
+  txtfile_type: "*.txt"
+  xmlfile_type: "*.xml"  
+  xmlfile_extension: "xml"  
+
 # 1: xml file generator
 # 2: xml file checker
-Converter:
+CityScapesDBConverter:
   feature: 2
 
 CityScapesDBfolder:

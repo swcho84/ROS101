@@ -1,0 +1,6 @@
+<launch>
+  <env name="ROSCONSOLE_CONFIG_FILE" value="$(find roscv_test)/config/rosconsole.config"/>
+  <rosparam command="load" file="$(find roscv_test)/config/params.yaml"/>
+  
+  <node name="convert_kttiyDB_to_bboxDB" pkg="roscv_test" type="cvt_kitty2bbox_node" output="screen" />
+</launch>
