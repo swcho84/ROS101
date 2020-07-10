@@ -61,7 +61,7 @@ CityScapesDBfolder:
   imgfile_type: "*.png"
   polygonfile_type: "*.json"
   xmlfile_type: "xml"
-  file_name_fwd: "etridb_ca"
+  file_name_fwd: "etridb_ca_"
   file_name_num_digit: 6
 
        

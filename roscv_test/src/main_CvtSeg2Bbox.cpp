@@ -41,11 +41,15 @@ int main(int argc, char** argv)
   {
     seg2Bbox.MainLoop();
 
+    if (seg2Bbox.GetSizeCalcFlag())
+      break;
+
     spinOnce();
     loopRate.sleep();
   }
 
   seg2Bbox.~CvtSeg2Bbox();
+  ROS_INFO("Work Done: convert_segDB_to_bboxDB");
 
   return 0;
 }  // end main()

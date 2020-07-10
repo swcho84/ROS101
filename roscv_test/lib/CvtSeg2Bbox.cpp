@@ -9,6 +9,8 @@ CvtSeg2Bbox::CvtSeg2Bbox(const ConfigParam& cfg) : cfgParam_(cfg)
   // VGA size
   nHeight = 480;
   nWidth = 640;
+
+  bSizeCalcFlag = false;
 }
 
 CvtSeg2Bbox::~CvtSeg2Bbox()
@@ -17,127 +19,129 @@ CvtSeg2Bbox::~CvtSeg2Bbox()
 
 void CvtSeg2Bbox::MainLoop()
 {
-  // // 1st, making polygonDB-based bbox
-  // // assigning variables for browsing annotated images recursively
-  // vector<String> vecAnnoFileNm;
-  // glob(cfgParam_.strAnnoFolderPath, vecAnnoFileNm, true);
-  // cfgParam_.vecImgBboxDB.clear();
+  // 1st, making polygonDB-based bbox
+  // assigning variables for browsing annotated images recursively
+  vector<String> vecAnnoFileNm;
+  glob(cfgParam_.strAnnoFolderPath, vecAnnoFileNm, true);
+  cfgParam_.vecImgBboxDB.clear();
 
-  // // browsing annotated images recursively
-  // for (size_t i = 0; i < vecAnnoFileNm.size(); i++)
-  // {
-  //   // for debugging
-  //   ROS_INFO("Processing_maskImgDB(%d,%d)", (int)(i), (int)(vecAnnoFileNm.size()));
+  // browsing annotated images recursively
+  for (size_t i = 0; i < vecAnnoFileNm.size(); i++)
+  {
+    // for debugging
+    ROS_INFO("Processing_maskImgDB(%d,%d)", (int)(i), (int)(vecAnnoFileNm.size()));
 
-  //   // assigning the raw image
-  //   Mat imgRaw = imread(vecAnnoFileNm[i]);
+    // assigning the raw image
+    Mat imgRaw = imread(vecAnnoFileNm[i]);
 
-  //   // image width and height info. (h1024, w2048)
-  //   nHeight = imgRaw.rows;
-  //   nWidth = imgRaw.cols;
+    // image width and height info. (h1024, w2048)
+    nHeight = imgRaw.rows;
+    nWidth = imgRaw.cols;
 
-  //   // generating bbox data w.r.t the labelDB
-  //   vector<BboxDB> vecBboxDB;
-  //   for (auto ii = 0; ii < cfgParam_.vecAnnoDB.size(); ii++)
-  //   {
-  //     // generating the filtered image using the label data
-  //     Mat imgFiltered;
-  //     imgFiltered = GenFilteredImg(imgRaw, nHeight, nWidth, ii, cfgParam_.nMorphThresh);
+    // generating bbox data w.r.t the labelDB
+    vector<BboxDB> vecBboxDB;
+    for (auto ii = 0; ii < cfgParam_.vecAnnoDB.size(); ii++)
+    {
+      // generating the filtered image using the label data
+      Mat imgFiltered;
+      imgFiltered = GenFilteredImg(imgRaw, nHeight, nWidth, ii, cfgParam_.nMorphThresh);
 
-  //     // detecting canny edge data
-  //     Mat imgCanny;
-  //     imgCanny = CannyEdge(imgFiltered, cfgParam_.nCannyThresh);
+      // detecting canny edge data
+      Mat imgCanny;
+      imgCanny = CannyEdge(imgFiltered, cfgParam_.nCannyThresh);
 
-  //     // generating bounding box data
-  //     vector<Rect> vecBbox;
-  //     vecBbox = GenBboxData(imgCanny, Scalar(cfgParam_.vecAnnoDB[ii].nRGB[2], cfgParam_.vecAnnoDB[ii].nRGB[1],
-  //                                            cfgParam_.vecAnnoDB[ii].nRGB[0]),
-  //                           cfgParam_.nPolyDPThesh);
+      // generating bounding box data
+      vector<Rect> vecBbox;
+      vecBbox = GenBboxData(imgCanny, Scalar(cfgParam_.vecAnnoDB[ii].nRGB[2], cfgParam_.vecAnnoDB[ii].nRGB[1],
+                                             cfgParam_.vecAnnoDB[ii].nRGB[0]),
+                            cfgParam_.nPolyDPThesh);
 
-  //     // saving bbox data
-  //     if (vecBbox.size() > 0)
-  //     {
-  //       BboxDB tempBbox;
-  //       tempBbox.vecBbox.clear();
-  //       tempBbox.strLabel = cfgParam_.vecAnnoDB[ii].strLabel;
-  //       for (auto iii = 0; iii < vecBbox.size(); iii++)
-  //         tempBbox.vecBbox.push_back(vecBbox[iii]);
+      // saving bbox data
+      if (vecBbox.size() > 0)
+      {
+        BboxDB tempBbox;
+        tempBbox.vecBbox.clear();
+        tempBbox.strLabel = cfgParam_.vecAnnoDB[ii].strLabel;
+        for (auto iii = 0; iii < vecBbox.size(); iii++)
+          tempBbox.vecBbox.push_back(vecBbox[iii]);
 
-  //       vecBboxDB.push_back(tempBbox);
-  //     }
-  //   }
+        vecBboxDB.push_back(tempBbox);
+      }
+    }
 
-  //   // saving results using vector
-  //   cfgParam_.vecImgBboxDB.push_back(vecBboxDB);
-  // }
+    // saving results using vector
+    cfgParam_.vecImgBboxDB.push_back(vecBboxDB);
+  }
 
-  // // for debugging
-  // ROS_INFO("vecImgBboxDB.size:%d", (int)(cfgParam_.vecImgBboxDB.size()));
+  // for debugging
+  ROS_INFO("vecImgBboxDB.size:%d", (int)(cfgParam_.vecImgBboxDB.size()));
+  ROS_INFO(" ");
 
-  // // 2nd, making maskImg-based bbox
-  // // assigning variables for browsing polygon data w.r.t json file recursively
-  // vector<String> vecPolygonFileNm;
-  // glob(cfgParam_.strPolygonFolderPath, vecPolygonFileNm, true);
-  // cfgParam_.vecPolygonBboxDB.clear();
+  // 2nd, making maskImg-based bbox
+  // assigning variables for browsing polygon data w.r.t json file recursively
+  vector<String> vecPolygonFileNm;
+  glob(cfgParam_.strPolygonFolderPath, vecPolygonFileNm, true);
+  cfgParam_.vecPolygonBboxDB.clear();
 
-  // // browsing mask images recursively
-  // for (size_t k = 0; k < vecPolygonFileNm.size(); k++)
-  // {
-  //   // for debugging
-  //   ROS_INFO("Processing_polygonDB(%d,%d)", (int)(k), (int)(vecPolygonFileNm.size()));
+  // browsing mask images recursively
+  for (size_t k = 0; k < vecPolygonFileNm.size(); k++)
+  {
+    // for debugging
+    ROS_INFO("Processing_polygonDB(%d,%d)", (int)(k), (int)(vecPolygonFileNm.size()));
 
-  //   // assigning the polygon file
-  //   ifstream polyJson(vecPolygonFileNm[k]);
-  //   json js;
-  //   polyJson >> js;
+    // assigning the polygon file
+    ifstream polyJson(vecPolygonFileNm[k]);
+    json js;
+    polyJson >> js;
 
-  //   // generating polygon data by using the selected label
-  //   vector<BboxDB> vecBboxDB;
-  //   for (auto kk = 0; kk < js["objects"].size(); kk++)
-  //   {
-  //     // for using debugging image
-  //     Mat imgTest = Mat::zeros(Size(nWidth, nHeight), CV_8UC3);
+    // generating polygon data by using the selected label
+    vector<BboxDB> vecBboxDB;
+    for (auto kk = 0; kk < js["objects"].size(); kk++)
+    {
+      // for using debugging image
+      Mat imgTest = Mat::zeros(Size(nWidth, nHeight), CV_8UC3);
 
-  //     // w.r.t the selected label
-  //     for (auto kkk = 0; kkk < cfgParam_.vecAnnoDB.size(); kkk++)
-  //     {
-  //       Rect rectBbox;
-  //       BboxDB tempBbox;
+      // w.r.t the selected label
+      for (auto kkk = 0; kkk < cfgParam_.vecAnnoDB.size(); kkk++)
+      {
+        Rect rectBbox;
+        BboxDB tempBbox;
 
-  //       // if the selected label in the objects of JSON file
-  //       if ((js["objects"][kk]["label"] == cfgParam_.vecAnnoDB[kkk].strLabel))
-  //       {
-  //         vector<Point> vecContour;
+        // if the selected label in the objects of JSON file
+        if ((js["objects"][kk]["label"] == cfgParam_.vecAnnoDB[kkk].strLabel))
+        {
+          vector<Point> vecContour;
 
-  //         // generating polygon data
-  //         for (auto kkkk = 0; kkkk < js["objects"][kk]["polygon"].size(); kkkk++)
-  //         {
-  //           // parsing each point data
-  //           Point tempPt;
-  //           tempPt.x = js["objects"][kk]["polygon"][kkkk][0];
-  //           tempPt.y = js["objects"][kk]["polygon"][kkkk][1];
-  //           vecContour.push_back(tempPt);
-  //         }
+          // generating polygon data
+          for (auto kkkk = 0; kkkk < js["objects"][kk]["polygon"].size(); kkkk++)
+          {
+            // parsing each point data
+            Point tempPt;
+            tempPt.x = js["objects"][kk]["polygon"][kkkk][0];
+            tempPt.y = js["objects"][kk]["polygon"][kkkk][1];
+            vecContour.push_back(tempPt);
+          }
 
-  //         // calculating bounding box information
-  //         if (vecContour.size() > 0)
-  //         {
-  //           rectBbox = boundingRect(vecContour);
-  //           tempBbox.strLabel = cfgParam_.vecAnnoDB[kkk].strLabel;
-  //           tempBbox.vecBbox.push_back(rectBbox);
+          // calculating bounding box information
+          if (vecContour.size() > 0)
+          {
+            rectBbox = boundingRect(vecContour);
+            tempBbox.strLabel = cfgParam_.vecAnnoDB[kkk].strLabel;
+            tempBbox.vecBbox.push_back(rectBbox);
 
-  //           vecBboxDB.push_back(tempBbox);
-  //         }
-  //       }
-  //     }
-  //   }
+            vecBboxDB.push_back(tempBbox);
+          }
+        }
+      }
+    }
 
-  //   // saving polygon-based bbox DB
-  //   cfgParam_.vecPolygonBboxDB.push_back(vecBboxDB);
-  // }
+    // saving polygon-based bbox DB
+    cfgParam_.vecPolygonBboxDB.push_back(vecBboxDB);
+  }
 
-  // // for debugging
-  // ROS_INFO("vecPolygonBboxDB.size:%d", (int)(cfgParam_.vecPolygonBboxDB.size()));
+  // for debugging
+  ROS_INFO("vecPolygonBboxDB.size:%d", (int)(cfgParam_.vecPolygonBboxDB.size()));
+  ROS_INFO(" ");
 
   // assigning variables for browsing raw images with bbox result and saving bbox position data recursively
   vector<String> vecRawFileNm;
@@ -146,6 +150,9 @@ void CvtSeg2Bbox::MainLoop()
   // browsing raw images recursively
   for (size_t k = 0; k < vecRawFileNm.size(); k++)
   {
+    // for debugging
+    ROS_INFO("Processing_xmlDB(%d,%d)", (int)(k), (int)(vecRawFileNm.size()));
+
     // making the filename  using stringstream, with the numbering rule
     stringstream strStreamFileName;
     strStreamFileName << cfgParam_.strXmlFileNmFwd;
@@ -156,8 +163,8 @@ void CvtSeg2Bbox::MainLoop()
     string strXmlFile;
     strXmlFile = cfgParam_.strXmlFolderPath + strStreamFileName.str();
 
-    // assigning the raw image
-    Mat imgRaw = imread(vecRawFileNm[k]);
+    // // assigning the raw image
+    // Mat imgRaw = imread(vecRawFileNm[k]);
 
     // // checking bbox, maskImg-based
     // for (auto kk = 0; kk < cfgParam_.vecImgBboxDB[k].size(); kk++)
@@ -183,8 +190,8 @@ void CvtSeg2Bbox::MainLoop()
     //   }
     // }
 
-    // for debugging
-    imshow("raw_bbox", imgRaw);
+    // // for debugging
+    // imshow("raw_bbox", imgRaw);
 
     // declarating xml file
     TiXmlDocument docXml;
@@ -245,16 +252,82 @@ void CvtSeg2Bbox::MainLoop()
     pElem5->LinkEndChild(txtElem5);
     pRoot->LinkEndChild(pElem5);
 
-    // need object bbox work
+    for (auto kk = 0; kk < cfgParam_.vecImgBboxDB[k].size(); kk++)
+    {
+      for (auto kkk = 0; kkk < cfgParam_.vecImgBboxDB[k][kk].vecBbox.size(); kkk++)
+      {
+        TiXmlElement* pElem5 = new TiXmlElement("object");
+        TiXmlElement* pElem51 = new TiXmlElement("name");
+        TiXmlText* txtElem51 = new TiXmlText(cfgParam_.vecImgBboxDB[k][kk].strLabel);
+        pElem51->LinkEndChild(txtElem51);
+        TiXmlElement* pElem52 = new TiXmlElement("pose");
+        TiXmlText* txtElem52 = new TiXmlText("Left");
+        pElem52->LinkEndChild(txtElem52);
+        TiXmlElement* pElem53 = new TiXmlElement("truncated");
+        TiXmlText* txtElem53 = new TiXmlText("1");
+        pElem53->LinkEndChild(txtElem53);
+        TiXmlElement* pElem54 = new TiXmlElement("difficult");
+        TiXmlText* txtElem54 = new TiXmlText("0");
+        pElem54->LinkEndChild(txtElem54);
+
+        Rect rectBbox;
+        rectBbox = cfgParam_.vecImgBboxDB[k][kk].vecBbox[kkk];
+        TiXmlElement* pElem55 = new TiXmlElement("bndbox");
+        TiXmlElement* pElem551 = new TiXmlElement("xmin");
+        TiXmlText* txtElem551 = new TiXmlText(to_string(rectBbox.tl().x));
+        pElem551->LinkEndChild(txtElem551);
+        TiXmlElement* pElem552 = new TiXmlElement("ymin");
+        TiXmlText* txtElem552 = new TiXmlText(to_string(rectBbox.tl().y));
+        pElem552->LinkEndChild(txtElem552);
+        TiXmlElement* pElem553 = new TiXmlElement("xmax");
+        TiXmlText* txtElem553 = new TiXmlText(to_string(rectBbox.br().x));
+        pElem553->LinkEndChild(txtElem553);
+        TiXmlElement* pElem554 = new TiXmlElement("ymax");
+        TiXmlText* txtElem554 = new TiXmlText(to_string(rectBbox.br().y));
+        pElem554->LinkEndChild(txtElem554);
+        pElem55->LinkEndChild(pElem551);
+        pElem55->LinkEndChild(pElem552);
+        pElem55->LinkEndChild(pElem553);
+        pElem55->LinkEndChild(pElem554);
+
+        pElem5->LinkEndChild(pElem51);
+        pElem5->LinkEndChild(pElem52);
+        pElem5->LinkEndChild(pElem53);
+        pElem5->LinkEndChild(pElem54);
+        pElem5->LinkEndChild(pElem55);
+        pRoot->LinkEndChild(pElem5);
+      }
+    }
 
     // saving xml file
     docXml.SaveFile(strXmlFile);
 
-    // pausing and destroying all imshow result
-    waitKey(0);
+    // calculating size flag
+    bSizeCalcFlag = GenSizeCalcFlag(k, (int)(vecRawFileNm.size()));
+
+    // // pausing and destroying all imshow result
+    // waitKey(0);
   }
 
+  // for debugging
+  ROS_INFO(" ");
+
   return;
+}
+
+// get size calculation flag
+bool CvtSeg2Bbox::GetSizeCalcFlag()
+{
+  return bSizeCalcFlag;
+}
+
+// generating size calculation flag for terminating converter
+bool CvtSeg2Bbox::GenSizeCalcFlag(int nSize, int nTotal)
+{
+  bool bRes = false;
+  if (fabs(nSize - nTotal) == 1.0f)
+    bRes = true;
+  return bRes;
 }
 
 // generating bbox data

@@ -13,12 +13,16 @@ public:
   CvtSeg2Bbox(const ConfigParam& cfg);
   ~CvtSeg2Bbox();
 
-  void MainLoop();  
+  void MainLoop();
+  bool GetSizeCalcFlag();
+
+  bool bSizeCalcFlag;
 
 private:
   ConfigParam cfgParam_;
   ColorStatus colorStat_;
 
+  bool GenSizeCalcFlag(int nSize, int nTotal);
   Mat GenFilteredImg(Mat imgIn, int nHeight, int nWidth, int nAnno, int nTrial);
   Mat CannyEdge(Mat imgIn, int nThresh);
   vector<Rect> GenBboxData(Mat imgIn, Scalar color, int nThresh);
