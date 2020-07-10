@@ -53,6 +53,11 @@ LabelsCityScapesDB:
     G: 11
     B: 32
 
+# 0: xml file generator
+# 1: xml file checker
+Converter:
+  feature: 0
+
 CityScapesDBfolder:
   raw: "/cityscapeDBsmall/raw/"
   color_label: "/cityscapeDBsmall/color_label/"
@@ -60,7 +65,8 @@ CityScapesDBfolder:
   xml_label: "/cityscapeDBsmall/xml_label/"
   imgfile_type: "*.png"
   polygonfile_type: "*.json"
-  xmlfile_type: "xml"
+  xmlfile_type: "*.xml"
+  xmlfile_extension: "xml"
   file_name_fwd: "etridb_ca_"
   file_name_num_digit: 6
 

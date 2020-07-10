@@ -17,7 +17,14 @@ CvtSeg2Bbox::~CvtSeg2Bbox()
 {
 }
 
-void CvtSeg2Bbox::MainLoop()
+// main loop: xml file checker
+void CvtSeg2Bbox::MainLoopBboxChecker()
+{
+  return;
+}
+
+// main loop: xml file generator
+void CvtSeg2Bbox::MainLoopBboxGenerator()
 {
   // 1st, making polygonDB-based bbox
   // assigning variables for browsing annotated images recursively
@@ -157,7 +164,7 @@ void CvtSeg2Bbox::MainLoop()
     stringstream strStreamFileName;
     strStreamFileName << cfgParam_.strXmlFileNmFwd;
     strStreamFileName << std::setfill('0') << std::setw(cfgParam_.nXmlFileNmDigit) << k;
-    strStreamFileName << "." + cfgParam_.strXmlType;
+    strStreamFileName << "." + cfgParam_.strXmlExt;
 
     // making the full file path
     string strXmlFile;

@@ -5,6 +5,9 @@ using namespace ros;
 
 ConfigParam::ConfigParam()
 {
+  // 0: xml file generator
+  // 1: xml file checker
+  nFeatureCase = 0;
 }
 
 ConfigParam::~ConfigParam()
@@ -28,12 +31,16 @@ bool ConfigParam::ReadRosParams()
     strHomeName = getenv("HOME");
 
     // folder name and picture file type
+    ReadRosParam(nh, "/Converter/feature", nFeatureCase);
+
+    // folder name and picture file type
     ReadRosParam(nh, "/CityScapesDBfolder/raw", strRawFolderNm);
     ReadRosParam(nh, "/CityScapesDBfolder/color_label", strAnnoFolderNm);
     ReadRosParam(nh, "/CityScapesDBfolder/polygon_data", strPolygonFolderNm);
     ReadRosParam(nh, "/CityScapesDBfolder/xml_label", strXmlFolderNm);
     ReadRosParam(nh, "/CityScapesDBfolder/imgfile_type", strPicType);
     ReadRosParam(nh, "/CityScapesDBfolder/polygonfile_type", strPolygonType);
+    ReadRosParam(nh, "/CityScapesDBfolder/xmlfile_extension", strXmlExt);
     ReadRosParam(nh, "/CityScapesDBfolder/xmlfile_type", strXmlType);
     ReadRosParam(nh, "/CityScapesDBfolder/file_name_fwd", strXmlFileNmFwd);
     ReadRosParam(nh, "/CityScapesDBfolder/file_name_num_digit", nXmlFileNmDigit);

@@ -39,8 +39,29 @@ int main(int argc, char** argv)
   // Main loop.
   while (ok())
   {
-    seg2Bbox.MainLoop();
+    switch (cfg.nFeatureCase)
+    {
+      case 0:  // xml file generator
+      {
+        ROS_INFO("Feature: xml file generator");
+        seg2Bbox.MainLoopBboxGenerator();
+        break;
+      }
+      case 1:  // xml file checker
+      {
+        ROS_INFO("Feature: xml file checker");
+        seg2Bbox.MainLoopBboxChecker();
+        break;
+      }
+      default:  // xml file generator
+      {
+        ROS_INFO("Feature: xml file generator");
+        seg2Bbox.MainLoopBboxGenerator();
+        break;
+      }
+    }
 
+    // breaking loop
     if (seg2Bbox.GetSizeCalcFlag())
       break;
 

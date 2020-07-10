@@ -39,6 +39,7 @@ public:
   string strPicType;
   string strPolygonType;
   string strXmlType;
+  string strXmlExt;
   string strRawFolderNm;
   string strRawFolderPath;
   string strAnnoFolderNm;
@@ -49,6 +50,7 @@ public:
   string strXmlFolderPath;
   string strXmlFileNmFwd;
   
+  int nFeatureCase;
   int nXmlFileNmDigit;
   int nCannyThresh;
   int nMorphThresh;

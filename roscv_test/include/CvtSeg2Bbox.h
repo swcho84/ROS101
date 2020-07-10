@@ -13,7 +13,8 @@ public:
   CvtSeg2Bbox(const ConfigParam& cfg);
   ~CvtSeg2Bbox();
 
-  void MainLoop();
+  void MainLoopBboxGenerator();
+  void MainLoopBboxChecker();
   bool GetSizeCalcFlag();
 
   bool bSizeCalcFlag;
