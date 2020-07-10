@@ -40,6 +40,8 @@ public:
   string strPolygonType;
   string strXmlType;
   string strXmlExt;
+  string strRawDbFolderNm;
+  string strRawDbFolderPath;
   string strRawFolderNm;
   string strRawFolderPath;
   string strAnnoFolderNm;

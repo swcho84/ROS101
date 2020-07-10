@@ -20,6 +20,66 @@ CvtSeg2Bbox::~CvtSeg2Bbox()
 // main loop: xml file checker
 void CvtSeg2Bbox::MainLoopBboxChecker()
 {
+  // 1st, making polygonDB-based bbox
+  // assigning variables for browsing annotated images recursively
+  vector<String> vecRawDbFileNm;
+  vector<String> vecXmlLabelFileNm;
+  glob(cfgParam_.strRawDbFolderPath, vecRawDbFileNm, true);
+  glob(cfgParam_.strXmlFolderPath + cfgParam_.strXmlType, vecXmlLabelFileNm, true);
+
+  // browsing annotated images recursively
+  for (size_t k = 0; k < vecRawDbFileNm.size(); k++)
+  {
+    // assigning the raw image
+    Mat imgRaw = imread(vecRawDbFileNm[k]);
+
+    // loading xml file
+    TiXmlDocument docXml;
+    docXml.LoadFile(vecXmlLabelFileNm[k]);
+    TiXmlElement* root = docXml.FirstChildElement("annotation");
+
+    // parsing bbox data with the label in xml file
+    for (TiXmlElement* obj = root->FirstChildElement("object"); obj != NULL; obj = obj->NextSiblingElement("object"))
+    {
+      TiXmlElement* name = obj->FirstChildElement("name");
+      const char* label = (const char*)(name->GetText());
+
+      TiXmlElement* bndbox = obj->FirstChildElement("bndbox");
+      TiXmlElement* xminElem = bndbox->FirstChildElement("xmin");
+      const char* xmin = (const char*)(xminElem->GetText());
+      int nXmin = atoi(xmin);
+
+      TiXmlElement* yminElem = bndbox->FirstChildElement("ymin");
+      const char* ymin = (const char*)(yminElem->GetText());
+      int nYmin = atoi(ymin);
+
+      TiXmlElement* xmaxElem = bndbox->FirstChildElement("xmax");
+      const char* xmax = (const char*)(xmaxElem->GetText());
+      int nXmax = atoi(xmax);
+
+      TiXmlElement* ymaxElem = bndbox->FirstChildElement("ymax");
+      const char* ymax = (const char*)(ymaxElem->GetText());
+      int nYmax = atoi(ymax);
+
+      Point ptTl, ptBr;
+      ptTl.x = nXmin;
+      ptTl.y = nYmin;
+      ptBr.x = nXmax;
+      ptBr.y = nYmax;
+
+      rectangle(imgRaw, ptTl, ptBr, colorStat_.scalRed, 2);
+
+      // for debugging
+      ROS_INFO("label(%s):tl(%d,%d),br(%d,%d)", label, nXmin, nYmin, nXmax, nYmax);
+    }
+
+    // for debugging
+    imshow("raw", imgRaw);
+
+    // pausing and destroying all imshow result
+    waitKey(0);
+  }
+
   return;
 }
 
@@ -259,6 +319,7 @@ void CvtSeg2Bbox::MainLoopBboxGenerator()
     pElem5->LinkEndChild(txtElem5);
     pRoot->LinkEndChild(pElem5);
 
+    // making bbox, maskImg-based
     for (auto kk = 0; kk < cfgParam_.vecImgBboxDB[k].size(); kk++)
     {
       for (auto kkk = 0; kkk < cfgParam_.vecImgBboxDB[k][kk].vecBbox.size(); kkk++)
@@ -303,6 +364,54 @@ void CvtSeg2Bbox::MainLoopBboxGenerator()
         pElem5->LinkEndChild(pElem54);
         pElem5->LinkEndChild(pElem55);
         pRoot->LinkEndChild(pElem5);
+      }
+    }
+
+    // making bbox, polygon-based
+    for (auto kk = 0; kk < cfgParam_.vecPolygonBboxDB[k].size(); kk++)
+    {
+      for (auto kkk = 0; kkk < cfgParam_.vecPolygonBboxDB[k][kk].vecBbox.size(); kkk++)
+      {
+        TiXmlElement* pElem6 = new TiXmlElement("object");
+        TiXmlElement* pElem61 = new TiXmlElement("name");
+        TiXmlText* txtElem61 = new TiXmlText(cfgParam_.vecPolygonBboxDB[k][kk].strLabel);
+        pElem61->LinkEndChild(txtElem61);
+        TiXmlElement* pElem62 = new TiXmlElement("pose");
+        TiXmlText* txtElem62 = new TiXmlText("Left");
+        pElem62->LinkEndChild(txtElem62);
+        TiXmlElement* pElem63 = new TiXmlElement("truncated");
+        TiXmlText* txtElem63 = new TiXmlText("1");
+        pElem63->LinkEndChild(txtElem63);
+        TiXmlElement* pElem64 = new TiXmlElement("difficult");
+        TiXmlText* txtElem64 = new TiXmlText("0");
+        pElem64->LinkEndChild(txtElem64);
+
+        Rect rectBbox;
+        rectBbox = cfgParam_.vecPolygonBboxDB[k][kk].vecBbox[kkk];
+        TiXmlElement* pElem65 = new TiXmlElement("bndbox");
+        TiXmlElement* pElem651 = new TiXmlElement("xmin");
+        TiXmlText* txtElem651 = new TiXmlText(to_string(rectBbox.tl().x));
+        pElem651->LinkEndChild(txtElem651);
+        TiXmlElement* pElem652 = new TiXmlElement("ymin");
+        TiXmlText* txtElem652 = new TiXmlText(to_string(rectBbox.tl().y));
+        pElem652->LinkEndChild(txtElem652);
+        TiXmlElement* pElem653 = new TiXmlElement("xmax");
+        TiXmlText* txtElem653 = new TiXmlText(to_string(rectBbox.br().x));
+        pElem653->LinkEndChild(txtElem653);
+        TiXmlElement* pElem654 = new TiXmlElement("ymax");
+        TiXmlText* txtElem654 = new TiXmlText(to_string(rectBbox.br().y));
+        pElem654->LinkEndChild(txtElem654);
+        pElem65->LinkEndChild(pElem651);
+        pElem65->LinkEndChild(pElem652);
+        pElem65->LinkEndChild(pElem653);
+        pElem65->LinkEndChild(pElem654);
+
+        pElem6->LinkEndChild(pElem61);
+        pElem6->LinkEndChild(pElem62);
+        pElem6->LinkEndChild(pElem63);
+        pElem6->LinkEndChild(pElem64);
+        pElem6->LinkEndChild(pElem65);
+        pRoot->LinkEndChild(pElem6);
       }
     }
 

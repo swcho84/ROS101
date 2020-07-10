@@ -41,13 +41,13 @@ int main(int argc, char** argv)
   {
     switch (cfg.nFeatureCase)
     {
-      case 0:  // xml file generator
+      case 1:  // xml file generator
       {
         ROS_INFO("Feature: xml file generator");
         seg2Bbox.MainLoopBboxGenerator();
         break;
       }
-      case 1:  // xml file checker
+      case 2:  // xml file checker
       {
         ROS_INFO("Feature: xml file checker");
         seg2Bbox.MainLoopBboxChecker();

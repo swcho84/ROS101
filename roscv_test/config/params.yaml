@@ -53,13 +53,14 @@ LabelsCityScapesDB:
     G: 11
     B: 32
 
-# 0: xml file generator
-# 1: xml file checker
+# 1: xml file generator
+# 2: xml file checker
 Converter:
-  feature: 0
+  feature: 2
 
 CityScapesDBfolder:
   raw: "/cityscapeDBsmall/raw/"
+  rawDB: "/cityscapeDBsmall/rawDB/"  
   color_label: "/cityscapeDBsmall/color_label/"
   polygon_data: "/cityscapeDBsmall/polygon/"
   xml_label: "/cityscapeDBsmall/xml_label/"
