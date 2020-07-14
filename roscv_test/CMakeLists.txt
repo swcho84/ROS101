@@ -21,6 +21,8 @@ find_package(catkin REQUIRED COMPONENTS
   cmake_modules
 )
 
+
+## System dependencies are found with CMake's conventions
 find_package(TinyXML REQUIRED)
 find_package(nlohmann_json 3.2.0 REQUIRED)
 find_package(dlib REQUIRED)
@@ -40,10 +42,6 @@ find_package(OpenCV 3.4 REQUIRED
     opencv_features2d
   CONFIG
 )
-
-
-## System dependencies are found with CMake's conventions
-# find_package(Boost REQUIRED COMPONENTS system)
 
 
 ## Uncomment this if the package has a setup.py. This macro ensures
