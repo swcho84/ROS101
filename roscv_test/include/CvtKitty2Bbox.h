@@ -16,13 +16,13 @@ public:
   void MainLoopBboxGenerator();
   bool GetSizeCalcFlag();
 
-  bool bSizeCalcFlag;  
+  bool bSizeCalcFlag;
 
 private:
   ConfigParam cfgParam_;
   ColorStatus colorStat_;
 
-  bool GenSizeCalcFlag(int nSize, int nTotal);  
+  bool GenSizeCalcFlag(int nSize, int nTotal);
 
   vector<vector<KittyDB>> vecKittyDB;
 
@@ -30,8 +30,7 @@ private:
   int nWidth;
 
   int nHeightCityScapeDB;
-  int nWidthCityScapeDB;  
-  
+  int nWidthCityScapeDB;
 };
 
 #endif

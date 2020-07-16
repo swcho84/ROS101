@@ -30,7 +30,6 @@ private:
 
   int nHeight;
   int nWidth;
-  
 };
 
 #endif

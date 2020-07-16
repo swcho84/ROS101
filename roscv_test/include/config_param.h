@@ -66,10 +66,10 @@ public:
   string strKttXmlFolderNm;
   string strKttXmlFolderPath;
   string strKttImgFileNmFwd;
-  string strKttXmlFileNmFwd;  
+  string strKttXmlFileNmFwd;
 
-  int nKttImgFileNmDigit;  
-  int nKttXmlFileNmDigit;  
+  int nKttImgFileNmDigit;
+  int nKttXmlFileNmDigit;
 
   int nFeatureCase;
   int nXmlFileNmDigit;
@@ -80,11 +80,11 @@ public:
   vector<string> vecLabels;
   vector<AnnoDB> vecAnnoDB;
 
-  vector<string> vecKttLabels;  
-  vector<AnnoDB> vecAnnoKttDB;  
-  
+  vector<string> vecKttLabels;
+  vector<AnnoDB> vecAnnoKttDB;
+
   vector<vector<BboxDB>> vecImgBboxDB;
-  vector<vector<BboxDB>> vecPolygonBboxDB;  
+  vector<vector<BboxDB>> vecPolygonBboxDB;
 
   AnnoDB vegetation;
   AnnoDB person;
@@ -106,7 +106,6 @@ public:
 
 private:
   bool ReadRosParams();
-
 };
 
 #endif  // ROSCV_TEST_CONFIG_PARAM_H

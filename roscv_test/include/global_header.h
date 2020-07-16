@@ -34,7 +34,7 @@ using namespace cv;
 // for convenience
 using json = nlohmann::json;
 
-typedef struct 
+typedef struct
 {
   string strLabel;
   int nRGB[3];
