@@ -40,8 +40,8 @@ protected:
   actionlib::SimpleActionServer<custom_msg_srv_param_ros::AveragingAction> as_;
 
   string strAction_;
-  int data_count_, goal_;
-  float sum_, sum_sq_;
+  int dataCount_, goal_;
+  float sum_, sumSq_;
 
   custom_msg_srv_param_ros::AveragingFeedback feedback_;
   custom_msg_srv_param_ros::AveragingResult result_;

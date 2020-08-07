@@ -41,14 +41,18 @@ void ActionLibBasicRos::CbExcute(const custom_msg_srv_param_ros::FibonacciGoalCo
     if (as_.isPreemptRequested() || !ros::ok())
     {
       ROS_INFO("%s: Preempted", strAction_.c_str());
+
       // set the action state to preempted
       as_.setPreempted();
       success = false;
       break;
     }
+
     feedback_.sequence.push_back(feedback_.sequence[i] + feedback_.sequence[i - 1]);
+
     // publish the feedback
     as_.publishFeedback(feedback_);
+
     // this sleep is not necessary, the sequence is computed at 1 Hz for demonstration purposes
     r.sleep();
   }

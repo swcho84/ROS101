@@ -144,9 +144,17 @@ add_executable(actionlib_basic_client_test_ros_node src/main_basic_client.cpp)
 target_link_libraries(actionlib_basic_client_test_ros_node ${catkin_LIBRARIES})
 add_dependencies(actionlib_basic_client_test_ros_node ${catkin_EXPORTED_TARGETS})
 
-add_executable(actionlib_basic_advanced_test_ros_node lib/actionlib_advanced_server_test_ros.cpp include/actionlib_advanced_server_test_ros.h src/main_advanced_server.cpp)
-target_link_libraries(actionlib_basic_advanced_test_ros_node ${catkin_LIBRARIES})
-add_dependencies(actionlib_basic_advanced_test_ros_node ${catkin_EXPORTED_TARGETS})
+add_executable(actionlib_advanced_server_test_ros_node lib/actionlib_advanced_server_test_ros.cpp include/actionlib_advanced_server_test_ros.h src/main_advanced_server.cpp)
+target_link_libraries(actionlib_advanced_server_test_ros_node ${catkin_LIBRARIES})
+add_dependencies(actionlib_advanced_server_test_ros_node ${catkin_EXPORTED_TARGETS})
+
+add_executable(actionlib_advanced_client_c_test_ros_node src/main_advanced_client_c_style.cpp)
+target_link_libraries(actionlib_advanced_client_c_test_ros_node ${catkin_LIBRARIES})
+add_dependencies(actionlib_advanced_client_c_test_ros_node ${catkin_EXPORTED_TARGETS})
+
+add_executable(actionlib_advanced_client_cpp_test_ros_node lib/actionlib_advanced_client_test_ros.cpp include/actionlib_advanced_client_test_ros.h src/main_advanced_client_cpp_style.cpp)
+target_link_libraries(actionlib_advanced_client_cpp_test_ros_node ${catkin_LIBRARIES})
+add_dependencies(actionlib_advanced_client_cpp_test_ros_node ${catkin_EXPORTED_TARGETS})
 
 ## Add cmake target dependencies of the library
 ## as an example, code may need to be generated before libraries
