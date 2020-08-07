@@ -67,3 +67,9 @@ cb
 
 ## act_test
 - ros의 action server/client 예제
+- http://wiki.ros.org/actionlib/Tutorials 에서 제공하는 코드 기반으로 구성
+- Averaging의 경우 class 적용된 cpp style로 변환하는 방법 제시
+
+## synced subscribe
+- 서로 다른 topic들을 sync하여 한 번에 subscribe하는 방법 제시
+- 파일만 참고할 수 있도록 코드 제공
