@@ -161,6 +161,10 @@ add_executable(img_crop_resize_node lib/img_crop_resize_lib.cpp include/img_crop
 target_link_libraries(img_crop_resize_node ${catkin_LIBRARIES} ${OpenCV_LIBRARIES} ${OpenCV_LIBS})
 add_dependencies(img_crop_resize_node ${catkin_EXPORTED_TARGETS})
 
+add_executable(img_grabcut_insert_node lib/img_grabcut_insert_lib.cpp include/img_grabcut_insert_lib.h src/main_img_grabcut_insert.cpp)
+target_link_libraries(img_grabcut_insert_node ${catkin_LIBRARIES} ${OpenCV_LIBRARIES} ${OpenCV_LIBS})
+add_dependencies(img_grabcut_insert_node ${catkin_EXPORTED_TARGETS})
+
 ## Add cmake target dependencies of the library
 ## as an example, code may need to be generated before libraries
 ## either from message generation or dynamic reconfigure

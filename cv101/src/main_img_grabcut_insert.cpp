@@ -1,4 +1,4 @@
-#include "img_crop_resize_lib.h"
+#include "img_grabcut_insert_lib.h"
 
 using namespace std;
 using namespace ros;
@@ -19,21 +19,21 @@ void SigIntHandler(int param)
 int main(int argc, char** argv)
 {
   // Set up ROS.
-  init(argc, argv, "img_crop_resize_node");
+  init(argc, argv, "grabcut_insert_node");
   NodeHandle nh("");
 
-  ImgCropResize imgCropResize;
+  ImgGrabCutInsert imgGrabCutInsert;
   signal(SIGINT, SigIntHandler);
 
   // Tell ROS how fast to run this node.
   Rate loopRate(30);
 
   // Main loop.
-  imgCropResize.MainLoop();
+  imgGrabCutInsert.MainLoop();
 
   spin();
 
-  imgCropResize.~ImgCropResize();
+  imgGrabCutInsert.~ImgGrabCutInsert();
 
   return 0;
 }  // end main()

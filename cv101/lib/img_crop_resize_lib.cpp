@@ -23,13 +23,13 @@ void ImgCropResize::MainLoop()
     Mat imgRaw = imread(vecCvtImgFileNm[i]);
     ROS_INFO("Process[%d]:%s", (int)(i), vecCvtImgFileNm[i].c_str());
 
-    // setting ROI    
+    // setting ROI
     Rect rectCrop;
     rectCrop.x = 0;
     rectCrop.y = 55;
     rectCrop.width = 640;
     rectCrop.height = 425;
-    
+
     // releasing ROI info and resizing data
     Mat imgCrop(imgRaw, rectCrop);
     resize(imgCrop, imgCrop, Size(640, 480), 0.0, 0.0, CV_INTER_NN);

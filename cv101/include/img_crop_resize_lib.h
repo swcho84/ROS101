@@ -25,10 +25,9 @@ public:
   ImgCropResize();
   ~ImgCropResize();
 
-  void MainLoop();  
+  void MainLoop();
 
 private:
-
 };
 
 #endif
