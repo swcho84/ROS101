@@ -4,8 +4,6 @@ using namespace std;
 using namespace ros;
 using namespace cv;
 
-RNG rng(543210);
-
 ImgGrabCutInsert::ImgGrabCutInsert()
 {
   // initializing the rectangle and line data
@@ -19,15 +17,15 @@ ImgGrabCutInsert::~ImgGrabCutInsert()
 void ImgGrabCutInsert::MainLoop()
 {
   // assigning variables for browsing annotated images recursively
-  vector<String> vecCvtCatImgFileNm;
-  glob("/home/drswcho/grabcut_insert/cat", vecCvtCatImgFileNm, true);
+  vector<String> vecCvtPetImgFileNm;   // cat and dog
+  glob("/home/drswcho/grabcut_insert/dog", vecCvtPetImgFileNm, true);
 
   // setting mouse callback
   namedWindow("mouse_function", WINDOW_AUTOSIZE);
   setMouseCallback("mouse_function", ImgGrabCutInsert::CbMouseEvent, (void*)this);
 
   // image loop
-  for (size_t i = 0; i < vecCvtCatImgFileNm.size(); i++)
+  for (size_t i = 0; i < vecCvtPetImgFileNm.size(); i++)
   {
     // resetting the rectangle and line data
     ResetRectLineData();
@@ -36,7 +34,7 @@ void ImgGrabCutInsert::MainLoop()
     while (1)
     {
       // assigning the raw image
-      Mat imgRaw = imread(vecCvtCatImgFileNm[i]);
+      Mat imgRaw = imread(vecCvtPetImgFileNm[i]);
       cvtColor(imgRaw, imgRaw, CV_BGRA2BGR);
       imgRaw.copyTo(imgRawFunc_);
       imgRaw.copyTo(imgRawGrabCut_);
@@ -54,33 +52,69 @@ void ImgGrabCutInsert::MainLoop()
         break;
     }
 
-    // grabcut algorithm
-    Mat result;            // segmentation result (4 possible values)
-    Mat bgModel, fgModel;  // the models (internally used)
+    // applying grabcut algorithm
+    Mat imgObj;
+    imgObj = GenCropImg(imgRawGrabCut_, rectROI_);
 
-    // GrabCut segmentation
-    grabCut(imgRawGrabCut_,      // input image
-            result,              // segmentation result
-            rectROI_,            // rectangle containing foreground
-            bgModel, fgModel,    // models
-            1,                   // number of iterations
-            GC_INIT_WITH_RECT);  // use rectangle
+    // saving the result   
+    // extracting the file name with the extension only
+    istringstream ss(vecCvtPetImgFileNm[i]);
+    string strBuffer;
+    string strFileName;
+    int nCounter = 0;
+    while (getline(ss, strBuffer, '/'))
+    {
+      if (nCounter == 5) // file name address
+      {
+        strFileName = strBuffer;
+        break;
+      }
+      else
+        nCounter++;
+    }
 
-    // Get the pixels marked as likely foreground
-    compare(result, GC_PR_FGD, result, CMP_EQ);
+    // cat and dog
+    string strGrabCutSavePath;
+    string strGrabCutSaveFolterPath = "/home/drswcho/grabcut_insert/dog_grabcut/";
+    strGrabCutSavePath = strGrabCutSaveFolterPath + "grabcut_" + strFileName;
+    imwrite(strGrabCutSavePath, imgObj);
 
-    // Generate output image
-    Mat foreground(imgRawGrabCut_.size(), CV_8UC3, Scalar(255, 255, 255));
-    Mat background(imgRawGrabCut_.size(), CV_8UC3, Scalar(255, 255, 255));
-    imgRawGrabCut_.copyTo(foreground, result);  // bg pixels not copied
-    background = imgRawGrabCut_ - foreground;
-    imshow("foreground", foreground);
+    // for debugging
+    imshow("object", imgObj);
 
     waitKey(0);
 
     // destroying window
     destroyWindow("raw");
   }
+}
+
+// executing the grabcut algorithm for cropping object
+Mat ImgGrabCutInsert::GenCropImg(Mat imgInput, Rect rectROI)
+{
+  Mat result;
+
+  // grabcut algorithm
+  Mat grabcut;            // segmentation result (4 possible values)
+  Mat bgModel, fgModel;   // the models (internally used)
+  int nIter = 10;         // iteration
+
+  // GrabCut segmentation
+  grabCut(imgInput,      // input image
+          grabcut,              // segmentation result
+          rectROI,            // rectangle containing foreground
+          bgModel, fgModel,    // models
+          10,                   // number of iterations
+          GC_INIT_WITH_RECT);  // use rectangle
+
+  // Get the pixels marked as likely foreground
+  compare(grabcut, GC_PR_FGD, grabcut, CMP_EQ);
+
+  // Generate output image
+  Mat foreground(imgInput.size(), CV_8UC3, Scalar(255, 255, 255));
+  imgInput.copyTo(foreground, grabcut);  // bg pixels not copied
+  foreground.copyTo(result);
+  return result;
 }
 
 // assigning mouse callback, c++ class style

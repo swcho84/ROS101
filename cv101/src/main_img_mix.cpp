@@ -1,4 +1,4 @@
-#include "img_grabcut_insert_lib.h"
+#include "img_mix_lib.h"
 
 using namespace std;
 using namespace ros;
@@ -19,21 +19,21 @@ void SigIntHandler(int param)
 int main(int argc, char** argv)
 {
   // Set up ROS.
-  init(argc, argv, "img_grabcut_insert_node");
+  init(argc, argv, "img_mix_node");
   NodeHandle nh("");
 
-  ImgGrabCutInsert imgGrabCutInsert;
+  ImgMix imgMix;
   signal(SIGINT, SigIntHandler);
 
   // Tell ROS how fast to run this node.
   Rate loopRate(30);
 
   // Main loop.
-  imgGrabCutInsert.MainLoop();
+  imgMix.MainLoop();
 
   spin();
 
-  imgGrabCutInsert.~ImgGrabCutInsert();
+  imgMix.~ImgMix();
 
   return 0;
 }  // end main()

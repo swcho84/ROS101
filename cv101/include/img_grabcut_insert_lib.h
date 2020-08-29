@@ -32,6 +32,7 @@ public:
 
 private:
   void ResetRectLineData();
+  Mat GenCropImg(Mat imgInput, Rect rectROI);
 
   bool bLtMousePressed_;
   bool bMdMousePressed_;

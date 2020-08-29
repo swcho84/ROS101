@@ -165,6 +165,10 @@ add_executable(img_grabcut_insert_node lib/img_grabcut_insert_lib.cpp include/im
 target_link_libraries(img_grabcut_insert_node ${catkin_LIBRARIES} ${OpenCV_LIBRARIES} ${OpenCV_LIBS})
 add_dependencies(img_grabcut_insert_node ${catkin_EXPORTED_TARGETS})
 
+add_executable(img_mix_node lib/img_mix_lib.cpp include/img_mix_lib.h src/main_img_mix.cpp)
+target_link_libraries(img_mix_node ${catkin_LIBRARIES} ${OpenCV_LIBRARIES} ${OpenCV_LIBS})
+add_dependencies(img_mix_node ${catkin_EXPORTED_TARGETS})
+
 ## Add cmake target dependencies of the library
 ## as an example, code may need to be generated before libraries
 ## either from message generation or dynamic reconfigure
