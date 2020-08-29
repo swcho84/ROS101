@@ -19,6 +19,14 @@ using namespace std;
 using namespace ros;
 using namespace cv;
 
+typedef struct
+{
+  Point ptPixel;
+  uchar blue;
+  uchar green;
+  uchar red;
+} SelectRGB;
+
 class ImgMix
 {
 public:
@@ -28,7 +36,6 @@ public:
   void MainLoop();
 
 private:
-
 };
 
 #endif

@@ -17,7 +17,7 @@ ImgGrabCutInsert::~ImgGrabCutInsert()
 void ImgGrabCutInsert::MainLoop()
 {
   // assigning variables for browsing annotated images recursively
-  vector<String> vecCvtPetImgFileNm;   // cat and dog
+  vector<String> vecCvtPetImgFileNm;  // cat and dog
   glob("/home/drswcho/grabcut_insert/dog", vecCvtPetImgFileNm, true);
 
   // setting mouse callback
@@ -56,7 +56,7 @@ void ImgGrabCutInsert::MainLoop()
     Mat imgObj;
     imgObj = GenCropImg(imgRawGrabCut_, rectROI_);
 
-    // saving the result   
+    // saving the result
     // extracting the file name with the extension only
     istringstream ss(vecCvtPetImgFileNm[i]);
     string strBuffer;
@@ -64,7 +64,7 @@ void ImgGrabCutInsert::MainLoop()
     int nCounter = 0;
     while (getline(ss, strBuffer, '/'))
     {
-      if (nCounter == 5) // file name address
+      if (nCounter == 5)  // file name address
       {
         strFileName = strBuffer;
         break;
@@ -95,16 +95,16 @@ Mat ImgGrabCutInsert::GenCropImg(Mat imgInput, Rect rectROI)
   Mat result;
 
   // grabcut algorithm
-  Mat grabcut;            // segmentation result (4 possible values)
-  Mat bgModel, fgModel;   // the models (internally used)
-  int nIter = 10;         // iteration
+  Mat grabcut;           // segmentation result (4 possible values)
+  Mat bgModel, fgModel;  // the models (internally used)
+  int nIter = 10;        // iteration
 
   // GrabCut segmentation
-  grabCut(imgInput,      // input image
-          grabcut,              // segmentation result
-          rectROI,            // rectangle containing foreground
+  grabCut(imgInput,            // input image
+          grabcut,             // segmentation result
+          rectROI,             // rectangle containing foreground
           bgModel, fgModel,    // models
-          10,                   // number of iterations
+          10,                  // number of iterations
           GC_INIT_WITH_RECT);  // use rectangle
 
   // Get the pixels marked as likely foreground
