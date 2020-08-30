@@ -4,6 +4,32 @@ using namespace std;
 using namespace ros;
 using namespace cv;
 
+struct sortClassTl
+{
+  bool operator()(cv::Point pt1, cv::Point pt2)
+  {
+    return ((pt1.x < pt2.x) && (pt1.y < pt2.y));
+  }
+} sortPtTl;
+
+struct sortClassBr
+{
+  bool operator()(cv::Point pt1, cv::Point pt2)
+  {
+    return ((pt1.x > pt2.x) && (pt1.y > pt2.y));
+  }
+} sortPtBr;
+
+struct sortClassArea
+{
+  bool operator()(cv::Rect rect1, cv::Rect rect2)
+  {
+    int nArea1 = rect1.width * rect1.height;
+    int nArea2 = rect2.width * rect2.height;
+    return (nArea1 > nArea2);
+  }
+} sortArea;
+
 ImgMix::ImgMix()
 {
 }
@@ -14,122 +40,211 @@ ImgMix::~ImgMix()
 
 void ImgMix::MainLoop()
 {
-  Mat imgBase;
-  string strBaseImgPath = "/home/drswcho/grabcut_insert/raw_img/etridb_ca_000000.png";
-  imgBase = imread(strBaseImgPath, IMREAD_COLOR);
-  int nBaseWidth = imgBase.size().width;
-  int nBaseHeight = imgBase.size().height;
-  imshow("imgBase", imgBase);
+  // assigning variables for browsing base images recursively
+  vector<String> vecCvtBaseImgFileNm;
+  glob("/home/drswcho/grabcut_insert/raw_img", vecCvtBaseImgFileNm, true);
 
-  Mat imgTarget;
-  string strTargetImgPath = "/home/drswcho/grabcut_insert/cat_grabcut/grabcut_169.jpg";
-  imgTarget = imread(strTargetImgPath, IMREAD_COLOR);
-  int nTargetWidth = imgTarget.size().width;
-  int nTargetHeight = imgTarget.size().height;
+  // assigning variables for browsing pet images recursively
+  vector<String> vecCvtPetImgFileNm;  // cat and dog
+  glob("/home/drswcho/grabcut_insert/cat_grabcut", vecCvtPetImgFileNm, true);
 
-  Mat imgTargetResized;
-  if ((nTargetWidth > (nBaseWidth * 0.25)) || (nTargetHeight > (nBaseHeight * 0.5)))
+  // getting the base image
+  imgBase_ = GetImgFromFile(vecCvtBaseImgFileNm[GenRandNum((int)(vecCvtBaseImgFileNm.size()))]);
+  imgBaseSize_ = GetImgSize(imgBase_);
+
+  // getting the target image
+  imgTarget_ = GetImgFromFile(vecCvtPetImgFileNm[GenRandNum((int)(vecCvtPetImgFileNm.size()))]);
+  imgTargetSize_ = GetImgSize(imgTarget_);
+
+  // calculating the resized tareget image and mask
+  float fWidthRatio = 0.1f;
+  float fHeightRatio = 0.25f;
+  float fInnerRatio = 0.1f;
+  imgTargetResized_ = GetImgTargetResized(imgTarget_, imgTargetSize_, imgBaseSize_, fWidthRatio, fHeightRatio);
+  imgTargetResizedSize_ = GetImgSize(imgTargetResized_);
+  ptRndTargetResizedPos_ = GetRngPtTlForTargetResized(imgTargetResizedSize_, imgBaseSize_, fInnerRatio);
+  vecSelectPixelMask_ = GetMaskInfo(imgTargetResized_, imgTargetResizedSize_);
+
+  // calculating the mask, contour and mixed image
+  imgForMix_ = GetImgMix(imgBase_, vecSelectPixelMask_, ptRndTargetResizedPos_, "black");
+  imgForContour_ = GetImgMix(imgBase_, vecSelectPixelMask_, ptRndTargetResizedPos_, "contour");
+  imgMixed_ = GetImgMix(imgForMix_, vecSelectPixelMask_, ptRndTargetResizedPos_, "rgb");
+
+  // calculating the resized image
+  Mat imgMixedResize;
+  resize(imgMixed_, imgMixedResize, Size(640, 480));
+
+  // calculating the resized bounding rectangle information
+  vecRectTarget_ = GetTargetRect(imgForContour_);
+  sort(vecRectTarget_.begin(), vecRectTarget_.end(), sortArea);
+  rectangle(imgMixedResize, vecRectTarget_[0].tl(), vecRectTarget_[0].br(), Scalar(0, 0, 255), 2, 8, 0);
+
+  // for debugging
+  imshow("imgMixedResize", imgMixedResize);
+
+  waitKey(0);
+}
+
+// calculating the bounding rectangle w.r.t the resized target image
+vector<Rect> ImgMix::GetTargetRect(Mat imgInput)
+{
+  Mat imgContourResize;
+  resize(imgInput, imgContourResize, Size(640, 480));
+  cvtColor(imgContourResize, imgContourResize, CV_BGR2GRAY);
+  threshold(imgContourResize, imgContourResize, 250, 255, THRESH_BINARY);
+
+  vector<vector<Point> > contours;
+  vector<Vec4i> hierarchy;
+  findContours(imgContourResize, contours, hierarchy, CV_RETR_EXTERNAL, CV_CHAIN_APPROX_SIMPLE, Point(0, 0));
+
+  vector<vector<Point> > contours_poly(contours.size());
+  vector<Rect> result(contours.size());
+  for (size_t i = 0; i < contours.size(); i++)
   {
-    resize(imgTarget, imgTargetResized, Size(imgTarget.size().width * 0.5, imgTarget.size().height * 0.5));
+    approxPolyDP(contours[i], contours_poly[i], 3, true);
+    result[i] = boundingRect(contours_poly[i]);
   }
+
+  return result;
+}
+
+// calculating the image w.r.t the string command
+Mat ImgMix::GetImgMix(Mat imgInput, vector<SelectRGB> vecInput, Point ptInput, string strCmd)
+{
+  Mat result;
+  imgInput.copyTo(result);
+  vector<Point> vecSelectPtMask;
+
+  if (strCmd == "contour")
+    result = Mat::zeros(imgInput.size(), CV_8UC3);
   else
+    imgInput.copyTo(result);
+
+  for (unsigned int k = 0; k < vecInput.size(); k++)
   {
-    imgTarget.copyTo(imgTargetResized);
+    Point ptMixRef;
+    ptMixRef.x = ptInput.y + vecInput[k].ptPixel.y;
+    ptMixRef.y = ptInput.x + vecInput[k].ptPixel.x;
+
+    if (strCmd == "black")
+    {
+      result.at<Vec3b>(ptMixRef.x, ptMixRef.y)[0] = 0;
+      result.at<Vec3b>(ptMixRef.x, ptMixRef.y)[1] = 0;
+      result.at<Vec3b>(ptMixRef.x, ptMixRef.y)[2] = 0;
+    }
+    else if (strCmd == "rgb")
+    {
+      result.at<Vec3b>(ptMixRef.x, ptMixRef.y)[0] = vecInput[k].blue;
+      result.at<Vec3b>(ptMixRef.x, ptMixRef.y)[1] = vecInput[k].green;
+      result.at<Vec3b>(ptMixRef.x, ptMixRef.y)[2] = vecInput[k].red;
+    }
+    else if (strCmd == "contour")
+    {
+      result.at<Vec3b>(ptMixRef.x, ptMixRef.y)[0] = 255;
+      result.at<Vec3b>(ptMixRef.x, ptMixRef.y)[1] = 255;
+      result.at<Vec3b>(ptMixRef.x, ptMixRef.y)[2] = 255;
+    }
+    else
+    {
+    }
   }
 
-  int nTargetResizedWidth = imgTargetResized.size().width;
-  int nTargetResizedHeight = imgTargetResized.size().height;
-  int nRngRangeWidth = (nBaseWidth - nBaseWidth*0.1)  - nTargetResizedWidth;
-  int nRngRangeHeight = (nBaseHeight - nBaseHeight*0.1)  - nTargetResizedHeight;
+  return result;
+}
 
-  RNG rngPtTlX(getTickCount());
-  RNG rngPtTlY(getTickCount());
-  Point ptMixedTl;
-  ptMixedTl.y = rngPtTlX(nRngRangeWidth);
-  ptMixedTl.x = rngPtTlX(nRngRangeHeight);
-
-  ROS_INFO("ptMixedTl(x,y):(%d,%d)", ptMixedTl.x, ptMixedTl.y);
-  imshow("imgTargetResized", imgTargetResized);
-
-  Mat imgMask;
-  imgTargetResized.copyTo(imgMask);
-  int nMaskWidth = imgMask.size().width;
-  int nMaskHeight = imgMask.size().height;
-  vector<SelectRGB> vecSelectPixelMask;
-  for (unsigned int j = 0; j < nMaskHeight; j++)
+// calculating the mask information
+vector<SelectRGB> ImgMix::GetMaskInfo(Mat imgTargetResized, ImgSize imgTargetResizedSize)
+{
+  vector<SelectRGB> result;
+  for (unsigned int j = 0; j < imgTargetResizedSize.nHeight; j++)
   {
     uchar* ptInTargetResized = imgTargetResized.ptr<uchar>(j);
-    uchar* ptInMask = imgMask.ptr<uchar>(j);
-    for (unsigned int i = 0; i < nMaskWidth; i++)
+    for (unsigned int i = 0; i < imgTargetResizedSize.nWidth; i++)
     {
       uchar bTar = ptInTargetResized[i * 3 + 0];
       uchar gTar = ptInTargetResized[i * 3 + 1];
       uchar rTar = ptInTargetResized[i * 3 + 2];
 
-      if ((bTar > 245) && (gTar > 245) && (rTar > 245))
+      if (!((bTar > 245) && (gTar > 245) && (rTar > 245)))
       {
-        ptInMask[i * 3 + 0] = 0;
-        ptInMask[i * 3 + 1] = 0;
-        ptInMask[i * 3 + 2] = 0;
-      }
-      else
-      {
-        ptInMask[i * 3 + 0] = 255;
-        ptInMask[i * 3 + 1] = 255;
-        ptInMask[i * 3 + 2] = 255;
-
         SelectRGB temp;
         temp.ptPixel.x = i;
         temp.ptPixel.y = j;
         temp.blue = bTar;
         temp.green = gTar;
         temp.red = rTar;
-        vecSelectPixelMask.push_back(temp);
+        result.push_back(temp);
       }
     }
   }
+  return result;
+}
 
-  imshow("imgMask", imgMask);
+// calculating the random top-left point w.r.t the resized target
+Point ImgMix::GetRngPtTlForTargetResized(ImgSize imgTargetResizedSize, ImgSize imgBaseSize, float fRatio)
+{
+  Point result;
+  int nRngRangeHeight = (imgBaseSize.nHeight - imgTargetResizedSize.nHeight * 1.5f);
+  random_device rd;
+  mt19937 gen(rd());
+  uniform_int_distribution<> rngPtTlX(
+      0, ((imgBaseSize.nWidth - (imgBaseSize.nWidth * fRatio)) - imgTargetResizedSize.nWidth));
+  uniform_int_distribution<> rngPtTlY(
+      (int)(imgBaseSize.nHeight * 0.35f),
+      ((imgBaseSize.nHeight - (imgBaseSize.nHeight * fRatio)) - imgTargetResizedSize.nHeight));
+  result.x = rngPtTlX(gen);
+  result.y = rngPtTlY(gen);
 
-  Mat imgForMixResult;
-  imgBase.copyTo(imgForMixResult);
-  int nMixResultWidth = imgForMixResult.size().width;
-  int nMixResultHeight = imgForMixResult.size().height;
-  for (unsigned int k = 0; k < vecSelectPixelMask.size(); k++)
+  if (result.x > (imgBaseSize.nWidth - imgTargetResizedSize.nWidth))
+    result.x = (imgBaseSize.nWidth - imgTargetResizedSize.nWidth);
+  if (result.y > (imgBaseSize.nHeight - imgTargetResizedSize.nHeight))
+    result.y = (imgBaseSize.nHeight - imgTargetResizedSize.nHeight);
+  return result;
+}
+
+// generating the random number w.r.t the range of number of image 
+int ImgMix::GenRandNum(int nSize)
+{
+  int result;
+  random_device rd;
+  mt19937 gen(rd());
+  uniform_int_distribution<> rngRange(0, nSize - 1);
+  result = rngRange(gen);
+  return result;
+}
+
+// calculating the resized target image
+Mat ImgMix::GetImgTargetResized(Mat imgTarget, ImgSize imgTargetSize, ImgSize imgBaseSize, float fWidthRatio,
+                                float fHeightRatio)
+{
+  Mat result;
+  if ((imgTargetSize.nWidth > ((int)(imgBaseSize.nWidth * fWidthRatio))) ||
+      (imgTargetSize.nHeight > ((int)(imgBaseSize.nHeight * fHeightRatio))))
   {
-    Point ptMixRef;
-    ptMixRef.x = ptMixedTl.x + vecSelectPixelMask[k].ptPixel.y;
-    ptMixRef.y = ptMixedTl.y + vecSelectPixelMask[k].ptPixel.x;
-
-    imgForMixResult.at<Vec3b>(ptMixRef.x, ptMixRef.y)[0] = 0;
-    imgForMixResult.at<Vec3b>(ptMixRef.x, ptMixRef.y)[1] = 0;
-    imgForMixResult.at<Vec3b>(ptMixRef.x, ptMixRef.y)[2] = 0;
+    float fRatio = 0.5f;
+    Size szResizeTarget;
+    szResizeTarget.width = (int)(imgTargetSize.nWidth * fRatio);
+    szResizeTarget.height = (int)(imgTargetSize.nHeight * fRatio);
+    resize(imgTarget, result, szResizeTarget);
   }
+  else
+    imgTarget.copyTo(result);
+  return result;
+}
 
-  ROS_INFO("imgBase(width,height):(%d,%d)", nMixResultWidth, nMixResultHeight);
-  ROS_INFO("imgTarget(width,height):(%d,%d)", nMaskWidth, nMaskHeight);
+// getting the size information of the image
+ImgSize ImgMix::GetImgSize(Mat imgInput)
+{
+  ImgSize result;
+  result.nWidth = imgInput.size().width;
+  result.nHeight = imgInput.size().height;
+  return result;
+}
 
-  Mat imgMixedResult;
-  imgForMixResult.copyTo(imgMixedResult);
-  int nMixedResultWidth = imgMixedResult.size().width;
-  int nMixedResultHeight = imgMixedResult.size().height;
-  for (unsigned int k = 0; k < vecSelectPixelMask.size(); k++)
-  {
-    Point ptMixRef;
-    ptMixRef.x = ptMixedTl.x + vecSelectPixelMask[k].ptPixel.y;
-    ptMixRef.y = ptMixedTl.y + vecSelectPixelMask[k].ptPixel.x;
-
-    imgMixedResult.at<Vec3b>(ptMixRef.x, ptMixRef.y)[0] = vecSelectPixelMask[k].blue;
-    imgMixedResult.at<Vec3b>(ptMixRef.x, ptMixRef.y)[1] = vecSelectPixelMask[k].green;
-    imgMixedResult.at<Vec3b>(ptMixRef.x, ptMixRef.y)[2] = vecSelectPixelMask[k].red;
-  }
-
-  imshow("imgMixedResult", imgMixedResult);
-
-  Mat imgMixedResize;
-  resize(imgMixedResult, imgMixedResize, Size(640, 480));
-
-  imshow("imgMixedResize", imgMixedResize);
-
-  waitKey(0);
+// getting the image from file
+Mat ImgMix::GetImgFromFile(string strBaseImgName)
+{
+  Mat result;
+  result = imread(strBaseImgName, IMREAD_COLOR);
+  return result;
 }
