@@ -4,32 +4,6 @@ using namespace std;
 using namespace ros;
 using namespace cv;
 
-struct sortClassTl
-{
-  bool operator()(cv::Point pt1, cv::Point pt2)
-  {
-    return ((pt1.x < pt2.x) && (pt1.y < pt2.y));
-  }
-} sortPtTl;
-
-struct sortClassBr
-{
-  bool operator()(cv::Point pt1, cv::Point pt2)
-  {
-    return ((pt1.x > pt2.x) && (pt1.y > pt2.y));
-  }
-} sortPtBr;
-
-struct sortClassArea
-{
-  bool operator()(cv::Rect rect1, cv::Rect rect2)
-  {
-    int nArea1 = rect1.width * rect1.height;
-    int nArea2 = rect2.width * rect2.height;
-    return (nArea1 > nArea2);
-  }
-} sortArea;
-
 ImgMix::ImgMix()
 {
 }
@@ -76,7 +50,7 @@ void ImgMix::MainLoop()
 
   // calculating the resized bounding rectangle information
   vecRectTarget_ = GetTargetRect(imgForContour_);
-  sort(vecRectTarget_.begin(), vecRectTarget_.end(), sortArea);
+  sort(vecRectTarget_.begin(), vecRectTarget_.end(), &sortArea);
   rectangle(imgMixedResize, vecRectTarget_[0].tl(), vecRectTarget_[0].br(), Scalar(0, 0, 255), 2, 8, 0);
 
   // for debugging
@@ -247,4 +221,11 @@ Mat ImgMix::GetImgFromFile(string strBaseImgName)
   Mat result;
   result = imread(strBaseImgName, IMREAD_COLOR);
   return result;
+}
+
+bool ImgMix::sortArea(cv::Rect rect1, cv::Rect rect2)
+{
+  int nArea1 = rect1.width * rect1.height;
+  int nArea2 = rect2.width * rect2.height;
+  return (nArea1 > nArea2);
 }

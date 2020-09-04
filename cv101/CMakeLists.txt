@@ -15,10 +15,13 @@ find_package(catkin REQUIRED COMPONENTS
   sensor_msgs
   cv_bridge
   image_transport
+  cmake_modules
 )
 
 
 ## System dependencies are found with CMake's conventions
+find_package(TinyXML REQUIRED)
+find_package(nlohmann_json 3.2.0 REQUIRED)
 find_package(Boost REQUIRED COMPONENTS system)
 find_package(OpenCV 3.4 REQUIRED
   COMPONENTS
@@ -133,6 +136,7 @@ catkin_package(
   cv_bridge
   image_transport
   DEPENDS
+  TinyXML
 )
 
 
@@ -149,6 +153,8 @@ include_directories(
   ${catkin_INCLUDE_DIRS}
   ${BOOST_INCLUDE_DIRS}
   ${OpenCV_INCLUDE_DIRS}
+  ${JSON_INCLUDE_DIRS}
+  ${TinyXML_INCLUDE_DIRS}  
   /usr/include
 )
 
@@ -166,7 +172,7 @@ target_link_libraries(img_grabcut_insert_node ${catkin_LIBRARIES} ${OpenCV_LIBRA
 add_dependencies(img_grabcut_insert_node ${catkin_EXPORTED_TARGETS})
 
 add_executable(img_mix_node lib/img_mix_lib.cpp include/img_mix_lib.h src/main_img_mix.cpp)
-target_link_libraries(img_mix_node ${catkin_LIBRARIES} ${OpenCV_LIBRARIES} ${OpenCV_LIBS})
+target_link_libraries(img_mix_node ${catkin_LIBRARIES} ${OpenCV_LIBRARIES} ${OpenCV_LIBS} ${JSON_LIBS} ${TinyXML_LIBRARIES} nlohmann_json::nlohmann_json)
 add_dependencies(img_mix_node ${catkin_EXPORTED_TARGETS})
 
 ## Add cmake target dependencies of the library
