@@ -16,7 +16,7 @@ void ImgMix::MainLoop()
 {
   // assigning variables for browsing base images recursively
   vector<String> vecCvtBaseImgFileNm;
-  glob("/home/drswcho/grabcut_insert/raw_img", vecCvtBaseImgFileNm, true);
+  glob("/home/drswcho/grabcut_insert/raw", vecCvtBaseImgFileNm, true);
 
   // assigning variables for browsing pet images recursively
   vector<String> vecCvtPetImgFileNm;  // cat and dog
@@ -26,7 +26,7 @@ void ImgMix::MainLoop()
   imgBase_ = GetImgFromFile(vecCvtBaseImgFileNm[GenRandNum((int)(vecCvtBaseImgFileNm.size()))]);
   imgBaseSize_ = GetImgSize(imgBase_);
 
-  // getting the target image
+  // getting the target image (single type)
   imgTarget_ = GetImgFromFile(vecCvtPetImgFileNm[GenRandNum((int)(vecCvtPetImgFileNm.size()))]);
   imgTargetSize_ = GetImgSize(imgTarget_);
 
@@ -176,7 +176,7 @@ Point ImgMix::GetRngPtTlForTargetResized(ImgSize imgTargetResizedSize, ImgSize i
   return result;
 }
 
-// generating the random number w.r.t the range of number of image 
+// generating the random number w.r.t the range of number of image
 int ImgMix::GenRandNum(int nSize)
 {
   int result;

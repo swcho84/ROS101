@@ -53,7 +53,7 @@ private:
   vector<SelectRGB> GetMaskInfo(Mat imgTargetResized, ImgSize imgTargetResizedSize);
   Mat GetImgMix(Mat imgInput, vector<SelectRGB> vecInput, Point ptInput, string strCmd);
   vector<Rect> GetTargetRect(Mat imgInput);
-  static bool sortArea(cv::Rect rect1, cv::Rect rect2);  
+  static bool sortArea(cv::Rect rect1, cv::Rect rect2);
 
   Mat imgBase_;
   ImgSize imgBaseSize_;
