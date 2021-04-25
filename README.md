@@ -1,7 +1,14 @@
 # ROS101
 - ROS101 class - from basic to advanced 
 
-## 국민대학교
+## 인천대학교
+- 강의일시: 2021년 4월 26일(1일), 10:00-18:00
+- 강의명: ROS 기반 프로그래밍 이론 및 실습​
+- 강의장소: 인천대학교
+- 수강대상: 학부생 및 대학원생 
+- 강의주제: ROS 활용 및 예제, 실습위주
+
+## 국민대학교 (코로나로 인해 취소)
 - 강의일시: 2020년 8월 19일(2일차), 09:00-13:00, 14:00-18:00
 - 강의명: ROS 기반 프로그래밍 이론 및 실습​
 - 강의장소: 국민대학교
@@ -56,6 +63,9 @@ cb
 - (basic)calc_add_srv client: 2개의 int number 를 param 으로 읽어서 server 호출
 - (advanced)set_mission_info_srv server: 1개의 int number 를 받아서 임무를 선택하는 연산 (switch-case)
 - (advanced)set_mission_info_srv client: 1개의 int number 를 param 으로 읽어서 server 호출하여 임무를 받아 실행하는 연산
+- "rosparam set /mission_num (임무번호)"로 임무설정
+- "rosparam set /mission_perf_status true"로 임무완료 상황 발생하여 새로운 임무설정 서비스를 자동으로 실행
+- 서비스로 임무 받고 "rosparam set /mission_perf_status false"로 변경하여 임무 수행상황으로 설정
 
 ## custom_msg_srv_param_ros
 - custom message file 과 custom service file 을 생성하는 pkg (이들 모두를 단일 pkg 하면 관리하기 용이함)
@@ -70,6 +80,8 @@ cb
 - ros의 action server/client 예제
 - http://wiki.ros.org/actionlib/Tutorials 에서 제공하는 코드 기반으로 구성
 - Averaging의 경우 class 적용된 cpp style로 변환하는 방법 제시
+- rqt의 topic monitor를 활용하여 feedback과 result 를 통해 결과 확인
+- /node 폴더의 gen_number.py를 실행하여 랜덤한 숫자 생성하여 publish하고 이를 action client가 action server에 요청하면 100개의 mean과 standard deviation을 계산
 
 ## synced subscribe
 - 서로 다른 topic들을 sync하여 한 번에 subscribe하는 방법 제시
