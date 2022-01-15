@@ -1,11 +1,7 @@
 #!/usr/bin/env python3
-
 import rospy
 
-from math import pi
-
 def HelloWorldRos():
-  rospy.init_node('hello_world_ros', anonymous=True)
   rate = rospy.Rate(100)
 
   while not rospy.is_shutdown():
@@ -15,6 +11,8 @@ def HelloWorldRos():
   
 if __name__ == '__main__':
   try:
+    rospy.init_node('hello_world_ros', anonymous=True)
     HelloWorldRos()
+    rospy.spin()
   except rospy.ROSInterruptException:
     pass
