@@ -2,6 +2,17 @@
 import rospy
 import pubClass.pubString as pubString
 import pubClass.pubSinusoidal as pubSine
+import pubClass.pubCustomMultiArr as pubCustomArray
+
+def MainLoopCustomArray():
+	rate = rospy.Rate(30) # [Hz]
+	pubTest = pubCustomArray.PubBboxArray()
+	pubStr = pubTest.GenPublisher("/pub_test_custom_multi_array")
+
+	while not rospy.is_shutdown():
+		rospy.loginfo("publish..")
+		pubStr.publish(pubTest.PubBboxArray(5))
+		rate.sleep()	
 
 def MainLoopSinusoidal():
 	hz = 10
@@ -16,7 +27,8 @@ def MainLoopSinusoidal():
 		dt = (rospy.Time.now()  - prevTime).to_sec()
 		nowTime += dt
 		print(nowTime, dt)
-		pubStr.publish(pubTest.PubSine(hz, 1.0, nowTime, 0.0))
+		t, sinRes = pubTest.GenSine(hz, 1.0, nowTime, 0.0)
+		pubStr.publish(pubTest.PubSine(t, sinRes))
 		prevTime = rospy.Time.now()
 		rate.sleep()	
 
@@ -33,7 +45,7 @@ def MainLoopString():
 if __name__ == '__main__':
 	try:
 		rospy.init_node("PubTestNode", anonymous=True)
-		MainLoopSinusoidal()
+		MainLoopCustomArray()
 		rospy.spin()		
 	except rospy.ROSInterruptException:
 		pass

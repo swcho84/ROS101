@@ -6,7 +6,7 @@ class PubString:
 		self.count = 0
 
 	def GenPublisher(self, strTpNm):
-		pub = rospy.Publisher(strTpNm, String, queue_size=1)	
+		pub = rospy.Publisher(strTpNm, String, queue_size=1)
 		return pub
 
 	def PublishString(self, strTarget):

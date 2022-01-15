@@ -2,6 +2,11 @@
 import rospy
 import subClass.subString as subString
 import subClass.subSinusoidal as subSine
+import subClass.subCustomMultiArr as subCustomArray
+
+def MainSubCustomArray():
+	subTest = subCustomArray.SubBboxArray()
+	sub = subTest.GenSubscriber("/pub_test_custom_multi_array", subTest.CbBboxArray)
 
 def MainSubSineLoop():
 	subTest = subSine.SubSineCurve()
@@ -14,7 +19,7 @@ def MainSubStringLoop():
 if __name__ == '__main__':
 	try:
 		rospy.init_node("SubTestNode", anonymous=True)
-		MainSubSineLoop()
+		MainSubCustomArray()
 		rospy.spin()		
 	except rospy.ROSInterruptException:
 		pass
