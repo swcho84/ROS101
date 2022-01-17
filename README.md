@@ -1,5 +1,12 @@
 # ROS101
-- ROS101 class - from basic to advanced 
+- ROS101 class - from basic to advanced
+
+## 충북대학교
+- 강의일시: 2022년 1월 24일-26일(3일), 10:00-17:00
+- 강의명: ROS 기반 프로그래밍 이론 및 실습​ with MoraiSimulator
+- 강의장소: 청주대학교
+- 수강대상: 학부생 및 대학원생 
+- 강의주제: ROS1 Noetic C/C++ and Python3, ROS2 Galactic C/C++ and Python3 활용 및 예제, 실습위주
 
 ## 인천대학교
 - 강의일시: 2021년 4월 26일(1일), 10:00-18:00
@@ -28,13 +35,35 @@
 - Ubuntu 20.04: ROS noetic
 - Git pkg: "-" 사용, ROS pkg: "_" 사용
 
-### Install Clang
+### Install Pre-requisites
 ``` Bash
-sudo apt-get install clang, clang-format
+sudo apt-get install build-essential git
+sudo apt-get install clang-format
+```
+
+### Install cmake
+- go to https://cmake.org/download/ and download the latest release
+``` Bash
+tar -xvzf (file.tar)
+cd (target folder)
+./bootstrap --prefix=/usr/local
+make
+sudo make install
+```
+
+### Install serial
+``` Bash
+git clone https://github.com/wjwwood/serial
+cd ~/serial
+mkdir -p build
+cmake .. -DCMAKE_INSTALL_PREFIX=/usr/local
+make
+sudo make install
 ```
 
 ### Build
 ``` Bash
+catkin build custom_msg_srv_param_ros
 catkin build
 ```
 with alias

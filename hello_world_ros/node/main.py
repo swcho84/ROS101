@@ -1,12 +1,9 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 import rospy
-import std_msgs
-from math import pi
-from std_msgs.msg import String
 
 def HelloWorldRos():
-  rospy.init_node('hello_world_ros', anonymous=True)
-  rate = rospy.Rate(30)
+  rate = rospy.Rate(100)
+
   while not rospy.is_shutdown():
     hello_str = "hello world %s" % rospy.get_time()
     rospy.loginfo(hello_str)
@@ -14,6 +11,8 @@ def HelloWorldRos():
   
 if __name__ == '__main__':
   try:
+    rospy.init_node('hello_world_ros', anonymous=True)
     HelloWorldRos()
+    rospy.spin()
   except rospy.ROSInterruptException:
     pass

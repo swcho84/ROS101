@@ -21,7 +21,7 @@ int main(int argc, char** argv)
 
   // send a goal to the action
   custom_msg_srv_param_ros::FibonacciGoal goal;
-  goal.order = 20;
+  goal.order = 10;
   ac.sendGoal(goal);
 
   // wait for the action to return

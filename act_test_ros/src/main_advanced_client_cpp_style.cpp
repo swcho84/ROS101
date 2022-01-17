@@ -25,7 +25,8 @@ int main(int argc, char** argv)
   signal(SIGINT, SigIntHandler);
 
   // gathering the result from the action server
-  actionLibAdvClientRos.MainActionLoop(100);
+  int nNumSize = 10;
+  actionLibAdvClientRos.MainActionLoop(nNumSize);
 
   spin();
 
