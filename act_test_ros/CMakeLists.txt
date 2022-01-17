@@ -14,6 +14,7 @@ std_msgs
 actionlib
 actionlib_msgs
 custom_msg_srv_param_ros
+message_generation
 )
 
 ## System dependencies are found with CMake's conventions

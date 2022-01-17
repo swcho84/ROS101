@@ -77,7 +77,7 @@ void ActionLibAdvancedRos::analysisCB(const std_msgs::Float32::ConstPtr& msg)
     }
     else
     {
-      ROS_INFO("%s: Succeeded(mean:%.4f, std_dev:%.4f)", strAction_.c_str(), result_.mean, result_.std_dev);
+      ROS_INFO("%s: Succeed(mean:%.4f, std_dev:%.4f)", strAction_.c_str(), result_.mean, result_.std_dev);
 
       // set the action state to succeeded
       as_.setSucceeded(result_);

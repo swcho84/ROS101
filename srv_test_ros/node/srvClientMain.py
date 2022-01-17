@@ -7,8 +7,6 @@ import srvClientClass.srvSetMissionInfoClient as srvSetMissionInfo
 def MainSrvClientSetMissionInfo():
   rate = rospy.Rate(1)
   srvClient = srvSetMissionInfo.SrvClientSetMissionInfo()
-  rospy.set_param("/mission_num", 0)
-  rospy.set_param("/mission_end", False)
   while True:
     rate.sleep()
     srvClient.missionNum = rospy.get_param("/mission_num")
@@ -20,9 +18,6 @@ def MainSrvClientAddTwoInts():
   rate = rospy.Rate(1)
   srvClient = srvAddTwoInts.SrvClientAddTwoInt()
   type = (str)(sys.argv[1])
-  rospy.set_param("/x_int", 3)
-  rospy.set_param("/y_int", 4)
-  rospy.get_param("/add_int_end", False)
   if (type == "sys"):
     srvClient.x = (int)(sys.argv[2])
     srvClient.y = (int)(sys.argv[3])
