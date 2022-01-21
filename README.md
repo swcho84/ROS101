@@ -61,6 +61,11 @@ make
 sudo make install
 ```
 
+### Install Xbox360 wired joystick driver
+``` Bash
+sudo apt-get install xboxdrv jstest-gtk
+```
+
 ### Build
 ``` Bash
 catkin build custom_msg_srv_param_ros
@@ -70,6 +75,12 @@ with alias
 ``` Bash
 cb
 ```
+
+### For using Xbox360 wired joystick before ROScore
+``` Bash
+sudo xboxdrv --detach-kernel-driver
+```
+- 실행 후 /dev/input/js(번호) 확인하기 (ROS에서 joynode사용 시 필요)
 
 ## hello_world_ros
 - hello world 를 terminal 또는 ros log file 에서 확인하도록 하는 pkg
