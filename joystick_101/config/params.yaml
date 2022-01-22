@@ -1,0 +1,133 @@
+Joystick:
+  joyTopicName: "/joy"
+  moraiCtrlTopicName: "/ctrl_cmd"
+  moraiPoseTopicName: "/ego_setting"
+  moraiEgoVehicleStatusTopicName: "/Ego_topic"
+  moraiSetGearSrvName: "/Service_MoraiEventCmd"
+  moraiRawImgTopicName: "/image_jpeg_src"
+  moraiObjectStatusTopicName: "/Object_topic"
+  moraiImgLogCmdTopicName: "/ReplayImgLogCmd"
+  xplaneCtrlTopicName: "/xplane_tx/joy_control"
+  rotorsJoyPosCtrlTopicName: "/firefly/command/pose"
+  rotorsPoseInfoTopicName: "/firefly/odometry_sensor1/pose"
+  rotorsJoyPosCtrlMode: "heading" # "heading" "headless"
+
+  imgLogRef:
+    logDuration: 10000 # [micro-sec]
+    headDiff: -5.0    # [deg]
+    centerObjNum: 12
+    centerPedNum: 4
+    signSet: -1.0
+
+  commandParam:
+    scaleRPAtt:
+      roll: 1.0        
+      pitch: 1.0       
+    scaleYawAtt:
+      yaw: 1.0         
+    scaleRPAuxAttAccum:
+      roll: 0.01
+      pitch: 0.01      
+    scaleRPAuxAttMax:
+      roll: 1.0
+      pitch: 1.0
+    scaleYawAuxMinMaxResol:
+      min: 0.0
+      max: 1.0
+      resol: 100
+    scaleThrottleMinMaxResol:
+      min: 0.0
+      max: 1.0
+      resol: 100
+    scaleYawRate: 1.0    
+    scaleHeaveVel: 5.0   
+    scaleMorai:
+      fwdvel: 35.0      # [km/h], 18.0
+      steer: 45.0       # [deg], 28.17
+    scaleRotorS:
+      heightPosAccum: 0.025
+      yawAng: 0.1
+
+  XBox360:  # just usb connection: wired joystick
+    channel:
+      roll: 2
+      pitch: 1
+      yaw: 0 
+      throttle: 3
+    auxil:
+      channel:
+        roll: 6
+        pitch: 7
+        yawleft: 5
+        yawright: 4
+      direction:
+        yawleft: 1.0
+        yawright: 1.0   # shutter command
+    direction:
+      roll: -1.0
+      pitch: -1.0
+      yaw: -1.0
+      throttle: 1.0
+    button:
+      triggerAuto: 10    # right z-axis button
+      triggerJoy: 9      # left z-axis button
+      triggerRgear: 4    # left side button
+      triggerDgear: 5    # right side button
+    
+  PS4BT:    # just bluetooth connection: pairing and connection
+    channel:
+      roll: 3
+      pitch: 1
+      throttle: 4
+      yaw: 0
+    auxil:
+      channel:
+        roll: 6
+        pitch: 7
+        yawleft: 2
+        yawright: 5
+      direction:
+        yawleft: 1.0
+        yawright: 1.0        
+    direction:
+      roll: -1.0
+      pitch: -1.0
+      yaw: -1.0
+      throttle: 1.0
+    button:
+      triggerAuto: 12     # right z-axis button
+      triggerJoy: 11      # left z-axis button
+
+  PS3BT:    # execution: sudo sixad -s (bluetooth network disabled when using the ps3bt controller)
+    channel:
+      roll: 2
+      pitch: 1
+      yaw: 0
+      throttle: 3
+    direction:
+      roll: -1.0
+      pitch: -1.0
+      yaw: -1.0
+      throttle: 1.0
+    button:
+      triggerAuto: 2     # right z-axis button
+      triggerJoy: 1      # left z-axis button
+
+  LogiTechExtream:  # just usb connection: wired joystick
+    channel:
+      roll: 0
+      pitch: 1
+      yaw: 2
+      throttle: 3
+    auxil:
+      channel:
+        roll: 4
+        pitch: 5
+    direction:
+      roll: -1.0
+      pitch: -1.0
+      yaw: -1.0
+      throttle: 1.0
+    button:
+      triggerAuto: 0    # bullet trigger
+      triggerJoy: 1   # thumb button
