@@ -1,0 +1,4 @@
+<launch>
+  <env name="ROSCONSOLE_CONFIG_FILE" value="$(find ros_gtest_example)/config/rosconsole.config"/>
+  <node name="ros_gtest_test" pkg="ros_gtest_example" type="ros_gtest_example_node" output="screen" />
+</launch>
