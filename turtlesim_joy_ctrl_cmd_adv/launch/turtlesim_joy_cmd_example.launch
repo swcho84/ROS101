@@ -1,0 +1,10 @@
+<launch>
+  <env name="ROSCONSOLE_CONFIG_FILE" value="$(find turtlesim_joy_ctrl_cmd_adv)/config/rosconsole.config"/>
+  
+	<node name="joy_node" pkg="joy" type="joy_node" respawn="true" output="screen">
+    <param name="dev" type="string" value="/dev/input/js1" />
+    <param name="deadzone" value="0.0" />
+  </node>  	
+  
+	<node name="turtlesim_joy_ctrl_cmd" pkg="turtlesim_joy_ctrl_cmd_adv" type="turtlesim_joy_ctrl_cmd_node" output="screen" />
+</launch>
