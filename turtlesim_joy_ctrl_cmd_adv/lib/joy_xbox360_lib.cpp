@@ -65,15 +65,13 @@ JoyCtrlCmd JoyXBox360::GenJoyCtrlBtnsRefInfo(sensor_msgs::Joy joyRaw, JoyCtrlCmd
     res.bCtrlAutoMode = true;
     res.bCtrlJoyMode = false;
   }
-  else if ((joyRaw.buttons[10] == 0) &&
-           (joyRaw.buttons[9] == 1))
+  else if ((joyRaw.buttons[10] == 0) && (joyRaw.buttons[9] == 1))
   {
     // using joystick control input
     res.bCtrlAutoMode = false;
     res.bCtrlJoyMode = true;
   }
-  else if ((joyRaw.buttons[10] == 1) &&
-           (joyRaw.buttons[9] == 1))
+  else if ((joyRaw.buttons[10] == 1) && (joyRaw.buttons[9] == 1))
   {
     // default: using joystick control input
     res.bCtrlAutoMode = false;
@@ -97,7 +95,7 @@ JoyCtrlCmd JoyXBox360::GenJoyCtrlBtnsRefInfo(sensor_msgs::Joy joyRaw, JoyCtrlCmd
 }
 
 // generating the joystick control reference information, axes
-JoyCtrlCmd JoyXBox360::GenJoyCtrlAxisRefInfo( sensor_msgs::Joy joyRaw, JoyCtrlCmd res)
+JoyCtrlCmd JoyXBox360::GenJoyCtrlAxisRefInfo(sensor_msgs::Joy joyRaw, JoyCtrlCmd res)
 {
   res.ctrlMove.fRoll = (-1.0) * (joyRaw.axes[2]);
   res.ctrlMove.fPitch = (-1.0) * (joyRaw.axes[1]);
@@ -115,7 +113,7 @@ JoyCtrlCmd JoyXBox360::GenJoyCtrlAxisRefInfo( sensor_msgs::Joy joyRaw, JoyCtrlCm
 }
 
 double JoyXBox360::MapRange(double sourceNumber, double fromA, double fromB, double toA, double toB,
-                             int decimalPrecision)
+                            int decimalPrecision)
 {
   double deltaA = fromB - fromA;
   double deltaB = toB - toA;
