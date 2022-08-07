@@ -126,3 +126,22 @@ sudo xboxdrv --detach-kernel-driver
 ## synced subscribe
 - 서로 다른 topic들을 sync하여 한 번에 subscribe하는 방법 제시
 - 파일만 참고할 수 있도록 코드 제공
+
+## turtlesim_joy_ctrl_cmd_adv
+- turtlesim에 등장하는 거북이를 xbox360 wired joystick으로 조종하는 pkg
+- subscriber(joy), publisher(geometry/Twist), service client(clear) 실습에 사용
+- Xbox360 joystic driver installagion
+``` Bash
+sudo apt-get install xboxdrv
+```
+- ros-noetic-joy installation (for using Xbox360 in ROS environment)
+``` Bash
+sudo apt-get install ros-noetic-joy
+```
+- run xboxdrv
+``` Bash
+sudo xboxdrv --detach-kernel-driver --silent
+```
+- get the /dev/input/jsX (X is number)
+- set the launch file in turtlesim_joy_ctrl_cmd_adv
+- run the node using the launch file (turtlesim_joy_cmd_example.launch)111
