@@ -43,6 +43,6 @@ void TurtleSimCmdPubLib::MainLoop()
   msgTurtleCmd_.linear.z = 0.0;
   msgTurtleCmd_.angular.x = 0.0;
   msgTurtleCmd_.angular.y = 0.0;
-  msgTurtleCmd_.angular.z = (1.0) * (2.0) * (joyTurtleSimCtrlCmd_.ctrlMove.fRoll);
+  msgTurtleCmd_.angular.z = (-1.0) * (2.0) * (joyTurtleSimCtrlCmd_.ctrlMove.fRoll);
   pubTurtleCmd_.publish(msgTurtleCmd_);
 }
