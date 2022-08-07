@@ -5,11 +5,11 @@ using namespace ros;
 
 SubBasicTestNode::SubBasicTestNode()
 {
-  // publisher, string
+  // subscriber, string
   subHelloWorldStr_ = nh_.subscribe("/pub_basic_test_ros/hello_world_msg", 1, &SubBasicTestNode::currStrCbLoop, this);
   bStrCbLoop = false;
 
-  // publisher, float32 multi-array
+  // subscriber, float32 multi-array
   subFloat32MultiArray_ =
       nh_.subscribe("/pub_basic_test_ros/arrayf32_test", 1, &SubBasicTestNode::currFloat32MtArrayCbLoop, this);
   bF32ArrayCbLoop = false;

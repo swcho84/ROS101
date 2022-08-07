@@ -45,7 +45,7 @@ def MainLoopString():
 if __name__ == '__main__':
 	try:
 		rospy.init_node("PubTestNode", anonymous=True)
-		MainLoopCustomArray()
+		MainLoopSinusoidal()
 		rospy.spin()		
 	except rospy.ROSInterruptException:
 		pass
