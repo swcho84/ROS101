@@ -1,0 +1,1 @@
+SUBSYSTEM=="tty", DRIVERS=="usb", ATTRS{idProduct}=="7523", ATTRS{idVendor}=="1a86", ATTRS{product}=="USB Serial", SYMLINK+="pd_eoir"

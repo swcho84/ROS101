@@ -1,0 +1,1 @@
+ACTION=="add", KERNEL=="js[0-9]*", SUBSYSTEM=="input", DRIVERS=="usb", ATTRS{idProduct}=="c215", ATTRS{idVendor}=="046d", MODE="0666", SYMLINK+="joy_eoir_ctrl"

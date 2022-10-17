@@ -17,10 +17,12 @@ public:
   HelloWorldRos();
   ~HelloWorldRos();
 
-  void MainLoop();  
+  void MainLoop();
 
 private:
   void HelloFunction(string strIn);
 
   string strHello_;
+
+  int nTestA_;
 };

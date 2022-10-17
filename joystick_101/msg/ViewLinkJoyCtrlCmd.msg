@@ -1,0 +1,15 @@
+float64 pan_rate_axis
+float64 tilt_rate_axis
+float64 pan_ang_axis
+float64 tilt_ang_axis
+float64 zoom_axis
+float64 auto_mode
+float64 manual_mode
+float64 shoot
+float64 homing
+float64 eo_img_submode
+float64 ir_img_submode
+float64 all_img_submode
+float64 stab_submode
+float64 ang_ctrl_submode
+float64 angrate_ctrl_submode

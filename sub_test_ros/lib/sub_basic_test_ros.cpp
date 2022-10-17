@@ -43,7 +43,9 @@ void SubBasicTestNode::SubBasicTestFunc()
     ROS_DEBUG("info %s", msgHelloWorldStr_.data.c_str());
     bStrCbLoop = false;
   }
-
+  else
+    ROS_ERROR("no topic published...");
+    
   if (bF32ArrayCbLoop)
   {
     for (unsigned int i = 0; i < msgFloat32MultiArray_.data.size(); i++)
@@ -52,4 +54,7 @@ void SubBasicTestNode::SubBasicTestFunc()
     }
     bF32ArrayCbLoop = false;
   }
+  else
+    ROS_ERROR("no topic published...");
+  
 }

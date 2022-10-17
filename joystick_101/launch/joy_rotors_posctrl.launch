@@ -1,0 +1,11 @@
+<launch>
+  <env name="ROSCONSOLE_CONFIG_FILE" value="$(find joystick_101)/config/rosconsole.config"/>
+  <rosparam command="load" file="$(find joystick_101)/config/params.yaml"/>
+
+  <node name="joy_node" pkg="joy" type="joy_node" respawn="true" output="screen">
+    <param name="dev" type="string" value="/dev/xbox_wire_controller" />
+    <param name="deadzone" value="0.0" />
+  </node>  
+
+  <node name="joy_rotors_posctrl" pkg="joystick_101" type="joy_rotors_posctrl_node" output="screen" />
+</launch>

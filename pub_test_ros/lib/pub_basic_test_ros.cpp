@@ -5,7 +5,7 @@ using namespace ros;
 
 PubBasicTestNode::PubBasicTestNode()
 {
-  // publisher, string
+  // publisher, string 
   pubHelloWorldStr_ = nh_.advertise<std_msgs::String>("/pub_basic_test_ros/hello_world_msg", 1);
 
   // publisher, float32 multi-array

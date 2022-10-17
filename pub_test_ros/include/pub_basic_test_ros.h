@@ -25,7 +25,7 @@ public:
 
 private:
   void PubBasicTestFunc(string strIn, int nSize);
-  
+
   // node handler in class
   NodeHandle nh_;
 

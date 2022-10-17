@@ -1,0 +1,1 @@
+ACTION=="add", KERNEL=="js[0-9]*", SUBSYSTEM=="input", DRIVERS=="usb", ATTRS{idProduct}=="028e", ATTRS{idVendor}=="045e", MODE="0666", SYMLINK+="xbox_wire_controller"

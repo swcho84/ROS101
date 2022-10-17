@@ -1,0 +1,20 @@
+<launch>
+  <env name="ROSCONSOLE_CONFIG_FILE" value="$(find joystick_101)/config/rosconsole.config"/>
+  <rosparam command="load" file="$(find joystick_101)/config/params.yaml"/>
+
+  <node name="joy_node_lt" pkg="joy" type="joy_node" respawn="true" output="screen">
+    <param name="dev" type="string" value="/dev/cju_tca_joy_lt" />
+		<remap from="/joy" to="/joy/tca_joy_lt" />
+		<remap from="/joy/set_feedback" to="/joy/tca_joy_lt_set_feedback" />
+    <param name="deadzone" value="0.0" />
+  </node>  
+
+  <node name="joy_node_rt" pkg="joy" type="joy_node" respawn="true" output="screen">
+    <param name="dev" type="string" value="/dev/cju_tca_joy_rt" />
+		<remap from="/joy" to="/joy/tca_joy_rt" />
+		<remap from="/joy/set_feedback" to="/joy/tca_joy_rt_set_feedback" />		
+    <param name="deadzone" value="0.0" />
+  </node>  
+
+  <node name="joy_xplane_twostick_ctrl" pkg="joystick_101" type="joy_xplane_twostick_ctrl_node" output="screen" />
+</launch>

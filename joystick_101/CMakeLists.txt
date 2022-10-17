@@ -1,5 +1,5 @@
-cmake_minimum_required(VERSION 2.8.3)
-project(hello_world_ros)
+cmake_minimum_required(VERSION 3.0.2)
+project(joystick_101)
 
 ## Compile as C++11, supported in ROS Kinetic and newer
 add_compile_options(-std=c++11)
@@ -8,15 +8,57 @@ add_compile_options(-std=c++11)
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
 ## is used, also find other catkin packages
 find_package(catkin REQUIRED COMPONENTS
-roscpp
-rospy
-std_msgs
-custom_msg_srv_param_ros
+  roscpp
+  rospy
+  rosconsole
+  std_msgs
+  sensor_msgs
+  trajectory_msgs	
+	geometry_msgs
+  cv_bridge
+  image_transport  
+  message_generation
+  message_runtime
+  message_filters
+  morai_msgs
+	mav_msgs
+	tf2
+  tf2_ros
 )
 
 ## System dependencies are found with CMake's conventions
-# find_package(Boost REQUIRED COMPONENTS system)
+# for using fake keyboard input
+find_package(X11 COMPONENTS X11 Xft Xtst Xext)
 
+## System dependencies are found with CMake's conventions
+find_package(Boost REQUIRED COMPONENTS system thread)
+
+## System dependencies are found with CMake's conventions
+# using opencv
+find_package(OpenCV 4.5.5 REQUIRED COMPONENTS
+    opencv_core
+    opencv_imgproc
+    opencv_highgui
+    opencv_videoio
+  CONFIG
+)
+
+# using eigen3
+find_package(PkgConfig)
+pkg_search_module(Eigen3 REQUIRED eigen3)
+include_directories(${EIGEN3_INCLUDE_DIR})
+add_definitions(${EIGEN3_DEFINITIONS})
+
+if(NOT EIGEN3_FOUND)
+    # Fallback to cmake_modules
+    find_package(cmake_modules REQUIRED)
+    find_package(Eigen REQUIRED)
+    set(EIGEN3_INCLUDE_DIRS ${EIGEN_INCLUDE_DIRS})
+    set(EIGEN3_LIBRARIES ${EIGEN_LIBRARIES})  # Not strictly necessary as Eigen is head only
+    # Possibly map additional variables to the EIGEN3_ prefix.
+else()
+    set(EIGEN3_INCLUDE_DIRS ${EIGEN3_INCLUDE_DIR})
+endif()
 
 ## Uncomment this if the package has a setup.py. This macro ensures
 ## modules and global scripts declared therein get installed
@@ -48,18 +90,16 @@ custom_msg_srv_param_ros
 ##   * add every package in MSG_DEP_SET to generate_messages(DEPENDENCIES ...)
 
 ## Generate messages in the 'msg' folder
-# add_message_files(
-#   FILES
-#   Message1.msg
-#   Message2.msg
-# )
+add_message_files(
+  DIRECTORY
+  msg
+)
 
 ## Generate services in the 'srv' folder
-# add_service_files(
-#   FILES
-#   Service1.srv
-#   Service2.srv
-# )
+add_service_files(
+  DIRECTORY
+  srv 
+)
 
 ## Generate actions in the 'action' folder
 # add_action_files(
@@ -69,10 +109,15 @@ custom_msg_srv_param_ros
 # )
 
 ## Generate added messages and services with any dependencies listed here
-# generate_messages(
-#   DEPENDENCIES
-#   std_msgs  # Or other packages containing msgs
-# )
+generate_messages(
+  DEPENDENCIES
+  trajectory_msgs	
+	geometry_msgs	
+  sensor_msgs
+  std_msgs
+	mav_msgs
+)
+
 
 ################################################
 ## Declare ROS dynamic reconfigure parameters ##
@@ -105,13 +150,24 @@ custom_msg_srv_param_ros
 ## DEPENDS: system dependencies of this project that dependent projects also need
 catkin_package(
   INCLUDE_DIRS lib src
-  CATKIN_DEPENDS roscpp rospy std_msgs
+  CATKIN_DEPENDS
+  roscpp
+  rospy
+  rosconsole
+  std_msgs
+  sensor_msgs
+  trajectory_msgs	
+	geometry_msgs	
+	tf2
+  tf2_ros
+	mav_msgs
+  DEPENDS
+  Eigen
 )
 
 ###########
 ## Build ##
 ###########
-
 ## Specify additional locations of header files
 ## Your package locations should be listed before other locations
 include_directories(
@@ -119,16 +175,37 @@ include_directories(
   src
   lib
   ${catkin_INCLUDE_DIRS}
+  ${BOOST_INCLUDE_DIRS}
+  ${OpenCV_INCLUDE_DIRS}
+  /usr/local/include/opencv4  
 )
 
-## Declare a C++ library
-# add_library(${PROJECT_NAME}
-#   src/${PROJECT_NAME}/hello_world_ros.cpp
-# )
+link_directories(${BOOST_LIBRARY_DIRS})
+add_definitions(${BOOST_DEFINITIONS})
 
-add_executable(hello_world_ros_node lib/hello_world_ros.cpp include/hello_world_ros.h src/main.cpp)
-target_link_libraries(hello_world_ros_node ${catkin_LIBRARIES})
-add_dependencies(hello_world_ros_node ${catkin_EXPORTED_TARGETS})
+message(STATUS "${OpenCV_INCLUDE_DIRS}")
+link_directories(${OpenCV_LIBRARY_DIRS})
+
+## Declare a C++ library
+add_executable(joy_test_node src/main_joy_test_node.cpp lib/joy_test_lib.cpp include/joy_test_lib.h lib/joy_xbox360_lib.cpp include/joy_xbox360_lib.h lib/joy_ps4bt_lib.cpp include/joy_ps4bt_lib.h lib/joy_ps3bt_lib.cpp include/joy_ps3bt_lib.h lib/joy_logi_extream_lib.cpp include/joy_logi_extream_lib.h lib/config_param.cpp include/config_param.h include/global_header.h)
+target_link_libraries(joy_test_node ${catkin_LIBRARIES} ${EIGEN_LIBRARIES} )
+add_dependencies(joy_test_node ${catkin_EXPORTED_TARGETS})
+
+add_executable(joy_morai_ctrl_node src/main_joy_morai_ctrl_node.cpp lib/joy_morai_ctrl_lib.cpp include/joy_morai_ctrl_lib.h lib/joy_xbox360_lib.cpp include/joy_xbox360_lib.h lib/config_param.cpp include/config_param.h include/global_header.h)
+target_link_libraries(joy_morai_ctrl_node ${catkin_LIBRARIES} ${EIGEN_LIBRARIES} ${OpenCV_LIBRARIES} ${OpenCV_LIBS} X11 Xft Xtst Xext)
+add_dependencies(joy_morai_ctrl_node ${catkin_EXPORTED_TARGETS})
+
+add_executable(joy_xplane_ctrl_node src/main_joy_xplane_ctrl_node.cpp lib/joy_xplane_ctrl_lib.cpp include/joy_xplane_ctrl_lib.h lib/joy_logi_extream_lib.cpp include/joy_logi_extream_lib.h lib/config_param.cpp include/config_param.h include/global_header.h)
+target_link_libraries(joy_xplane_ctrl_node ${catkin_LIBRARIES} ${EIGEN_LIBRARIES} )
+add_dependencies(joy_xplane_ctrl_node ${catkin_EXPORTED_TARGETS})
+
+add_executable(joy_rotors_posctrl_node src/main_joy_rotors_posctrl_node.cpp lib/joy_rotors_posctrl_lib.cpp include/joy_rotors_posctrl_lib.h lib/joy_xbox360_lib.cpp include/joy_xbox360_lib.h lib/config_param.cpp include/config_param.h lib/misc_func.cpp include/misc_func.h include/global_header.h)
+target_link_libraries(joy_rotors_posctrl_node ${catkin_LIBRARIES} ${EIGEN_LIBRARIES} )
+add_dependencies(joy_rotors_posctrl_node ${catkin_EXPORTED_TARGETS})
+
+add_executable(joy_viewlink_ctrl_node src/main_joy_viewlink_ctrl_node.cpp lib/joy_viewlink_ctrl_lib.cpp include/joy_viewlink_ctrl_lib.h lib/joy_xbox360_lib.cpp include/joy_xbox360_lib.h lib/joy_logi_extream_lib.cpp include/joy_logi_extream_lib.h lib/config_param.cpp include/config_param.h lib/misc_func.cpp include/misc_func.h include/global_header.h)
+target_link_libraries(joy_viewlink_ctrl_node ${catkin_LIBRARIES} ${EIGEN_LIBRARIES} )
+add_dependencies(joy_viewlink_ctrl_node ${catkin_EXPORTED_TARGETS})
 
 ## Add cmake target dependencies of the library
 ## as an example, code may need to be generated before libraries
@@ -138,7 +215,7 @@ add_dependencies(hello_world_ros_node ${catkin_EXPORTED_TARGETS})
 ## Declare a C++ executable
 ## With catkin_make all packages are built within a single CMake context
 ## The recommended prefix ensures that target names across packages don't collide
-# add_executable(${PROJECT_NAME}_node src/hello_world_ros_node.cpp)
+# add_executable(${PROJECT_NAME}_node src/joystick_101_node.cpp)
 
 ## Rename C++ executable without prefix
 ## The above recommended prefix causes long target names, the following renames the
@@ -164,7 +241,7 @@ add_dependencies(hello_world_ros_node ${catkin_EXPORTED_TARGETS})
 
 ## Mark executable scripts (Python etc.) for installation
 ## in contrast to setup.py, you can choose the destination
-# install(PROGRAMS
+# catkin_install_python(PROGRAMS
 #   scripts/my_python_script
 #   DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
 # )
@@ -202,7 +279,7 @@ add_dependencies(hello_world_ros_node ${catkin_EXPORTED_TARGETS})
 #############
 
 ## Add gtest based cpp test target and link libraries
-# catkin_add_gtest(${PROJECT_NAME}-test test/test_hello_world_ros.cpp)
+# catkin_add_gtest(${PROJECT_NAME}-test test/test_joystick_101.cpp)
 # if(TARGET ${PROJECT_NAME}-test)
 #   target_link_libraries(${PROJECT_NAME}-test ${PROJECT_NAME})
 # endif()
