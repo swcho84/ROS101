@@ -187,7 +187,22 @@ message(STATUS "${OpenCV_INCLUDE_DIRS}")
 link_directories(${OpenCV_LIBRARY_DIRS})
 
 ## Declare a C++ library
-add_executable(joy_test_node src/main_joy_test_node.cpp lib/joy_test_lib.cpp include/joy_test_lib.h lib/joy_xbox360_lib.cpp include/joy_xbox360_lib.h lib/joy_ps4bt_lib.cpp include/joy_ps4bt_lib.h lib/joy_ps3bt_lib.cpp include/joy_ps3bt_lib.h lib/joy_logi_extream_lib.cpp include/joy_logi_extream_lib.h lib/config_param.cpp include/config_param.h include/global_header.h)
+add_executable(joy_test_node 
+  src/main_joy_test_node.cpp 
+  lib/joy_test_lib.cpp 
+  include/joy_test_lib.h 
+  lib/joy_xbox360_lib.cpp 
+  include/joy_xbox360_lib.h 
+  lib/joy_ps4bt_lib.cpp 
+  include/joy_ps4bt_lib.h 
+  lib/joy_ps3bt_lib.cpp 
+  include/joy_ps3bt_lib.h
+  lib/joy_logi_extream_lib.cpp 
+  include/joy_logi_extream_lib.h 
+  lib/config_param.cpp 
+  include/config_param.h 
+  include/global_header.h
+)
 target_link_libraries(joy_test_node ${catkin_LIBRARIES} ${EIGEN_LIBRARIES} )
 add_dependencies(joy_test_node ${catkin_EXPORTED_TARGETS})
 

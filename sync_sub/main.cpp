@@ -37,6 +37,7 @@ int main(int argc, char** argv)
   {
     // check for incoming messages
     spinOnce();
+    
     cfg.rosCurrTime = ros::Time::now();
     cfg.dt = (cfg.rosCurrTime - cfg.rosLastTime).toSec();
 
